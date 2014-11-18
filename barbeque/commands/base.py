@@ -4,15 +4,19 @@ try:
 except ImportError:
     from subprocess import Popen, PIPE
 
+from django.conf import settings
+
 
 class CommandError(Exception):
     pass
 
 
 class CommandExecutionError(CommandError):
-    def __init__(self, message, code, command):
-        Exception.__init__(self, message)
+    def __init__(self, code, stderr, command):
+        message = u'code: {0} stderr: {1}'.format(code, u' '.join(stderr.split('\n')))
+        super(CommandExecutionError, self).__init__(message)
         self.code = code
+        self.stderr = stderr
         self.command = command
 
 
@@ -23,7 +27,7 @@ class CommandParameterError(CommandError):
 class Command(object):
     pid = None
     command = 'true'
-    output = False
+    ignore_output = True
     fail_silently = False
     required_parameters = None
 
@@ -34,25 +38,23 @@ class Command(object):
                 'Parameter(s) missing, required parameters: {0}'.format(
                     ', '.join(self.required_parameters)))
 
-    def execute(self, output=None, fail_silently=None):
+    def execute(self, ignore_output=None, fail_silently=None):
         command = self.get_command()
-        output = output if output is not None else self.output
+        ignore_output = ignore_output if ignore_output is not None else self.ignore_output
         fail_silently = fail_silently if fail_silently is not None else self.fail_silently
 
         try:
             process = Popen(command, stdout=PIPE, stderr=PIPE)
             self.pid = process.pid
 
-            std, err = process.communicate()
-        except OSError as ex:
-            raise CommandExecutionError(ex, 1, self)
+            stdout, stderr = process.communicate()
+        except OSError, ex:
+            raise CommandExecutionError(1, unicode(ex), self)
 
-        if not fail_silently and (err or process.returncode != 0):
-            message = u'Code: {0} Output: {1}'.format(
-                process.returncode, u' '.join(err.split('\n')))
-            raise CommandExecutionError(message, process.returncode, self)
+        if not fail_silently and (stderr or process.returncode != 0):
+            raise CommandExecutionError(process.returncode, stderr, self)
 
-        return self.handle_output(std) if output else True
+        return True if ignore_output else self.handle_output(stdout)
 
     def cleanup(self):
         if self.pid is None:
