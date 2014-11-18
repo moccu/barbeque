@@ -1,8 +1,7 @@
+from subprocess import Popen, PIPE
+
+import six
 import psutil
-try:
-    from gevent.subprocess import Popen, PIPE
-except ImportError:
-    from subprocess import Popen, PIPE
 
 
 class CommandError(Exception):
@@ -46,8 +45,8 @@ class Command(object):
             self.pid = process.pid
 
             stdout, stderr = process.communicate()
-        except OSError, ex:
-            raise CommandExecutionError(1, unicode(ex), self)
+        except OSError as ex:
+            raise CommandExecutionError(1, six.text_type(ex), self)
 
         if not fail_silently and (stderr or process.returncode != 0):
             raise CommandExecutionError(process.returncode, stderr, self)
