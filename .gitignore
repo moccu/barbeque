@@ -1,0 +1,12 @@
+*.egg
+*.pyc
+/build
+/docs/_build
+/dist
+/.tox
+/barbeque.egg-info
+/junit-*.xml
+coverage.xml
+.coverage
+.cache
+.coveragerc
