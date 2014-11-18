@@ -1,9 +1,5 @@
 import os
 
-from django.db import models
-from django.utils.datastructures import SortedDict
-from django.utils.translation import ugettext_lazy as _
-
 from barbeque.commands.imaging import GmConvertCommand
 from barbeque.utils.files import MoveableNamedTemporaryFile
 
