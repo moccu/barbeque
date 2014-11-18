@@ -4,8 +4,6 @@ try:
 except ImportError:
     from subprocess import Popen, PIPE
 
-from django.conf import settings
-
 
 class CommandError(Exception):
     pass
