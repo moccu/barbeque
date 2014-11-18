@@ -6,7 +6,7 @@ class MoveableNamedTemporaryFile(object):
     def __init__(self, name):
         suffix = os.path.splitext(os.path.basename(name))[1]
         self.file = tempfile.NamedTemporaryFile(suffix=suffix, delete=False)
-        os.chmod(self.file.name, 0644)
+        os.chmod(self.file.name, int('0644'))
         self.name = name
 
     def chunks(self):
