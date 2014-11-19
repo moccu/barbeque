@@ -1,6 +1,7 @@
 import random
 import pkg_resources
 
+import factory
 from django.contrib.messages.storage.cookie import CookieStorage
 from django.http import HttpRequest
 from django.utils.six.moves import xrange
