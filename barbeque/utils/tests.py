@@ -42,4 +42,4 @@ def get_random_name(min=4, max=6):
 class SvgField(factory.django.FileField):
 
     def _make_data(self, params):
-        return pkg_resources.resource_string(barbeque.__nane__, 'resources/empty.svg')
+        return pkg_resources.resource_string(__name__, '../resources/empty.svg')
