@@ -1,8 +1,11 @@
 import random
+import pkg_resources
 
 from django.contrib.messages.storage.cookie import CookieStorage
 from django.http import HttpRequest
 from django.utils.six.moves import xrange
+
+import barbeque
 
 
 def get_messages_from_cookie(cookies):
@@ -33,3 +36,9 @@ def get_random_name(min=4, max=6):
     if random.randint(1, 2) == 1:
         name2 = _get_name() + random.choice(numbers + u'  ! ?   ')
     return '{0} {1}'.format(name1.capitalize(), name2.capitalize()).strip()
+
+
+class SvgField(factory.django.FileField):
+
+    def _make_data(self, params):
+        return pkg_resources.resource_string(barbeque.__nane__, 'resources/empty.svg')
