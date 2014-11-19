@@ -4,6 +4,14 @@ barbeque.db package
 Submodules
 ----------
 
+barbeque.db.mixins module
+-------------------------
+
+.. automodule:: barbeque.db.mixins
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 barbeque.db.shortcuts module
 ----------------------------
 

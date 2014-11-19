@@ -6,6 +6,7 @@ Subpackages
 
 .. toctree::
 
+    barbeque.commands
     barbeque.db
     barbeque.forms
     barbeque.tests
@@ -14,14 +15,6 @@ Subpackages
 
 Submodules
 ----------
-
-barbeque.commands module
-------------------------
-
-.. automodule:: barbeque.commands
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 barbeque.context_processors module
 ----------------------------------

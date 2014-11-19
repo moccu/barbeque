@@ -6,6 +6,7 @@ Subpackages
 
 .. toctree::
 
+    barbeque.tests.forms
     barbeque.tests.resources
     barbeque.tests.views
 
