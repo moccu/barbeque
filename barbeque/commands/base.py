@@ -1,7 +1,7 @@
 from subprocess import Popen, PIPE
 
-import six
 import psutil
+from django.utils import six
 
 
 class CommandError(Exception):

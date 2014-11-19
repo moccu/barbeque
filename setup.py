@@ -82,7 +82,7 @@ setup(
     packages=find_packages(exclude=['barbeque.tests']),
     test_suite='.',
     tests_require=tests_require,
-    install_requires=['six'],
+    install_requires=[],
     cmdclass={'test': PyTest},
     extras_require={
         'tests': tests_require,

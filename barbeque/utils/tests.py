@@ -6,8 +6,6 @@ from django.contrib.messages.storage.cookie import CookieStorage
 from django.http import HttpRequest
 from django.utils.six.moves import xrange
 
-import barbeque
-
 
 def get_messages_from_cookie(cookies):
     request = HttpRequest()
