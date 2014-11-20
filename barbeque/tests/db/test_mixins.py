@@ -23,3 +23,9 @@ class TestProcessableFileMixin:
         resized = Image.open(self.obj.resized.path)
 
         assert resized.size == (200, 200)
+
+    def test_get_storage(self):
+        assert self.obj.get_storage(self.obj.picture) == self.obj.picture.storage
+
+    def test_rename_file_no_filename(self):
+        assert not self.obj.rename_file(self.obj.resized, 'dada', 'dadada')
