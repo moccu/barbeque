@@ -7,3 +7,4 @@ class MockModel(models.Model):
 
 class RelatedMockModel(models.Model):
     parent = models.ForeignKey(MockModel, related_name='related_mock')
+    value = models.CharField(max_length=256, default='', blank=True)

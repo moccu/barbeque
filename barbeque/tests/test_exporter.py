@@ -13,13 +13,13 @@ from barbeque.tests.resources.mockapp.models import MockModel, RelatedMockModel
 @pytest.mark.django_db
 class TestExporter:
     def setup(self):
-        self.exporter = Exporter('csv', None, ('id', 'parent__id'), True)
+        self.exporter = Exporter('csv', None, ('id', 'parent__id', 'value'), True)
 
         self.modeladmin = admin.ModelAdmin(RelatedMockModel, admin.site)
 
         parent = MockModel.objects.create()
         for i in range(0, 3):
-            RelatedMockModel.objects.create(parent=parent)
+            RelatedMockModel.objects.create(parent=parent, value='汉语／漢語ß')
         self.objects = RelatedMockModel.objects.all().order_by('pk')
 
     def test_get_filename(self):
@@ -34,6 +34,7 @@ class TestExporter:
         assert self.exporter.get_header(self.objects) == [
             'ID',
             'ID',  # Parent id
+            'value'
         ]
 
     def test_get_header_unknown_field(self):
@@ -41,6 +42,7 @@ class TestExporter:
         assert self.exporter.get_header(self.objects) == [
             'ID',
             'ID',  # Parent id
+            'value',
             'unknown_field'
         ]
 
@@ -74,6 +76,13 @@ class TestExporter:
 
         lines = force_text(response.content).split('\n')
         assert 'ID' not in lines[0]
+
+    def test_export_csv_unicode(self, rf):
+        response = self.exporter.export_as_csv(self.modeladmin, rf.get('/'), self.objects)
+        assert response['Content-type'] == 'text/csv'
+
+        lines = force_text(response.content).split('\n')
+        assert lines == ['ID,ID,value\r', '1,1,汉语／漢語ß\r', '2,1,汉语／漢語ß\r', '3,1,汉语／漢語ß\r', '']
 
     def test_factory(self):
         func = action_export_factory('csv')
