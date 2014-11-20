@@ -66,7 +66,8 @@ tests_require = [
     'pytest-flakes',
     'pytest-django',
     'python-coveralls',
-    'factory-boy'
+    'factory-boy',
+    'Pillow'
 ]
 
 
