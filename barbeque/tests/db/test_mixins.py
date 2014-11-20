@@ -1,5 +1,4 @@
 import pytest
-from django.utils.datastructures import SortedDict
 
 from barbeque.tests.factories.mockapp import ImageModelFactory
 
