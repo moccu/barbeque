@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import date
 
 import mock
@@ -19,7 +20,7 @@ class TestExporter:
 
         parent = MockModel.objects.create()
         for i in range(0, 3):
-            RelatedMockModel.objects.create(parent=parent, value='汉语／漢語ß')
+            RelatedMockModel.objects.create(parent=parent, value='汉')
         self.objects = RelatedMockModel.objects.all().order_by('pk')
 
     def test_get_filename(self):
@@ -82,7 +83,7 @@ class TestExporter:
         assert response['Content-type'] == 'text/csv'
 
         lines = force_text(response.content).split('\n')
-        assert lines == ['ID,ID,value\r', '1,1,汉语／漢語ß\r', '2,1,汉语／漢語ß\r', '3,1,汉语／漢語ß\r', '']
+        assert lines == [u'ID,ID,value\r', u'1,1,\u6c49\r', u'2,1,\u6c49\r', u'3,1,\u6c49\r', u'']
 
     def test_factory(self):
         func = action_export_factory('csv')

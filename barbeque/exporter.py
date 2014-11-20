@@ -1,4 +1,3 @@
-import csv
 from datetime import date
 
 import openpyxl
@@ -7,6 +6,8 @@ from django.db.models.fields import FieldDoesNotExist
 from django.http import HttpResponse
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
+
+from .compat import UnicodeWriter
 
 
 class Exporter(object):
@@ -50,19 +51,13 @@ class Exporter(object):
         response['Content-Disposition'] = 'attachment; filename=%s' % (
             self.get_filename(modeladmin, 'csv'))
 
-        writer = csv.writer(response)
-        if self.header:
-            writer.writerow([
-                force_text(name)
-                for name in self.get_header(queryset)
-            ])
+        with UnicodeWriter(response) as writer:
+            if self.header:
+                writer.writerow([force_text(name) for name in self.get_header(queryset)])
 
-        data_fields, data = self.get_data(queryset)
-        for row in data:
-            writer.writerow([
-                force_text(row.get(k, ''))
-                for k in data_fields
-            ])
+            data_fields, data = self.get_data(queryset)
+            for row in data:
+                writer.writerow([force_text(row.get(key, '')) for key in data_fields])
 
         return response
 
