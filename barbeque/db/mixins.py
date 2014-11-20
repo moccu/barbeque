@@ -61,7 +61,7 @@ class ProcessableFileMixin(object):
                 new_basename,
                 os.path.splitext(os.path.basename(field.name))[1]
             )
-            os.rename(field.path, field.storage.path(new_filename))
+            os.rename(field.storage.path(field.name), field.storage.path(new_filename))
             field.name = new_filename
             self.save(update_fields=[field.field.name])
         except OSError:

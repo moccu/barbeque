@@ -33,3 +33,8 @@ class TestProcessableFileMixin:
     def test_rename_file_simple(self):
         assert self.obj.rename_file(self.obj.picture, 'dadada')
         assert self.obj.picture.name.endswith('dadada.jpg')
+
+    def test_rename_file_catches_oserror(self):
+        self.obj.picture.name = 'uploads/uinoexist.jpg'
+        assert not self.obj.rename_file(self.obj.picture, 'dadada')
+        assert self.obj.picture.name.endswith('uinoexist.jpg')
