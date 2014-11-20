@@ -4,24 +4,8 @@ from barbeque.commands.imaging import GmConvertCommand
 from barbeque.utils.files import MoveableNamedTemporaryFile
 
 
-class ResizableFilerFileMixin(object):
+class ProcessableFileMixin(object):
     process_command = GmConvertCommand
-
-    def save(self, *args, **kwargs):
-        old_sha1 = self.sha1
-
-        retval = super(ResizableFilerFileMixin, self).save(*args, **kwargs)
-
-        if self.sha1 != old_sha1:
-            self.on_file_changed()
-
-        return retval
-
-    def get_filename_from_field(self, field):
-        return os.path.splitext(os.path.basename(field.name))
-
-    def on_file_changed(self):
-        pass
 
     def get_current_filename(self, field):
         return os.path.splitext(os.path.basename(field.name))
@@ -52,9 +36,12 @@ class ResizableFilerFileMixin(object):
 
         return True
 
+    def get_storage(self, field):
+        return field.storage
+
     def save_processed_image(self, tmpfile, destination, destination_filename):
-        # Get storage and save file.
-        storage = destination.storages['public' if self.is_public else 'private']
+        storage = self.get_storage(destination)
+
         storage.save(
             destination_filename,
             tmpfile
@@ -80,3 +67,4 @@ class ResizableFilerFileMixin(object):
             return False
 
         return True
+#        storage = destination.storages['public' if self.is_public else 'private']
