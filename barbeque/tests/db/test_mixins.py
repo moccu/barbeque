@@ -28,4 +28,8 @@ class TestProcessableFileMixin:
         assert self.obj.get_storage(self.obj.picture) == self.obj.picture.storage
 
     def test_rename_file_no_filename(self):
-        assert not self.obj.rename_file(self.obj.resized, 'dada', 'dadada')
+        assert not self.obj.rename_file(self.obj.resized, 'dadada')
+
+    def test_rename_file_simple(self):
+        assert self.obj.rename_file(self.obj.picture, 'dadada')
+        assert self.obj.picture.name.endswith('dadada.jpg')

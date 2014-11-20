@@ -51,7 +51,7 @@ class ProcessableFileMixin(object):
 
         self.save()
 
-    def rename_file(self, field, old_basename, new_basename):
+    def rename_file(self, field, new_basename):
         if not field.name:
             return False
 
