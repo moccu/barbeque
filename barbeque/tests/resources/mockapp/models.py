@@ -14,3 +14,4 @@ class RelatedMockModel(models.Model):
 
 class ImageModel(models.Model, ProcessableFileMixin):
     picture = models.ImageField(upload_to='uploads')
+    resized = models.ImageField(upload_to='uploads')

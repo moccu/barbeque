@@ -4,7 +4,7 @@ from .base import Command
 
 
 class GmConvertCommand(Command):
-    required_parameters = ['options', 'infile', 'outfile']
+    required_parameters = ['infile', 'outfile']
 
     command = (
         '{GM_BIN}'
@@ -16,16 +16,19 @@ class GmConvertCommand(Command):
 
     def get_parameters(self):
         GM_BIN = getattr(settings, 'BARBEQUE_GRAPHICSMAGICK_BINARY', 'gm')
+
+        options = self.parameters.get('options', {'noop': True})
+
         return {
             'GM_BIN': GM_BIN,
             'infile': self.parameters['infile'],
             'outfile': self.parameters['outfile'],
             'options': ' '.join([
                 '{0}{1}'.format(
-                    k if k[0] == '+' else '-{0}'.format(k),
-                    '' if v is True else ' {0}'.format(v)
+                    key if key[0] == '+' else '-{0}'.format(key),
+                    '' if value is True else ' {0}'.format(value)
                 )
-                for k, v in self.parameters['options'].items()
+                for key, value in options.items()
             ])
         }
 

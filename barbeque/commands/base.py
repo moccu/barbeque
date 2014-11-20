@@ -10,7 +10,8 @@ class CommandError(Exception):
 
 class CommandExecutionError(CommandError):
     def __init__(self, code, stderr, command):
-        message = u'code: {0} stderr: {1}'.format(code, u' '.join(stderr.split('\n')))
+        lines = (six.text_type(line) for line in stderr.splitlines())
+        message = u'code: {0} stderr: {1}'.format(code, u' '.join(lines))
         super(CommandExecutionError, self).__init__(message)
         self.code = code
         self.stderr = stderr
@@ -69,7 +70,7 @@ class Command(object):
         return all(k in self.parameters for k in self.required_parameters or [])
 
     def get_parameters(self):
-        return self.parameters
+        return filter(None, self.parameters)
 
     def get_command(self):
         return self.command.format(**self.get_parameters()).split(' ')
