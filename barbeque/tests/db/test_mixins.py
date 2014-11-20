@@ -1,4 +1,5 @@
 import pytest
+from PIL import Image
 
 from barbeque.tests.factories.mockapp import ImageModelFactory
 
@@ -7,12 +8,18 @@ from barbeque.tests.factories.mockapp import ImageModelFactory
 @pytest.mark.usefixtures('media')
 class TestProcessableFileMixin:
     def setup(self):
-        self.obj = ImageModelFactory.create(picture__filename='test.jpg')
+        self.obj = ImageModelFactory.create()
 
     def test_get_current_filename(self):
         assert self.obj.get_current_filename(self.obj.picture) == ('test', '.jpg')
 
     def test_process_image(self):
-
         assert self.obj.process_image(
-            self.obj.picture, self.obj.resized, '{original}{extension}')
+            self.obj.picture, self.obj.resized, '{original}_200{extension}',
+            options={'resize': '200x'})
+
+        assert self.obj.resized is not None
+
+        resized = Image.open(self.obj.resized.path)
+
+        assert resized.size == (200, 200)

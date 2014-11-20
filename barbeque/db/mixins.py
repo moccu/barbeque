@@ -46,6 +46,7 @@ class ProcessableFileMixin(object):
             destination_filename,
             tmpfile
         )
+
         destination.name = destination_filename
 
         self.save()
@@ -67,4 +68,3 @@ class ProcessableFileMixin(object):
             return False
 
         return True
-#        storage = destination.storages['public' if self.is_public else 'private']
