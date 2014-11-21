@@ -1,5 +1,7 @@
 import pytest
+import mock
 from django.core.exceptions import MultipleObjectsReturned
+from django.db.utils import ConnectionDoesNotExist
 
 from barbeque.db.shortcuts import create_or_update, get_object_or_none
 
@@ -29,6 +31,33 @@ class TestCreateOrUpdateHelper:
 
         dummy = DummyModel.objects.get()
         assert dummy.name == 'New Dummy'
+
+    @mock.patch('barbeque.db.shortcuts.router.db_for_write')
+    def test_using_defaults_to_write_db(self, db_for_write):
+        db_for_write.return_value = 'default'
+
+        create_or_update(DummyModel, name='Dummy', slug='dummy')
+        db_for_write.assert_called_once_with(DummyModel)
+
+    def test_forwards_using(self):
+        with pytest.raises(ConnectionDoesNotExist) as excinfo:
+            create_or_update(DummyModel, using='write', name='Dummy', slug='dummy')
+
+        assert "The connection write doesn't exist" in str(excinfo)
+
+    def test_handle_integrity_error(self):
+        # Catch database error, not-matching filter
+        create_or_update(DummyModel, name=None)
+
+        assert DummyModel.objects.count() == 0
+
+        # Catch integrity error
+        create_or_update(DummyModel, name='dummy', slug='dummy')
+        create_or_update(DummyModel, name='dummy 2', slug='dummy')
+
+    def test_require_filter(self):
+        with pytest.raises(AssertionError):
+            create_or_update(DummyModel)
 
 
 @pytest.mark.django_db
