@@ -5,6 +5,14 @@ import inspect
 
 from django.utils.six import string_types
 
+from barbeque.compat import PY3
+
+
+def _get_class_name(obj):
+    if PY3:
+        return obj.__self__.__class__.__name__
+    return obj.im_class.__name__
+
 
 def get_logger(obj):
     """Return a logger object with the proper module path for ``obj``."""
@@ -16,7 +24,7 @@ def get_logger(obj):
     if inspect.ismethod(obj):
         name = '{module}.{cls}.{method}'.format(
             module=module,
-            cls=obj.im_class.__name__,
+            cls=_get_class_name(obj),
             method=obj.__func__.__name__
         )
     elif inspect.isfunction(obj):
