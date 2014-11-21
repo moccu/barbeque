@@ -15,3 +15,8 @@ class RelatedMockModel(models.Model):
 class ImageModel(models.Model, ProcessableFileMixin):
     picture = models.ImageField(upload_to='uploads')
     resized = models.ImageField(upload_to='uploads')
+
+
+class DummyModel(models.Model):
+    name = models.CharField(max_length=256)
+    slug = models.SlugField()
