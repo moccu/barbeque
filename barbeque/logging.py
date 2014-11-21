@@ -96,7 +96,3 @@ def enable_error_logging_in_debug_mode():
             return orig_technical_500_response(request, exc_type, exc_value, tb)
 
         debug.technical_500_response = custom_technical_500_response
-
-
-# TODO: is there a better init point for this?
-enable_error_logging_in_debug_mode()
