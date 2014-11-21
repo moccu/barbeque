@@ -70,6 +70,12 @@ class TestExporter:
         exp = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         assert response['Content-type'] == exp
 
+    def test_export_xlsx_no_header(self, rf):
+        self.exporter.header = False
+        response = self.exporter.export_as_xlsx(self.modeladmin, rf.get('/'), self.objects)
+        exp = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        assert response['Content-type'] == exp
+
     def test_export_csv_no_header(self, rf):
         self.exporter.header = False
         response = self.exporter.export_as_csv(self.modeladmin, rf.get('/'), self.objects)
