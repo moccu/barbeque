@@ -77,7 +77,7 @@ setup(
     long_description=read('README.rst') + u'\n\n' + read('CHANGELOG.rst'),
     version='0.1',
     license='BSD',
-    author='Stephan Jaekel, Christopher Grebs',
+    author='Moccu GmbH & Co. KG',
     author_email='info@moccu.com',
     url='http://github.com/moccu/barbeque/',
     packages=find_packages(exclude=['barbeque.tests']),
