@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from PIL import Image
 
@@ -23,6 +25,25 @@ class TestProcessableFileMixin:
         resized = Image.open(self.obj.resized.path)
 
         assert resized.size == (200, 200)
+
+    def test_destination_file_gets_cleared(self):
+        assert self.obj.process_image(
+            self.obj.picture, self.obj.resized, '{original}_200{extension}',
+            options={'resize': '200x'})
+
+        base_count = len(os.listdir(os.path.dirname(self.obj.picture.path)))
+
+        assert self.obj.process_image(
+            self.obj.picture, self.obj.resized, '{original}_200{extension}',
+            options={'resize': '200x'})
+
+        assert self.obj.process_image(
+            self.obj.picture, self.obj.resized, '{original}_200{extension}',
+            options={'resize': '200x'})
+
+        new_count = len(os.listdir(os.path.dirname(self.obj.picture.path)))
+
+        assert base_count == new_count
 
     def test_get_storage(self):
         assert self.obj.get_storage(self.obj.picture) == self.obj.picture.storage
