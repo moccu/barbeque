@@ -42,6 +42,8 @@ class ProcessableFileMixin(object):
     def save_processed_image(self, tmpfile, destination, destination_filename):
         storage = self.get_storage(destination)
 
+        storage.delete(destination_filename)
+
         storage.save(
             destination_filename,
             tmpfile
