@@ -61,8 +61,8 @@ class Command(object):
             self.pid = process.pid
 
             stdout, stderr = process.communicate()
-        except OSError as ex:
-            raise CommandExecutionError(1, six.text_type(ex), self)
+        except OSError as exc:
+            raise CommandExecutionError(1, six.text_type(exc), self)
 
         if not fail_silently and (stderr or process.returncode != 0):
             raise CommandExecutionError(process.returncode, stderr, self)
@@ -92,3 +92,25 @@ class Command(object):
 
     def handle_output(self, output):
         return output
+
+
+def expand_args(command):
+    """Parses command strings and returns a Popen-ready list."""
+    if isinstance(command, (list, set, frozenset, tuple)):
+        return command
+
+    splitter = shlex.shlex(command)
+    splitter.whitespace = '|'
+    splitter.whitespace_split = True
+    command = []
+
+    while True:
+        token = splitter.get_token()
+        if token:
+            command.append(token)
+        else:
+            break
+
+    command = list(map(shlex.split, command))
+
+    return command
