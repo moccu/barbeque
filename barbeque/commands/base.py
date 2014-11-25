@@ -1,3 +1,5 @@
+import shlex
+
 from subprocess import Popen, PIPE
 
 import psutil
@@ -36,13 +38,26 @@ class Command(object):
                 'Parameter(s) missing, required parameters: {0}'.format(
                     ', '.join(self.required_parameters)))
 
-    def execute(self, ignore_output=None, fail_silently=None):
+    def execute(self, ignore_output=None, fail_silently=None, **kwargs):
         command = self.get_command()
         ignore_output = ignore_output if ignore_output is not None else self.ignore_output
         fail_silently = fail_silently if fail_silently is not None else self.fail_silently
 
+        # Don't automatically merge with os.environ for security reasons.
+        # Make this forwarding explicit rather than implicit.
+        environ = kwargs.pop('environ', None)
+        shell = kwargs.pop('shell', False)
+
         try:
-            process = Popen(command, stdout=PIPE, stderr=PIPE)
+            process = Popen(
+                command,
+                shell=shell,
+                universal_newlines=True,
+                env=environ,
+                stdout=PIPE,
+                stderr=PIPE,
+                stdin=PIPE,
+            )
             self.pid = process.pid
 
             stdout, stderr = process.communicate()
