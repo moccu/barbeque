@@ -15,7 +15,7 @@ class CommandExecutionError(CommandError):
     def __init__(self, code, stderr, command):
         lines = (six.text_type(line) for line in stderr.splitlines())
         message = u'code: {0} stderr: {1}. Command: {2}'.format(
-            code, u' '.join(lines), command.get_command())
+            code, u' '.join(lines), repr(command.get_command()))
         super(CommandExecutionError, self).__init__(message)
         self.code = code
         self.stderr = stderr
@@ -90,7 +90,7 @@ class Command(object):
         return filter(None, self.parameters)
 
     def get_command(self):
-        return force_bytes(self.command.format(**self.get_parameters()).split(' '))
+        return [force_bytes(part) for part in self.command.format(**self.get_parameters()).split(' ')]
 
     def handle_output(self, output):
         return output
