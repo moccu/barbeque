@@ -15,7 +15,7 @@ class CommandExecutionError(CommandError):
     def __init__(self, code, stderr, command):
         lines = (six.text_type(line) for line in stderr.splitlines())
         message = u'code: {0} stderr: {1}. Command: {2}'.format(
-            code, u' '.join(lines), command)
+            code, u' '.join(lines), command.get_command())
         super(CommandExecutionError, self).__init__(message)
         self.code = code
         self.stderr = stderr
