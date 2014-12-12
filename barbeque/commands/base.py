@@ -4,6 +4,7 @@ from subprocess import Popen, PIPE
 
 import psutil
 from django.utils import six
+from django.utils.encoding import force_bytes
 
 
 class CommandError(Exception):
@@ -88,7 +89,7 @@ class Command(object):
         return filter(None, self.parameters)
 
     def get_command(self):
-        return self.command.format(**self.get_parameters()).split(' ')
+        return force_bytes(self.command.format(**self.get_parameters()).split(' '))
 
     def handle_output(self, output):
         return output
