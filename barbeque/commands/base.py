@@ -90,7 +90,7 @@ class Command(object):
         return filter(None, self.parameters)
 
     def get_command(self):
-        return [force_bytes(part) for part in self.command.format(**self.get_parameters()).split(' ')]
+        return shlex.split(force_bytes(self.command.format(**self.get_parameters())))
 
     def handle_output(self, output):
         return output
