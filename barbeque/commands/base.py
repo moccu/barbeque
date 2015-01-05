@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE
 
 import psutil
 from django.utils import six
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_text, force_bytes
 
 
 class CommandError(Exception):
@@ -90,7 +90,10 @@ class Command(object):
         return filter(None, self.parameters)
 
     def get_command(self):
-        return shlex.split(force_bytes(self.command.format(**self.get_parameters())))
+        command = self.command.format(**self.get_parameters())
+        if six.PY2:
+            return shlex.split(force_bytes(command))
+        return shlex.split(force_text(command))
 
     def handle_output(self, output):
         return output
