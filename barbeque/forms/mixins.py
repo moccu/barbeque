@@ -40,8 +40,7 @@ class NumItemsAdminInlineValidatorMixin(object):
 
         forms = [
             form for form in self.forms
-            if getattr(form, 'cleaned_data', {})
-            and not form.cleaned_data.get('DELETE', False)
+            if getattr(form, 'cleaned_data', {}) and not form.cleaned_data.get('DELETE', False)
         ]
 
         valid_forms = len([form for form in forms if form.is_valid()])
