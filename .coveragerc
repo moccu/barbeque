@@ -1,9 +1,5 @@
 [run]
 branch = True
-source = barbeque/
-
-[report]
-include = barbeque/*
 omit =
 	*/__init__.py
 	barbeque/tests/*
