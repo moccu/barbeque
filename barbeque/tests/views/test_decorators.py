@@ -1,21 +1,7 @@
 import pytest
 from django.http import HttpResponse
 
-from barbeque.utils import absurl
-from barbeque.utils.security import ssl_required
-
-
-class TestAbsurl:
-    def test_none(self, rf):
-        assert absurl(rf.get('/'), None) is None
-        assert absurl(rf.get('/'), '') is None
-
-    def test_not_relative(self, rf):
-        assert absurl(rf.get('/'), 'http://test') == 'http://test'
-        assert absurl(rf.get('/'), '#test=123') == '#test=123'
-
-    def test_relative(self, rf):
-        assert absurl(rf.get('/'), '/test/') == 'http://testserver/test/'
+from barbeque.views.decorators import ssl_required
 
 
 class TestSSLRequired:

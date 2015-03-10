@@ -23,7 +23,6 @@ tests_require = [
     'pytest-django',
     'python-coveralls',
     'factory-boy',
-    'psutil',
     'Pillow'
 ]
 
@@ -45,7 +44,6 @@ setup(
         'tests': tests_require,
         'docs': ['sphinx'],
         'exporter': ['openpyxl'],
-        'commands': ['psutil'],
     },
     classifiers=[
         'Development Status :: 4 - Beta',

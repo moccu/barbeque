@@ -1,6 +1,10 @@
 import sys
 import csv
-import codecs
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 
 PY3 = sys.version > '3'
@@ -19,7 +23,7 @@ class UnicodeWriter(object):
         return self
 
     def __exit__(self, type, value, traceback):
-        self.fobj.close()
+        pass
 
     def writerow(self, row):
         if not PY3:

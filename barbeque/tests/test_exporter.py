@@ -89,7 +89,13 @@ class TestExporter:
         assert response['Content-type'] == 'text/csv'
 
         lines = force_text(response.content).split('\n')
-        assert lines == [u'ID,ID,value\r', u'1,1,\u6c49\r', u'2,1,\u6c49\r', u'3,1,\u6c49\r', u'']
+        assert lines == [
+            u'ID,ID,value\r',
+            u'1,1,\u6c49\r',
+            u'2,1,\u6c49\r',
+            u'3,1,\u6c49\r',
+            u''
+        ]
 
     def test_factory(self):
         func = action_export_factory('csv')

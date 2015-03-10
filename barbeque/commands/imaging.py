@@ -9,9 +9,9 @@ class GmConvertCommand(Command):
     command = (
         '{GM_BIN}'
         ' convert'
-        ' {infile}'
+        ' "{infile}"'
         ' {options}'
-        ' {outfile}'
+        ' "{outfile}"'
     )
 
     def get_parameters(self):
@@ -38,8 +38,8 @@ class SvgoCommand(Command):
 
     command = (
         '{SVGO_BIN}'
-        ' -i {infile}'
-        ' -o {outfile}'
+        ' -i "{infile}"'
+        ' -o "{outfile}"'
     )
 
     def get_parameters(self):

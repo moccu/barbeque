@@ -1,9 +1,9 @@
 import os
 
-DEBUG = True
-TEMPLATE_DEBUG = True
 
-SECRET_KEY = 'test'
+DEBUG = TEMPLATE_DEBUG = True
+
+SECRET_KEY = 'testing'
 
 DATABASES = {
     'default': {
@@ -17,7 +17,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
 
     'barbeque',
-
     'barbeque.tests.resources.mockapp',
 )
 

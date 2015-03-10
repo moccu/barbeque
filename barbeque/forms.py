@@ -10,19 +10,19 @@ class PlaceholderFormMixin(object):
 
     def __init__(self, *args, **kwargs):
         super(PlaceholderFormMixin, self).__init__(*args, **kwargs)
-        for field in self.visible_fields:
-            widget = self.fields[field].widget
-            widget.attrs['placeholder'] = self.fields[field].label
+        for field in self.visible_fields():
+            widget = field.field.widget
+            widget.attrs['placeholder'] = field.field.label
 
 
-class NumItemsAdminInlineValidatorMixin(object):
+class ItemLimitInlineMixin(object):
     """Mixin that validates the min/max number of forms in an admin inline.
 
     Usage:
 
     .. code-block: python
 
-        class MyInlineAdmin(NumItemsAdminInlineValidatorMixin, admin.StackedInline):
+        class MyInlineAdmin(ItemLimitInlineMixin, admin.StackedInline):
             min_items = 1
             max_items = 4
 
@@ -36,7 +36,7 @@ class NumItemsAdminInlineValidatorMixin(object):
     max_items = None
 
     def clean(self):
-        super(NumItemsAdminInlineValidatorMixin, self).clean()
+        super(ItemLimitInlineMixin, self).clean()
 
         forms = [
             form for form in self.forms

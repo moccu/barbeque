@@ -9,9 +9,9 @@ from barbeque.compat import PY3
 
 
 def _get_class_name(obj):
-    if PY3:
-        return obj.__self__.__class__.__name__
-    return obj.im_class.__name__
+    if not PY3:
+        return obj.im_class.__name__
+    return obj.__self__.__class__.__name__
 
 
 def get_logger(obj):
