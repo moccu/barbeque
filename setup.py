@@ -26,6 +26,7 @@ tests_require = [
     'Pillow',
     'django-cms',
     'django-compressor',
+    'django-filer',
 ]
 
 

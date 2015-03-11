@@ -24,6 +24,8 @@ INSTALLED_APPS = (
     'mptt',
     'cms',
     'compressor',
+    'easy_thumbnails',
+    'filer',
 
     'barbeque',
     'barbeque.tests.resources.mockapp',
@@ -39,6 +41,9 @@ ROOT_URLCONF = 'django.contrib.auth.urls'
 
 SITE_ID = 1
 LANGUAGES = (('en-us', 'en-us'),)
+
+MEDIA_ROOT = tempfile.mkdtemp()
+MEDIA_URL = '/media/'
 
 STATIC_ROOT = tempfile.mkdtemp()
 STATIC_URL = '/static/'
