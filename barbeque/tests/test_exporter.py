@@ -20,7 +20,7 @@ class TestExporter:
 
         parent = MockModel.objects.create()
         for i in range(0, 3):
-            RelatedMockModel.objects.create(parent=parent, value='汉')
+            RelatedMockModel.objects.create(parent=parent, value=u'汉')
         self.objects = RelatedMockModel.objects.all().order_by('pk')
 
     def test_get_filename(self):
