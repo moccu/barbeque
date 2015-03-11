@@ -23,7 +23,8 @@ tests_require = [
     'pytest-django',
     'python-coveralls',
     'factory-boy',
-    'Pillow'
+    'Pillow',
+    'django-cms'
 ]
 
 
