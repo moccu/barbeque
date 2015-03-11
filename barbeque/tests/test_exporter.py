@@ -122,3 +122,21 @@ class TestExporter:
         func()
         assert func_mock.call_count == 0
         assert func_mock2.call_count == 1
+
+    def test_get_value_override(self, rf):
+        class SubExporter(Exporter):
+            def get_value(self, field, value):
+                if field == 'parent__id':
+                    return 'prefixed{0}'.format(value)
+                return super(SubExporter, self).get_value(field, value)
+
+        exporter = SubExporter('csv', None, ('id', 'parent__id'), True)
+        response = exporter.export_as_csv(self.modeladmin, rf.get('/'), self.objects)
+        assert response['Content-type'] == 'text/csv'
+        lines = force_text(response.content).splitlines()
+        assert lines == [
+            u'ID,ID',
+            u'1,prefixed1',
+            u'2,prefixed1',
+            u'3,prefixed1',
+        ]

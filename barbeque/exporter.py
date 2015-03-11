@@ -57,7 +57,8 @@ class Exporter(object):
 
             data_fields, data = self.get_data(queryset)
             for row in data:
-                writer.writerow([force_text(row.get(key, '')) for key in data_fields])
+                writer.writerow([
+                    self.get_value(field, row.get(field, '')) for field in data_fields])
 
         return response
 
@@ -78,7 +79,7 @@ class Exporter(object):
 
         for i, row in enumerate(data, start_row):
             for j, field in enumerate(data_fields, 1):
-                value = u'%s' % row.get(field, '')
+                value = self.get_value(field, row.get(field, ''))
 
                 if len(value) + 2 > column_widths[j - 1]:
                     column_widths[j - 1] = len(value) + 2
@@ -99,17 +100,22 @@ class Exporter(object):
 
         return response
 
+    def get_value(self, field, value):
+        return force_text(value)
 
-def action_export_factory(export_type='csv', short_description=None, fields=None, header=True):
+
+def action_export_factory(
+    export_type='csv', short_description=None, fields=None, header=True, cls=Exporter
+):
     if export_type == 'csv':
         def export_csv_func(*args, **kwargs):
-            exporter = Exporter(export_type, short_description, fields, header)
+            exporter = cls(export_type, short_description, fields, header)
             return exporter.export_as_csv(*args, **kwargs)
         export_csv_func.short_description = short_description or _('Export as CSV')
         return export_csv_func
     elif export_type == 'xlsx':
         def export_xlsx_func(*args, **kwargs):
-            exporter = Exporter(export_type, short_description, fields, header)
+            exporter = cls(export_type, short_description, fields, header)
             return exporter.export_as_xlsx(*args, **kwargs)
         export_xlsx_func.short_description = short_description or _('Export as XLSX')
         return export_xlsx_func
