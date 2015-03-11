@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 
 DEBUG = TEMPLATE_DEBUG = True
@@ -22,6 +23,7 @@ INSTALLED_APPS = (
     'menus',
     'mptt',
     'cms',
+    'compressor',
 
     'barbeque',
     'barbeque.tests.resources.mockapp',
@@ -37,6 +39,9 @@ ROOT_URLCONF = 'django.contrib.auth.urls'
 
 SITE_ID = 1
 LANGUAGES = (('en-us', 'en-us'),)
+
+STATIC_ROOT = tempfile.mkdtemp()
+STATIC_URL = '/static/'
 
 MIDDLEWARE_CLASSES = []
 

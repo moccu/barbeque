@@ -24,7 +24,8 @@ tests_require = [
     'python-coveralls',
     'factory-boy',
     'Pillow',
-    'django-cms'
+    'django-cms',
+    'django-compressor',
 ]
 
 
