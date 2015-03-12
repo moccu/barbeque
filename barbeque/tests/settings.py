@@ -26,6 +26,7 @@ INSTALLED_APPS = (
     'compressor',
     'easy_thumbnails',
     'filer',
+    'anylink',
 
     'barbeque',
     'barbeque.tests.resources.mockapp',
@@ -49,6 +50,11 @@ STATIC_ROOT = tempfile.mkdtemp()
 STATIC_URL = '/static/'
 
 MIDDLEWARE_CLASSES = []
+
+ANYLINK_EXTENSIONS = (
+    'anylink.extensions.ExternalLink',
+    'barbeque.anylink.CmsPageLink',
+)
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'resources', 'templates'),

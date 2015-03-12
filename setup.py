@@ -24,6 +24,7 @@ tests_require = [
     'python-coveralls',
     'factory-boy',
     'Pillow',
+    'django-anylink',
     'django-cms',
     'django-compressor',
     'django-filer',
