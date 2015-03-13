@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.2 - 2015-03-10
+0.2 - 2015-03-13
 ----------------
 
 * Refactored library structure
