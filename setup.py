@@ -35,7 +35,7 @@ setup(
     name='barbeque',
     description='Helper and tools collection',
     long_description=read('README.rst') + u'\n\n' + read('CHANGELOG.rst'),
-    version='0.2',
+    version='0.2.1',
     license='BSD',
     author='Moccu GmbH & Co. KG',
     author_email='info@moccu.com',
