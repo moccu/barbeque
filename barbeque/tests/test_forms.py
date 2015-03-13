@@ -1,22 +1,33 @@
 import pytest
 
+from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
-from barbeque.forms.mixins import NumItemsAdminInlineValidatorMixin
+from barbeque.forms import PlaceholderFormMixin, ItemLimitInlineMixin
 from barbeque.tests.resources.mockapp.models import MockModel, RelatedMockModel
 
 
-class MinInlineFormSet(NumItemsAdminInlineValidatorMixin, BaseInlineFormSet):
+class PlaceholderForm(PlaceholderFormMixin, forms.Form):
+    name = forms.CharField(max_length=255, label='Name Label')
+
+
+class TestPlaceholderMixin:
+    def test_attrs(self):
+        form = PlaceholderForm()
+        assert form.fields['name'].widget.attrs['placeholder'] == 'Name Label'
+
+
+class MinInlineFormSet(ItemLimitInlineMixin, BaseInlineFormSet):
     min_items = 1
 
 
-class MaxInlineFormSet(NumItemsAdminInlineValidatorMixin, BaseInlineFormSet):
+class MaxInlineFormSet(ItemLimitInlineMixin, BaseInlineFormSet):
     max_items = 2
 
 
 @pytest.mark.django_db
-class TestMinItemsAdminInlineValidatorMixin:
+class TestItemLimitInlineMixin:
     def setup(self):
         self.dummy_object = MockModel()
         self.dummy_object.save()

@@ -20,7 +20,7 @@ class TestExporter:
 
         parent = MockModel.objects.create()
         for i in range(0, 3):
-            RelatedMockModel.objects.create(parent=parent, value='汉')
+            RelatedMockModel.objects.create(parent=parent, value=u'汉')
         self.objects = RelatedMockModel.objects.all().order_by('pk')
 
     def test_get_filename(self):
@@ -89,7 +89,13 @@ class TestExporter:
         assert response['Content-type'] == 'text/csv'
 
         lines = force_text(response.content).split('\n')
-        assert lines == [u'ID,ID,value\r', u'1,1,\u6c49\r', u'2,1,\u6c49\r', u'3,1,\u6c49\r', u'']
+        assert lines == [
+            u'ID,ID,value\r',
+            u'1,1,\u6c49\r',
+            u'2,1,\u6c49\r',
+            u'3,1,\u6c49\r',
+            u''
+        ]
 
     def test_factory(self):
         func = action_export_factory('csv')
@@ -116,3 +122,21 @@ class TestExporter:
         func()
         assert func_mock.call_count == 0
         assert func_mock2.call_count == 1
+
+    def test_get_value_override(self, rf):
+        class SubExporter(Exporter):
+            def get_value(self, field, value):
+                if field == 'parent__id':
+                    return 'prefixed{0}'.format(value)
+                return super(SubExporter, self).get_value(field, value)
+
+        exporter = SubExporter('csv', None, ('id', 'parent__id'), True)
+        response = exporter.export_as_csv(self.modeladmin, rf.get('/'), self.objects)
+        assert response['Content-type'] == 'text/csv'
+        lines = force_text(response.content).splitlines()
+        assert lines == [
+            u'ID,ID',
+            u'1,prefixed1',
+            u'2,prefixed1',
+            u'3,prefixed1',
+        ]

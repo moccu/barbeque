@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 
 def ssl_required(view_func):
     def _checkssl(request, *args, **kwargs):
-        # Only validate request if not debug and ssl enabled.
-        if not settings.DEBUG and getattr(settings, 'BARBEQUE_SSL_ENABLED', True):
+        # Only validate request if ssl enabled (defaults to debug disabled).
+        if getattr(settings, 'BARBEQUE_SSL_ENABLED', not settings.DEBUG):
             # check if request is secure
             if not request.is_secure():
                 # we can redirect get requests to secure url.

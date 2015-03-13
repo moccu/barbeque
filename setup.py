@@ -1,58 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-import sys
 import codecs
 from setuptools import setup, find_packages
-from setuptools.command.test import test as TestCommand
 
 
 def read(*parts):
     filename = os.path.join(os.path.dirname(__file__), *parts)
     with codecs.open(filename, encoding='utf-8') as fp:
         return fp.read()
-
-
-class PyTest(TestCommand):
-    user_options = [
-        ('cov=', None, 'Run coverage'),
-        ('cov-xml=', None, 'Generate junit xml report'),
-        ('cov-html=', None, 'Generate junit html report'),
-        ('junitxml=', None, 'Generate xml of test results'),
-        ('clearcache', None, 'Clear cache first')
-    ]
-    boolean_options = ['clearcache']
-
-    def initialize_options(self):
-        TestCommand.initialize_options(self)
-        self.cov = None
-        self.cov_xml = False
-        self.cov_html = False
-        self.junitxml = None
-        self.clearcache = False
-
-    def run_tests(self):
-        import pytest
-
-        params = {'args': self.test_args}
-
-        if self.cov is not None:
-            params['plugins'] = ['cov']
-            params['args'].extend(
-                ['--cov', self.cov, '--cov-report', 'term-missing'])
-            if self.cov_xml:
-                params['args'].extend(['--cov-report', 'xml'])
-            if self.cov_html:
-                params['args'].extend(['--cov-report', 'html'])
-        if self.junitxml is not None:
-            params['args'].extend(['--junitxml', self.junitxml])
-        if self.clearcache:
-            params['args'].extend(['--clearcache'])
-
-        self.test_suite = True
-
-        errno = pytest.main(**params)
-        sys.exit(errno)
 
 
 tests_require = [
@@ -67,7 +23,11 @@ tests_require = [
     'pytest-django',
     'python-coveralls',
     'factory-boy',
-    'Pillow'
+    'Pillow',
+    'django-anylink',
+    'django-cms',
+    'django-compressor',
+    'django-filer',
 ]
 
 
@@ -84,12 +44,10 @@ setup(
     test_suite='.',
     tests_require=tests_require,
     install_requires=['Django>=1.6,<1.8'],
-    cmdclass={'test': PyTest},
     extras_require={
         'tests': tests_require,
         'docs': ['sphinx'],
         'exporter': ['openpyxl'],
-        'commands': ['psutil'],
     },
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -103,7 +61,6 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',

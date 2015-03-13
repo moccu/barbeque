@@ -1,10 +1,10 @@
 import shlex
-
+from django.utils import six
 from subprocess import Popen, PIPE
 
-import psutil
-from django.utils import six
 from django.utils.encoding import force_text, force_bytes
+
+from barbeque.compat import PY3
 
 
 class CommandError(Exception):
@@ -71,51 +71,17 @@ class Command(object):
 
         return True if ignore_output else self.handle_output(stdout)
 
-    def cleanup(self):
-        if self.pid is None:
-            return True
-
-        try:
-            process = psutil.Process(self.pid)
-            process.kill()
-        except:
-            pass
-
-        return True
-
     def validate_parameters(self):
         return all(k in self.parameters for k in self.required_parameters or [])
 
     def get_parameters(self):
-        return filter(None, self.parameters)
+        return self.parameters
 
     def get_command(self):
         command = self.command.format(**self.get_parameters())
-        if six.PY2:
+        if not PY3:
             return shlex.split(force_bytes(command))
         return shlex.split(force_text(command))
 
     def handle_output(self, output):
         return output
-
-
-def expand_args(command):
-    """Parses command strings and returns a Popen-ready list."""
-    if isinstance(command, (list, set, frozenset, tuple)):
-        return command
-
-    splitter = shlex.shlex(command)
-    splitter.whitespace = '|'
-    splitter.whitespace_split = True
-    command = []
-
-    while True:
-        token = splitter.get_token()
-        if token:
-            command.append(token)
-        else:
-            break
-
-    command = list(map(shlex.split, command))
-
-    return command
