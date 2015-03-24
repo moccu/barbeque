@@ -33,6 +33,7 @@ Contents
    :maxdepth: 3
 
    testing
+   shortcuts
 
 
 Indices and tables
