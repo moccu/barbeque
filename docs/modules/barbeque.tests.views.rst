@@ -1,20 +1,29 @@
 barbeque.tests.views package
 ============================
 
-Subpackages
------------
-
-.. toctree::
-
-    barbeque.tests.views.mixins
-
 Submodules
 ----------
+
+barbeque.tests.views.test_decorators module
+-------------------------------------------
+
+.. automodule:: barbeque.tests.views.test_decorators
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 barbeque.tests.views.test_generic module
 ----------------------------------------
 
 .. automodule:: barbeque.tests.views.test_generic
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+barbeque.tests.views.test_mixins module
+---------------------------------------
+
+.. automodule:: barbeque.tests.views.test_mixins
     :members:
     :undoc-members:
     :show-inheritance:

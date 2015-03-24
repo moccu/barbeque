@@ -4,6 +4,14 @@ barbeque.tests.resources.mockapp package
 Submodules
 ----------
 
+barbeque.tests.resources.mockapp.forms module
+---------------------------------------------
+
+.. automodule:: barbeque.tests.resources.mockapp.forms
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 barbeque.tests.resources.mockapp.models module
 ----------------------------------------------
 
