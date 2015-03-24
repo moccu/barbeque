@@ -1,8 +1,14 @@
+===============
 Testing helpers
 ===============
 
+.. module:: barbeque.testing
+
+.. autofunction:: barbeque.testing.get_messages_from_cookie
+
+
 Get messages from cookies
--------------------------
+=========================
 
 .. code-block:: python
 
