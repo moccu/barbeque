@@ -1,9 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
 import os
-
+import pkg_resources
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'barbeque.tests.settings')
+
+try:
+    import sphinx_rtd_theme
+except ImportError:
+    sphinx_rtd_theme = None
+
+distribution = pkg_resources.get_distribution('barbeque')
+
+version = distribution.version
+release = version
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -14,12 +25,23 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 project = 'barbeque'
-copyright = '2014, Moccu GmbH & Co. KG'
-version = '0.1'
-release = '0.1'
+copyright = '2015, Moccu GmbH & Co. KG'
+version = version
+release = version
 exclude_patterns = ['_build']
+
 pygments_style = 'sphinx'
-html_theme = 'default'
+
+html_domain_indices = True
+
+if sphinx_rtd_theme:
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+else:
+    html_theme = 'default'
+
+html_static_path = ['_static']
+
 # html_static_path = ['_static']
 htmlhelp_basename = 'barbequedoc'
 latex_documents = [(
@@ -35,4 +57,8 @@ texinfo_documents = [(
     'Moccu GmbH & Co. KG', 'barbeque', 'Helper and tools collection.',
     'Miscellaneous'
 )]
-intersphinx_mapping = {'http://docs.python.org/': None}
+
+intersphinx_mapping = {
+    'https://docs.python.org/': None,
+    'https://docs.djangoproject.com/en/dev/': None,
+}

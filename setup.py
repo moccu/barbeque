@@ -46,7 +46,7 @@ setup(
     install_requires=['Django>=1.6,<1.8'],
     extras_require={
         'tests': tests_require,
-        'docs': ['sphinx'],
+        'docs': ['sphinx', 'sphinx_rtd_theme'],
         'exporter': ['openpyxl'],
     },
     classifiers=[
