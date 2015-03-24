@@ -33,7 +33,6 @@ Contents
    :maxdepth: 3
 
    testing
-   modules/modules
 
 
 Indices and tables
