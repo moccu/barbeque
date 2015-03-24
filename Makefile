@@ -26,7 +26,6 @@ devinstall:
 	pip install -e .[tests]
 
 docs: clean
-	sphinx-apidoc --force -o docs/modules/ barbeque
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 
