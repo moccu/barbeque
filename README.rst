@@ -1,11 +1,6 @@
 barbeque
 ========
 
-Barbeque is a collection of custom extensions and helpers, mostly related to the Django Web framework.
-
-These include a commands framework, logging helpers, django-anylink, filer extensions and much much more.
-
-
 .. image:: https://badge.fury.io/py/barbeque.png
     :target: http://badge.fury.io/py/barbeque
 
@@ -15,11 +10,19 @@ These include a commands framework, logging helpers, django-anylink, filer exten
 .. image:: https://readthedocs.org/projects/barbeque/badge/?version=latest
     :target: http://barbeque.readthedocs.org/en/latest/
 
+Barbeque is a collection of custom extensions and helpers, mostly related to the Django Web framework.
+
+These include a commands framework, logging helpers, django-anylink, filer extensions and much much more.
+
 
 Features
 ========
 
-TBD
+* Commands framework
+* Logging helpers
+* django-anylink and django-cms extensions
+* django-filer extensions
+* various helpers for forms and generic views
 
 
 Resources
