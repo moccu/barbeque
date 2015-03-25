@@ -34,6 +34,7 @@ Contents
 
    testing
    shortcuts
+   logging
 
 
 Indices and tables
