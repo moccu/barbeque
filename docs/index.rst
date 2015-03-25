@@ -37,6 +37,7 @@ Contents
    logging
    forms
    files
+   filer
 
 
 Indices and tables

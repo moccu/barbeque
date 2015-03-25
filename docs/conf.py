@@ -59,6 +59,7 @@ texinfo_documents = [(
 
 intersphinx_mapping = {
     'python': ('http://docs.python.org/', None),
+    'filer': ('http://django-filer.readthedocs.org/en/latest/', None),
     'django': (
         'http://docs.djangoproject.com/en/dev/',
         'http://docs.djangoproject.com/en/dev/_objects/'
