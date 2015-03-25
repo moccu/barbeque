@@ -36,6 +36,7 @@ Contents
    shortcuts
    logging
    forms
+   files
 
 
 Indices and tables

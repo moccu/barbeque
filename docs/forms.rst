@@ -1,6 +1,6 @@
-=====
-Forms
-=====
+===========
+Form mixins
+===========
 
 .. module:: barbeque.forms
 

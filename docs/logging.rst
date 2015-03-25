@@ -1,6 +1,6 @@
-=======
-Logging
-=======
+===============
+Logging helpers
+===============
 
 .. module:: barbeque.logging
 
