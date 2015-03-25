@@ -38,6 +38,7 @@ Contents
    forms
    files
    filer
+   exporter
 
 
 Indices and tables
