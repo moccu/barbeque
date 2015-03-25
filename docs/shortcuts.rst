@@ -12,6 +12,7 @@ Uses :meth:`~django.db.models.query.QuerySet.get()` to return an object, or retu
 or :class:`~django.db.models.query.QuerySet` object. All other passed arguments and
 keyword arguments are used in the :meth:`~django.db.models.query.QuerySet.get()` query.
 
-Note: Like with :meth:`~django.db.models.query.QuerySet.get()`,
-a :exc:`~django.core.exceptions.MultipleObjectsReturned` will be raised if
-more than one object is found.
+
+.. note::
+
+    Like with :meth:`~django.db.models.query.QuerySet.get()`, a :exc:`~django.core.exceptions.MultipleObjectsReturned` will be raised if more than one object is found.
