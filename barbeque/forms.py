@@ -20,14 +20,14 @@ class ItemLimitInlineMixin(object):
 
     Usage:
 
-    .. code-block: python
+    .. code-block:: python
 
         class MyInlineAdmin(ItemLimitInlineMixin, admin.StackedInline):
             min_items = 1
             max_items = 4
 
-    Please note both options are optional and default to `None` thus no validation
-    takes place.
+    Please note that both options are optional and default to ``None`` thus no
+    validation takes place.
     """
     min_error_message = _('Please provide at least {num} {verbose_name}.')
     max_error_message = _('Please provide at most {num} {verbose_name}.')

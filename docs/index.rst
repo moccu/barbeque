@@ -35,6 +35,7 @@ Contents
    testing
    shortcuts
    logging
+   forms
 
 
 Indices and tables
