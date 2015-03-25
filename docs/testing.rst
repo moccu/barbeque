@@ -6,7 +6,7 @@ Testing helpers
 
 .. function:: get_messages_from_cookie(cookies)
 
-    Get messages from cookies.
+    Get :mod:`~django.contrib.messages` from ``cookies``
 
     Example:
 
