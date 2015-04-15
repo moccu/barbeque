@@ -39,6 +39,7 @@ Contents
    files
    filer
    exporter
+   encoders
 
 
 Indices and tables
