@@ -41,6 +41,7 @@ Contents
    exporter
    encoders
    context_processors
+   compressor
 
 
 Indices and tables
