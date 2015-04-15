@@ -3,7 +3,7 @@ Welcome to barbeque's documentation!
 
 Barbeque is a collection of custom extensions and helpers, mostly related to the Django Web framework.
 
-These include a commands framework, logging helpers, django-anylink, filer extensions and much much more.
+These include a commands framework, logging helpers, django-anylink, filer extensions and much more.
 
 
 Getting it
