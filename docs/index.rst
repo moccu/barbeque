@@ -40,6 +40,7 @@ Contents
    filer
    exporter
    encoders
+   context_processors
 
 
 Indices and tables

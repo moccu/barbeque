@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
 import os
+from os.path import abspath, join, dirname
 import pkg_resources
+
+sys.path.append(abspath(join(dirname(__file__), "_ext")))
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'barbeque.tests.settings')
 
@@ -18,6 +22,7 @@ release = version
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
+    'barbequedocs'
 ]
 
 templates_path = ['_templates']

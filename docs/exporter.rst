@@ -26,4 +26,3 @@ Example:
             action_export_factory('csv', 'Export as CSV', export_fields),
             action_export_factory('xlsx', 'Export as XLSX', export_fields)
         ]
-
