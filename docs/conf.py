@@ -24,7 +24,7 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 project = 'barbeque'
-copyright = '2015, Moccu GmbH & Co. KG'
+copyright = r'2015, Moccu GmbH \& Co. KG'
 version = version
 release = version
 exclude_patterns = ['_build']
@@ -45,15 +45,15 @@ html_static_path = ['_static']
 htmlhelp_basename = 'barbequedoc'
 latex_documents = [(
     'index', 'barbeque.tex', 'barbeque Documentation',
-    'Moccu GmbH & Co. KG', 'manual'
+    r'Moccu GmbH \& Co. KG', 'manual'
 )]
 man_pages = [(
     'index', 'barbeque', 'barbeque Documentation',
-    ['Moccu GmbH & Co. KG'], 1
+    [r'Moccu GmbH \& Co. KG'], 1
 )]
 texinfo_documents = [(
     'index', 'barbeque', 'barbeque Documentation',
-    'Moccu GmbH & Co. KG', 'barbeque', 'Helper and tools collection.',
+    r'Moccu GmbH \& Co. KG', 'barbeque', 'Helper and tools collection.',
     'Miscellaneous'
 )]
 
