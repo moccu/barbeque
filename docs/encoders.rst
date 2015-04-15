@@ -2,6 +2,8 @@
 JSON Encoder
 ============
 
+.. module:: barbeque.encoders
+
 A json encoder extension based on :class:`~django.core.serializers.json.DjangoJSONEncoder`
 that supports manualize serialization of objects.
 

@@ -2,6 +2,8 @@
 Excel/CSV Exporter
 ==================
 
+.. module:: barbeque.exporter
+
 An exporter framework that allows you to export a queryset to Excel XLSX or CSV directly
 from the django :class:`~django.contrib.admin.ModelAdmin` changelist view.
 

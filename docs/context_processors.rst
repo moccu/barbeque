@@ -1,5 +1,9 @@
+==================
 Context Processors
 ==================
+
+.. module:: barbeque.context_processors
+
 
 ``settings``
 ------------
