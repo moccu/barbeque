@@ -94,7 +94,7 @@ class UglifyJSSourcemapCompressor(JsCompressor):
     def output(self, mode='file', forced=False):
         """
         The general output method, override in subclass if you need to do
-        any custom modification. Calls other mode specific methods or simply
+        any custom modification. Calls other more specific methods or simply
         returns the content directly.
         """
         content = self.filter_input(forced)
