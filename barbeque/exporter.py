@@ -51,7 +51,10 @@ class Exporter(object):
         response['Content-Disposition'] = 'attachment; filename=%s' % (
             self.get_filename(modeladmin, 'csv'))
 
-        with UnicodeWriter(response) as writer:
+        return self.write_csv(queryset, response)
+
+    def write_csv(self, queryset, fobj):
+        with UnicodeWriter(fobj) as writer:
             if self.header:
                 writer.writerow([force_text(name) for name in self.get_header(queryset)])
 
@@ -60,9 +63,16 @@ class Exporter(object):
                 writer.writerow([
                     self.get_value(field, row.get(field, '')) for field in data_fields])
 
-        return response
+        return fobj
 
     def export_as_xlsx(self, modeladmin, request, queryset):
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=%s' % self.get_filename(
+            modeladmin, 'xlsx')
+        return self.write_xlsx(queryset, response)
+
+    def write_xlsx(self, queryset, fobj):
         workbook = openpyxl.Workbook()
         sheet = workbook.worksheets[0]
 
@@ -88,17 +98,12 @@ class Exporter(object):
                     openpyxl.cell.get_column_letter(j), i)
                 ).value = value.replace('\r', '').replace('\n', ' ')
 
-        response = HttpResponse(
-            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = 'attachment; filename=%s' % self.get_filename(
-            modeladmin, 'xlsx')
-
         for j, width in enumerate(column_widths, 1):
             sheet.column_dimensions[openpyxl.cell.get_column_letter(j)].width = width
 
-        workbook.save(response)
+        workbook.save(fobj)
 
-        return response
+        return fobj
 
     def get_value(self, field, value):
         return force_text(value)
