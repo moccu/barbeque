@@ -25,7 +25,7 @@ tests_require = [
     'factory-boy',
     'Pillow',
     'django-anylink',
-    'django-cms',
+    'django-cms<3.1',
     'django-compressor',
     'django-filer',
 ]
