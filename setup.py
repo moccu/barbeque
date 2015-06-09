@@ -43,7 +43,7 @@ setup(
     packages=find_packages(exclude=['barbeque.tests']),
     test_suite='.',
     tests_require=tests_require,
-    install_requires=['Django>=1.6,<1.8'],
+    install_requires=['Django>=1.5,<1.8'],
     extras_require={
         'tests': tests_require,
         'docs': ['sphinx', 'sphinx_rtd_theme'],

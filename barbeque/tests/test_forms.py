@@ -65,8 +65,8 @@ class TestItemLimitInlineMixin:
         with pytest.raises(ValidationError) as exc:
             formset_instance.clean()
 
-        assert exc.value.message == (
-            'Please provide at least 1 related mock model.')
+        assert exc.value.messages == [
+            'Please provide at least 1 related mock model.']
 
     def test_max_forms_valid(self):
         formset = inlineformset_factory(
@@ -103,4 +103,5 @@ class TestItemLimitInlineMixin:
         with pytest.raises(ValidationError) as exc:
             formset_instance.clean()
 
-        assert exc.value.message == ('Please provide at most 2 related mock models.')
+        assert exc.value.messages == [
+            'Please provide at most 2 related mock models.']

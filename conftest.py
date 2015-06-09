@@ -23,7 +23,7 @@ def activate_cms(settings):
         'cms.middleware.page.CurrentPageMiddleware',
     )
 
-    if django.VERSION[:2] != (1, 6):
+    if django.VERSION[:2] >= (1, 6):
         settings.MIDDLEWARE_CLASSES += (
             'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
         )
