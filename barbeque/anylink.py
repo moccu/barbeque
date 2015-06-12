@@ -27,12 +27,11 @@ class CmsPageLink(BaseLink):
         url = cache.get(cache_key)
         if url is None:
             url = link.page.get_absolute_url()
-
-            if link.anchor:
-                parsed = urlparse.urlparse(url)
-                parsed = parsed._replace(fragment=link.anchor)
-                url = parsed.geturl()
-
             cache.set(cache_key, url, get_cms_setting('CACHE_DURATIONS')['content'])
+
+        if link.anchor:
+            parsed = urlparse.urlparse(url)
+            parsed = parsed._replace(fragment=link.anchor)
+            url = parsed.geturl()
 
         return url
