@@ -1,8 +1,14 @@
+import os
 import shutil
 import tempfile
 
 import django
 import pytest
+
+
+# def pytest_configure():
+#     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'barbeque.settings')
+    # django.setup()
 
 
 @pytest.yield_fixture()

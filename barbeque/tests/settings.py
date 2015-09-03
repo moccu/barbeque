@@ -25,7 +25,7 @@ INSTALLED_APPS = (
     'cms',
     'compressor',
     'easy_thumbnails',
-    'filer',
+    # 'filer',
     'anylink',
 
     'barbeque',

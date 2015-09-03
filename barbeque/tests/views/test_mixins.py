@@ -50,7 +50,7 @@ class TestLoginRequiredMixin:
         assert response.status_code == 302
         assert response['Location'] == '/login/?next=/protected/'
 
-        assert info_func.assert_called_once()
+        assert info_func.call_count == 1
 
     def test_logged_in(self, rf, settings):
         settings.LOGIN_URL = '/login/'
@@ -79,7 +79,7 @@ class TestCachePageMixin:
         request = rf.get('/')
         self.view.get_page_cache_key(request)
 
-        generate_mock.assert_called_with(
+        generate_mock.call_args[0] == (
             request, 'GET', [], settings.CACHE_MIDDLEWARE_KEY_PREFIX)
 
     @mock.patch('barbeque.views.mixins.get_cache')
