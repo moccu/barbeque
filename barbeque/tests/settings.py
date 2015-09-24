@@ -25,8 +25,9 @@ INSTALLED_APPS = (
     'cms',
     'compressor',
     'easy_thumbnails',
-    # 'filer',
+    'filer',
     'anylink',
+    'treebeard',
 
     'barbeque',
     'barbeque.tests.resources.mockapp',

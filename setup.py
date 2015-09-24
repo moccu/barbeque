@@ -1,8 +1,39 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-import os
+from __future__ import unicode_literals
 import codecs
+import os
+import sys
 from setuptools import setup, find_packages
+from setuptools.command.test import test as test_command
+
+
+version = '0.3.0'
+
+
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py sdist upload')
+    os.system('python setup.py bdist_wheel upload')
+    print('You probably want to also tag the version now:')
+    print('  git tag -a %s -m "version %s"' % (version, version))
+    print('  git push --tags')
+    sys.exit()
+
+
+tests_require = [
+    'mock==1.3.0',
+    'openpyxl==2.2.6',
+    'psutil==3.2.1',
+    'pytest==2.8.0',
+    'pytest-cov==2.1.0',
+    'pytest-pep8==1.0.6',
+    'pytest-flakes==1.0.1',
+    'pytest-django==2.8.0',
+    'factory-boy==2.5.2',
+    'Pillow==2.9.0',
+    'django-anylink==0.3.0',
+    'django-cms==3.1.3',
+    'django-compressor==1.5',
+    'django-filer==0.9.12',
+]
 
 
 def read(*parts):
@@ -11,31 +42,25 @@ def read(*parts):
         return fp.read()
 
 
-tests_require = [
-    'coverage',
-    'mock',
-    'openpyxl',
-    'psutil',
-    'pytest',
-    'pytest-cov',
-    'pytest-pep8',
-    'pytest-flakes',
-    'pytest-django',
-    'python-coveralls',
-    'factory-boy',
-    'Pillow',
-    'django-anylink',
-    'django-cms',
-    'django-compressor',
-    'django-filer',
-]
+class PyTest(test_command):
+
+    def finalize_options(self):
+        test_command.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        # import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.test_args)
+        sys.exit(errno)
 
 
 setup(
     name='barbeque',
     description='Helper and tools collection',
     long_description=read('README.rst') + u'\n\n' + read('CHANGELOG.rst'),
-    version='0.2.1',
+    version=version,
     license='BSD',
     author='Moccu GmbH & Co. KG',
     author_email='info@moccu.com',
@@ -62,6 +87,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Framework :: Django',
