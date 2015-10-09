@@ -10,8 +10,8 @@ barbeque
     :target: https://travis-ci.org/moccu/barbeque
     :alt: Latest Travis CI build status
 
-.. image:: https://coveralls.io/repos/moccu/django-markymark/badge.svg
-    :target: https://coveralls.io/github/moccu/django-markymark
+.. image:: https://coveralls.io/repos/moccu/barbeque/badge.svg
+    :target: https://coveralls.io/github/moccu/barbeque
     :alt: Coverage of master build
 
 .. image:: https://readthedocs.org/projects/barbeque/badge/?version=latest
