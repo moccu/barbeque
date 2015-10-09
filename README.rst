@@ -4,12 +4,19 @@ barbeque
 
 .. image:: https://badge.fury.io/py/barbeque.png
     :target: http://badge.fury.io/py/barbeque
+    :alt: Latest PyPI version
 
 .. image:: https://travis-ci.org/moccu/barbeque.png?branch=master
     :target: https://travis-ci.org/moccu/barbeque
+    :alt: Latest Travis CI build status
+
+.. image:: https://coveralls.io/repos/moccu/django-markymark/badge.svg
+    :target: https://coveralls.io/github/moccu/django-markymark
+    :alt: Coverage of master build
 
 .. image:: https://readthedocs.org/projects/barbeque/badge/?version=latest
     :target: http://barbeque.readthedocs.org/en/latest/
+    :alt: Latest read the docs build
 
 Barbeque is a collection of custom extensions and helpers, mostly related to the Django Web framework.
 
