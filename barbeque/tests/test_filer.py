@@ -70,5 +70,5 @@ class TestFilerFileField:
         class FileModel(models.Model):
                 file = FilerFileField()
 
-        form_class = forms.models.modelform_factory(FileModel)
+        form_class = forms.models.modelform_factory(FileModel, fields='__all__')
         assert isinstance(form_class().fields['file'], AdminFileFormField)
