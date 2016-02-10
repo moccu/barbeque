@@ -31,8 +31,9 @@ tests_require = [
     'Pillow==2.9.0',
     'django-anylink==0.3.0',
     'django-cms==3.1.3',
-    'django-compressor==1.5',
-    'django-filer==0.9.12',
+    'django-polymorphic==0.8.1',
+    'django-compressor==1.6',
+    'django-filer==1.1.1',
 ]
 
 

@@ -101,7 +101,7 @@ class TestCachePageMixin:
         cache_mock.return_value.get.return_value = None
         self.view.cache_ensure_never_cache = True
         response = self.view.dispatch(rf.get('/'))
-        assert response['cache-control'] == 'max-age=0'
+        assert 'max-age=0' in response['cache-control']
 
     @mock.patch('barbeque.views.mixins.get_cache')
     def test_dispatch_no_timeout(self, cache_mock, rf):
