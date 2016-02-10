@@ -1,4 +1,5 @@
-from django.template import Context, Template
+import mock
+from django.template import Context, Node, Template
 
 from barbeque.templatetags.barbeque_tags import starspan
 
@@ -25,3 +26,25 @@ class TestTemplateTags:
     def test_starspan_unbalanced_blocks(self):
         assert starspan('asd foo** bar*** lorem ipsum *** dolor sit***') == (
             'asd foo** bar<span> lorem ipsum </span> dolor sit***')
+
+    @mock.patch('barbeque.templatetags.buildcompress.CompressorNode')
+    def test_buildcompress_tag_debug(self, node_mock, settings):
+        settings.DEBUG = True
+        node_mock.return_value = Node()
+
+        template = Template(
+            '{% load buildcompress %}{% buildcompress "css" %}foo{% endbuildcompress %}')
+        template.render(Context())
+
+        assert node_mock.called is False
+
+    @mock.patch('barbeque.templatetags.buildcompress.CompressorNode')
+    def test_buildcompress_tag_no_debug(self, node_mock, settings):
+        settings.DEBUG = False
+        node_mock.return_value = Node()
+
+        template = Template(
+            '{% load buildcompress %}{% buildcompress "css" %}foo{% endbuildcompress %}')
+        template.render(Context())
+
+        assert node_mock.called is True
