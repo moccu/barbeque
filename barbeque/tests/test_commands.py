@@ -1,5 +1,8 @@
 import pytest
-from django.utils.datastructures import SortedDict
+try:
+    from django.utils.datastructures import SortedDict
+except ImportError:
+    from collections import OrderedDict as SortedDict
 
 from barbeque.compat import PY3
 from barbeque.commands.base import CommandParameterError, CommandExecutionError, Command

@@ -2,10 +2,18 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.core.cache import get_cache
+
 from django.utils.cache import (
     _generate_cache_key, add_never_cache_headers, patch_response_headers)
 from django.utils.translation import ugettext
+
+try:
+    from django.core.cache import caches
+
+    def get_cache(alias):
+        return caches.get(alias)
+except ImportError:
+    from django.core.cache import get_cache
 
 
 class LoginRequiredMixin(object):

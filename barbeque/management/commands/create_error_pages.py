@@ -4,9 +4,8 @@ import os
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.core.management.base import BaseCommand
-from django.template.base import TemplateDoesNotExist
 from django.template.loader import render_to_string
-from django.template import RequestContext
+from django.template import RequestContext, TemplateDoesNotExist
 from django.test.client import RequestFactory
 from django.utils import translation
 

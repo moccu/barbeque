@@ -59,7 +59,7 @@ class TestLoginRequiredMixin:
         request.user = get_user_model()(username='testuser')
 
         response = protected_view(request)
-        assert response.status_code == 301
+        assert response.status_code == 302 or response.status_code == 301
         assert response['Location'] == '/success/'
 
 

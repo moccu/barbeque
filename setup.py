@@ -30,7 +30,8 @@ tests_require = [
     'factory-boy==2.5.2',
     'Pillow==2.9.0',
     'django-anylink==0.3.0',
-    'django-cms==3.1.3',
+    'django-treebeard>=4.0'
+    'django-cms==3.2.5',
     'django-polymorphic==0.8.1',
     'django-compressor==1.6',
     'django-filer==1.1.1',
@@ -69,7 +70,7 @@ setup(
     packages=find_packages(exclude=['barbeque.tests']),
     test_suite='.',
     tests_require=tests_require,
-    install_requires=['Django>=1.6,<1.9'],
+    install_requires=['Django>=1.6,<1.10'],
     extras_require={
         'tests': tests_require,
         'docs': ['sphinx', 'sphinx_rtd_theme'],

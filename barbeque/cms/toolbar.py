@@ -1,4 +1,4 @@
-from cms.cms_toolbar import (
+from cms.cms_toolbars import (
     ADMIN_MENU_IDENTIFIER, PAGE_MENU_IDENTIFIER)
 from cms.toolbar_base import CMSToolbar
 from cms.toolbar_pool import toolbar_pool

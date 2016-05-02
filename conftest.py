@@ -30,9 +30,9 @@ def activate_cms(settings):
 
     settings.CMS_TEMPLATES = (('empty_template.html', 'empty'),)
     settings.CMS_TOOLBARS = [
-        'cms.cms_toolbar.PlaceholderToolbar',
-        'cms.cms_toolbar.BasicToolbar',
-        'cms.cms_toolbar.PageToolbar',
+        'cms.cms_toolbars.PlaceholderToolbar',
+        'cms.cms_toolbars.BasicToolbar',
+        'cms.cms_toolbars.PageToolbar',
         'barbeque.cms.toolbar.ForceModalDialogToolbar',
     ]
 
