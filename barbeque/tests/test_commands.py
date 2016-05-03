@@ -1,8 +1,5 @@
 import pytest
-try:
-    from django.utils.datastructures import SortedDict
-except ImportError:
-    from collections import OrderedDict as SortedDict
+from collections import OrderedDict
 
 from barbeque.compat import PY3
 from barbeque.commands.base import CommandParameterError, CommandExecutionError, Command
@@ -93,7 +90,7 @@ class TestCommand:
 
 class TestGmConvertCommand:
     def test_get_command(self):
-        options = SortedDict()
+        options = OrderedDict()
         options['trueflag'] = True
         options['+falseflag'] = True
         options['valueflag'] = 'somevalue'
