@@ -12,6 +12,7 @@ from barbeque.views.mixins import LoginRequiredMixin, CachePageMixin
 
 
 class ProtectedView(LoginRequiredMixin, RedirectView):
+    permanent = False
     url = '/success/'
 
 protected_view = ProtectedView.as_view()
@@ -59,7 +60,7 @@ class TestLoginRequiredMixin:
         request.user = get_user_model()(username='testuser')
 
         response = protected_view(request)
-        assert response.status_code == 302 or response.status_code == 301
+        assert response.status_code == 302
         assert response['Location'] == '/success/'
 
 
