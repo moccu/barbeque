@@ -30,7 +30,7 @@ tests_require = [
     'factory-boy==2.5.2',
     'Pillow==2.9.0',
     'django-anylink==0.3.0',
-    'django-treebeard>=4.0'
+    'django-treebeard>=4.0',
     'django-cms==3.2.5',
     'django-polymorphic==0.8.1',
     'django-compressor==1.6',
