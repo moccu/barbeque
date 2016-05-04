@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 from setuptools.command.test import test as test_command
 
 
-version = '0.4.0'
+version = '1.0.0'
 
 
 if sys.argv[-1] == 'publish':
@@ -70,7 +70,7 @@ setup(
     packages=find_packages(exclude=['barbeque.tests']),
     test_suite='.',
     tests_require=tests_require,
-    install_requires=['Django>=1.7,<1.10'],
+    install_requires=['Django>=1.8,<1.10'],
     extras_require={
         'tests': tests_require,
         'docs': ['sphinx', 'sphinx_rtd_theme'],
@@ -90,6 +90,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy',
         'Framework :: Django',
     ],
 )

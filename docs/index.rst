@@ -21,9 +21,9 @@ If you want to install it from source, grab the git repository and run setup.py:
 
 
 Compatibility with versions of Python and Django
-=================================================
+================================================
 
-At this time we test and thrive to support valid combinations of Python 2.6, 2.7, 3.4 and pypy with Django versions 1.6 and 1.7. The most recent django master usually works too.
+At this time we test and thrive to support valid combinations of Python 2.7, 3.4, 3.5 and pypy with Django versions 1.8+. The most recent django master usually works too.
 
 
 Contents
