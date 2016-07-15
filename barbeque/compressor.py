@@ -8,7 +8,6 @@ from compressor.conf import settings
 from compressor.exceptions import FilterError
 from compressor.filters import CompilerFilter
 from compressor.js import JsCompressor
-from compressor.utils.stringformat import FormattableString as fstr
 from django.utils.safestring import mark_safe
 
 
@@ -68,7 +67,7 @@ class UglifyJSSourcemapFilter(CompilerFilter):
         options['maproot'] = settings.STATIC_URL
 
         try:
-            command = fstr(self.command).format(**options)
+            command = self.command.format(**options)
 
             proc = subprocess.Popen(
                 command, shell=True, cwd=self.cwd,
