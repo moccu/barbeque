@@ -1,5 +1,5 @@
 import os
-from unittest.mock import Mock, patch
+import mock
 
 import pytest
 from django.http import HttpResponseNotFound, HttpResponsePermanentRedirect
@@ -54,10 +54,10 @@ def test_redirect_other(rf, db, patch_settings):
     assert response == redirect
 
 
-@patch('barbeque.static.ServeStaticFileMiddleware.process_response')
+@mock.patch('barbeque.static.ServeStaticFileMiddleware.process_response')
 def test_new_style_middleware(process_response_mock, rf, patch_settings):
     request = rf.get('/static/test.jpg')
-    get_response_mock = Mock()
+    get_response_mock = mock.Mock()
     get_response_mock.return_value = HttpResponseNotFound()
     middleware = ServeStaticFileMiddleware(get_response=get_response_mock)
     middleware(request)
