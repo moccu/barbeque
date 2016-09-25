@@ -5,7 +5,7 @@ from django.http.response import Http404
 from django.views.static import serve
 
 
-class StaticFileMiddleware(object):
+class ServeStaticFileMiddleware(object):
 
     def __init__(self, get_response=None):
         self.get_response = get_response

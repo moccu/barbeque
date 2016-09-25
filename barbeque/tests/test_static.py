@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 import pytest
 from django.http import HttpResponseNotFound, HttpResponsePermanentRedirect
 
-from barbeque.static import StaticFileMiddleware
+from barbeque.static import ServeStaticFileMiddleware
 
 
 @pytest.fixture
@@ -16,7 +16,7 @@ def patch_settings(settings):
 
 def test_file_exists(rf, db, patch_settings):
     request = rf.get('/static/test.jpg')
-    middleware = StaticFileMiddleware()
+    middleware = ServeStaticFileMiddleware()
     response = middleware.process_response(request, HttpResponseNotFound(''))
     assert response.status_code == 200
     assert response['Content-Type'] == 'image/jpeg'
@@ -27,21 +27,21 @@ def test_file_exists(rf, db, patch_settings):
 
 def test_file_missing(rf, patch_settings):
     request = rf.get('/static/doesnotexist.jpg')
-    middleware = StaticFileMiddleware()
+    middleware = ServeStaticFileMiddleware()
     response = middleware.process_response(request, HttpResponseNotFound(''))
     assert response.status_code == 404
 
 
 def test_unknown_prefix(rf, patch_settings):
     request = rf.get('/foo/test.jpg')
-    middleware = StaticFileMiddleware()
+    middleware = ServeStaticFileMiddleware()
     response = middleware.process_response(request, HttpResponseNotFound(''))
     assert response.status_code == 404
 
 
 def test_redirect_for_static(rf, db, patch_settings):
     request = rf.get('/static/test.jpg')
-    middleware = StaticFileMiddleware()
+    middleware = ServeStaticFileMiddleware()
     response = middleware.process_response(
         request, HttpResponsePermanentRedirect('/static/test.jpg/'))
     assert response.status_code == 200
@@ -49,18 +49,18 @@ def test_redirect_for_static(rf, db, patch_settings):
 
 def test_redirect_other(rf, db, patch_settings):
     request = rf.get('/foo')
-    middleware = StaticFileMiddleware()
+    middleware = ServeStaticFileMiddleware()
     redirect = HttpResponsePermanentRedirect('/foo/')
     response = middleware.process_response(request, redirect)
     assert response == redirect
 
 
-@patch('barbeque.static.StaticFileMiddleware.process_response')
+@patch('barbeque.static.ServeStaticFileMiddleware.process_response')
 def test_new_style_middleware(process_response_mock, rf, patch_settings):
     request = rf.get('/static/test.jpg')
     get_response_mock = Mock()
     get_response_mock.return_value = HttpResponseNotFound()
-    middleware = StaticFileMiddleware(get_response=get_response_mock)
+    middleware = ServeStaticFileMiddleware(get_response=get_response_mock)
     middleware(request)
     get_response_mock.assert_called_with(request)
     process_response_mock.assert_called_with(
