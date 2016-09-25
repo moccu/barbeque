@@ -9,9 +9,8 @@ from barbeque.static import ServeStaticFileMiddleware
 
 @pytest.fixture
 def patch_settings(settings):
-    static_root = os.path.join(
-        settings.ROOT_DIR, 'src', 'testing', 'resources', 'static')
-    settings.STATIC_ROOT = static_root
+    settings.ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
+    settings.STATIC_ROOT = os.path.join(settings.ROOT_DIR, 'tests', 'resources', 'static')
 
 
 def test_file_exists(rf, db, patch_settings):
