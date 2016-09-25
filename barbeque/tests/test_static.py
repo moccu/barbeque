@@ -61,21 +61,16 @@ class TestServeStaticFileMiddleware:
         process_response_mock.assert_called_with(
             request, get_response_mock.return_value)
 
+    def test_with_client_hit(self, client, db):
+        response = client.get('/static/test.jpg')
+        assert response.status_code == 200
 
-# Examples of application tests:
+    def test_with_client_redirect(self, client, db):
+        response = client.get('/foo/')
+        assert response.status_code == 301
+        assert response['Location'] == '/foo'
 
-# def test_with_client_hit(client, db):
-#     response = client.get('/static/test.jpg')
-#     assert response.status_code == 200
-
-
-# def test_with_client_redirect(client, db):
-#     response = client.get('/foo')
-#     assert response.status_code == 301
-#     assert response['Location'] == '/foo/'
-
-
-# def test_with_client_query_params(client, db):
-#     response = client.get('/static/test.jpg?v=1')
-#     assert response.status_code == 200
-#     assert response['Content-Type'] == 'image/jpeg'
+    def test_with_client_query_params(self, client, db):
+        response = client.get('/static/test.jpg?v=1')
+        assert response.status_code == 200
+        assert response['Content-Type'] == 'image/jpeg'
