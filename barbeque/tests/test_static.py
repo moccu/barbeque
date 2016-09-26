@@ -47,7 +47,7 @@ class TestServeStaticFileMiddleware:
         settings.INSTALLED_APPS = settings.INSTALLED_APPS + ('django.contrib.staticfiles',)
         settings.ROOT_URLCONF = 'barbeque.tests.test_static'
 
-    def test_file_exists(self, rf, db):
+    def test_file_exists(self, rf):
         request = rf.get('/static/test.jpg')
         middleware = ServeStaticFileMiddleware()
         response = middleware.process_response(request, HttpResponseNotFound(''))
@@ -69,14 +69,14 @@ class TestServeStaticFileMiddleware:
         response = middleware.process_response(request, HttpResponseNotFound(''))
         assert response.status_code == 404
 
-    def test_redirect_for_static(self, rf, db):
+    def test_redirect_for_static(self, rf):
         request = rf.get('/static/test.jpg')
         middleware = ServeStaticFileMiddleware()
         response = middleware.process_response(
             request, HttpResponsePermanentRedirect('/static/test.jpg/'))
         assert response.status_code == 200
 
-    def test_redirect_other(self, rf, db):
+    def test_redirect_other(self, rf):
         request = rf.get('/foo')
         middleware = ServeStaticFileMiddleware()
         redirect = HttpResponsePermanentRedirect('/foo/')
@@ -94,16 +94,16 @@ class TestServeStaticFileMiddleware:
         process_response_mock.assert_called_with(
             request, get_response_mock.return_value)
 
-    def test_with_client_hit(self, client, db, patch_settings):
+    def test_with_client_hit(self, client, patch_settings):
         response = client.get('/static/test.jpg')
         assert response.status_code == 200
 
-    def test_with_client_redirect(self, client, db, patch_settings):
+    def test_with_client_redirect(self, client, patch_settings):
         response = client.get('/foo')
         assert response.status_code == 301
         assert response['Location'] == '/bar'
 
-    def test_with_client_query_params(self, client, db, patch_settings):
+    def test_with_client_query_params(self, client, patch_settings):
         response = client.get('/static/test.jpg?v=1')
         assert response.status_code == 200
         assert response['Content-Type'] == 'image/jpeg'
