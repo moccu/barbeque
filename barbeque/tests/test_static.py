@@ -2,9 +2,26 @@ import os
 import mock
 
 import pytest
-from django.http import HttpResponseNotFound, HttpResponsePermanentRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponsePermanentRedirect
+from django.shortcuts import redirect
+from django.conf.urls import url
 
 from barbeque.static import ServeStaticFileMiddleware
+
+
+def foo_view(request):
+    return redirect('bar', permanent=True)
+
+
+def bar_view(request):
+    return HttpResponse('Hllo FooBar!')
+
+
+urlpatterns = [
+    url(r'^bar$', bar_view, name='bar'),
+    url(r'^foo$', foo_view, name='foo'),
+
+]
 
 
 class TestServeStaticFileMiddleware:
@@ -14,7 +31,7 @@ class TestServeStaticFileMiddleware:
         settings.ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
         settings.STATIC_ROOT = os.path.join(settings.ROOT_DIR, 'tests', 'resources', 'static')
 
-    @pytest.fixture()
+    @pytest.fixture
     def patch_settings(self, settings):
         """
         Patch settings for tests fith django client
@@ -28,6 +45,7 @@ class TestServeStaticFileMiddleware:
             'barbeque.static.ServeStaticFileMiddleware',
         ]
         settings.INSTALLED_APPS = settings.INSTALLED_APPS + ('django.contrib.staticfiles',)
+        settings.ROOT_URLCONF = 'barbeque.tests.test_static'
 
     def test_file_exists(self, rf, db):
         request = rf.get('/static/test.jpg')
@@ -80,11 +98,10 @@ class TestServeStaticFileMiddleware:
         response = client.get('/static/test.jpg')
         assert response.status_code == 200
 
-    # TODO: Fix me
-    # def test_with_client_redirect(self, client, db, patch_settings):
-    #     response = client.get('/foo')
-    #     assert response.status_code == 301
-    #     assert response['Location'] == '/foo'
+    def test_with_client_redirect(self, client, db, patch_settings):
+        response = client.get('/foo')
+        assert response.status_code == 301
+        assert response['Location'] == '/bar'
 
     def test_with_client_query_params(self, client, db, patch_settings):
         response = client.get('/static/test.jpg?v=1')
