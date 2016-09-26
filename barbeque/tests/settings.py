@@ -21,7 +21,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.staticfiles',
 
     'menus',
     'mptt',
@@ -47,9 +46,7 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = tempfile.mkdtemp()
 STATIC_URL = '/static/'
 
-MIDDLEWARE_CLASSES = [
-    'barbeque.static.ServeStaticFileMiddleware',
-]
+MIDDLEWARE_CLASSES = []
 
 ANYLINK_EXTENSIONS = (
     'anylink.extensions.ExternalLink',
@@ -82,9 +79,3 @@ else:
             },
         },
     ]
-
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
-)
