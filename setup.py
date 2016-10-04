@@ -35,8 +35,8 @@ tests_require = [
     'django-polymorphic==0.8.1',
     'django-compressor==1.6',
     'django-filer==1.1.1',
-    'tox',
-    'tox-pyenv',
+    'tox==2.3.1',
+    'tox-pyenv==1.0.3',
 ]
 
 
