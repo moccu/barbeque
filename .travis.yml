@@ -4,7 +4,6 @@ python:
   - '2.7'
   - '3.4'
   - '3.5'
-  - pypy
 
 env:
   - DJANGO_VERSION=1.9.x
@@ -19,15 +18,6 @@ script:
   - tox -e "$TRAVIS_PYTHON_VERSION-$DJANGO_VERSION"
 
 after_success:
-  - pip install "coveralls==1.0" coverage
+  - pip install "coveralls" coverage
   - coverage report
   - coveralls
-
-notifications:
-  hipchat:
-    on_success: always
-    rooms:
-      secure: cKx7sJTc0kqriAcy86XO5/XNVeT/fW6xt9sjkMQaEbJ9FYp0Q0Lm3dteXCXMW+DvwKvD4ppu2hwAIEkxM+QOa5zxaa02m16EyigencuyLt9kWn7Q0i/wC2nQbmH7Ie81l6UAua+TaLt5WCDWxKOBhsik15EzQeWI7xXGGXHPGMA=
-    template:
-      - "<strong>%{repository_name}</strong> <a href='%{build_url}'>build %{build_number}</a> (%{branch}) %{message}. (%{duration})"
-    format: html
