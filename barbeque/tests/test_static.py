@@ -101,7 +101,7 @@ class TestServeStaticFileMiddleware:
     def test_with_client_redirect(self, client, patch_settings):
         response = client.get('/foo')
         assert response.status_code == 301
-        assert response['Location'] == '/bar'
+        assert response['Location'].endswith('/bar')
 
     def test_with_client_query_params(self, client, patch_settings):
         response = client.get('/static/test.jpg?v=1')
