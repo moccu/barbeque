@@ -26,15 +26,17 @@ tests_require = [
     'pytest-cov==2.1.0',
     'pytest-pep8==1.0.6',
     'pytest-flakes==1.0.1',
-    'pytest-django==2.8.0',
+    'pytest-django==2.9.1',
     'factory-boy==2.5.2',
-    'Pillow==2.9.0',
+    'Pillow==3.4.0',
     'django-anylink==0.3.0',
     'django-treebeard>=4.0',
     'django-cms==3.2.5',
     'django-polymorphic==0.8.1',
     'django-compressor==1.6',
     'django-filer==1.1.1',
+    'tox',
+    'tox-pyenv',
 ]
 
 
