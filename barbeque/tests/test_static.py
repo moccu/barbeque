@@ -1,5 +1,6 @@
 import os
 import mock
+from collections import OrderedDict
 
 import pytest
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponsePermanentRedirect
@@ -108,6 +109,30 @@ class TestServeStaticFileMiddleware:
         assert response.status_code == 200
         assert response['Content-Type'] == 'image/jpeg'
 
+
+class TestServeStaticFileMiddlewareWithHashedFiles:
+
+    @pytest.fixture(autouse=True)
+    def setup(self, settings):
+        settings.ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
+        settings.STATIC_ROOT = os.path.join(settings.ROOT_DIR, 'tests', 'resources', 'static')
+
+    @pytest.fixture
+    def patch_settings(self, settings):
+        """
+        Patch settings for tests fith django client
+        """
+        settings.STATICFILES_FINDERS = (
+            'django.contrib.staticfiles.finders.FileSystemFinder',
+            'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+            'compressor.finders.CompressorFinder',
+        )
+        settings.MIDDLEWARE_CLASSES = [
+            'barbeque.static.ServeStaticFileMiddleware',
+        ]
+        settings.INSTALLED_APPS = settings.INSTALLED_APPS + ('django.contrib.staticfiles',)
+        settings.ROOT_URLCONF = 'barbeque.tests.test_static'
+
     def test_hash_file_exists(self, rf):
         request = rf.get('/static/test_hash.11aa22bb33cc.jpg')
         middleware = ServeStaticFileMiddleware()
@@ -128,10 +153,30 @@ class TestServeStaticFileMiddleware:
         assert response.has_header('Content-Length')
         assert response.has_header('Last-Modified')
 
-    def test_hash_file_does_not_exist(self, rf):
+    def test_old_hash(self, rf):
         request = rf.get('/static/test_hash.44dd55ee66ff.jpg')
         middleware = ServeStaticFileMiddleware()
         response = middleware.process_response(request, HttpResponseNotFound(''))
         assert len(response.items()) == 3
         assert response.has_header('Content-Length')
         assert response.has_header('Last-Modified')
+
+    def test_hash_file_exists_with_client_hit(self, client, patch_settings):
+        response = client.get('/static/test_hash.11aa22bb33cc.jpg')
+        assert response.status_code == 200
+
+    def test_hash_file_original_exists_with_client_hit(self, client, patch_settings):
+        response = client.get('/static/test_hash.jpg')
+        assert response.status_code == 200
+
+    def test_hash_old_hash_with_client_hit(self, client, patch_settings):
+        response = client.get('/static/test_hash.44dd55ee66ff.jpg')
+        assert response.status_code == 200
+
+    @mock.patch('django.contrib.staticfiles.storage.ManifestStaticFilesStorage.load_manifest')
+    def test_no_staticfiles_manifest(self, manifest_mock, rf):
+        manifest_mock.return_value = OrderedDict()
+        request = rf.get('/static/test_hash.jpg')
+        middleware = ServeStaticFileMiddleware()
+        response = middleware.process_response(request, HttpResponseNotFound(''))
+        assert response.status_code == 404
