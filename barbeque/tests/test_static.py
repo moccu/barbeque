@@ -107,3 +107,31 @@ class TestServeStaticFileMiddleware:
         response = client.get('/static/test.jpg?v=1')
         assert response.status_code == 200
         assert response['Content-Type'] == 'image/jpeg'
+
+    def test_hash_file_exists(self, rf):
+        request = rf.get('/static/test_hash.11aa22bb33cc.jpg')
+        middleware = ServeStaticFileMiddleware()
+        response = middleware.process_response(request, HttpResponseNotFound(''))
+        assert response.status_code == 200
+        assert response['Content-Type'] == 'image/jpeg'
+        assert len(response.items()) == 3
+        assert response.has_header('Content-Length')
+        assert response.has_header('Last-Modified')
+
+    def test_hash_file_original_exists(self, rf):
+        request = rf.get('/static/test_hash.jpg')
+        middleware = ServeStaticFileMiddleware()
+        response = middleware.process_response(request, HttpResponseNotFound(''))
+        assert response.status_code == 200
+        assert response['Content-Type'] == 'image/jpeg'
+        assert len(response.items()) == 3
+        assert response.has_header('Content-Length')
+        assert response.has_header('Last-Modified')
+
+    def test_hash_file_does_not_exist(self, rf):
+        request = rf.get('/static/test_hash.44dd55ee66ff.jpg')
+        middleware = ServeStaticFileMiddleware()
+        response = middleware.process_response(request, HttpResponseNotFound(''))
+        assert len(response.items()) == 3
+        assert response.has_header('Content-Length')
+        assert response.has_header('Last-Modified')
