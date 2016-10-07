@@ -1,3 +1,14 @@
+"""ServeStaticFileMiddleware facilitates serving static files on docker.
+
+When serving static files with docker we first serve them through Django,
+it happens only for the first time a static file is requested,
+then static files are cached by nginx.
+
+Another function of the middleware is to maps static files to their hashed names,
+so it is possible to reduce static files to just files with hashed names
+(without keeping the original duplicates).
+"""
+
 import re
 
 from django.conf import settings
@@ -17,7 +28,10 @@ class ServeStaticFileMiddleware(object):
         response = self.get_response(request)
         return self.process_response(request, response)
 
-    def find_requested_file_hashed_name(self, requested_name):
+    def serve_response(self, request, file_path):
+        return serve(request, file_path, document_root=settings.STATIC_ROOT)
+
+    def find_requested_file_hashed_name(self, requested_path):
         # Load static files mapping manifest.
         # It maps original names with hashed ones.
         storage = ManifestStaticFilesStorage()
@@ -26,23 +40,21 @@ class ServeStaticFileMiddleware(object):
             return None
 
         # requested file has an original (not hashed) name
-        requested_name = requested_name.strip('/')
-        if requested_name in manifest:
-            return manifest[requested_name]
+        requested_path = requested_path.strip('/')
+        if requested_path in manifest:
+            return manifest[requested_path]
 
         # requested file has an old hash in name
-        requested_name_parts = requested_name.split('.')
-        if len(requested_name_parts) > 2 and len(requested_name_parts[-2]) == 12:
-            requested_name = '{}.{}'.format(
-                '.'.join(requested_name_parts[:-2]),
-                requested_name_parts[-1]
+        requested_path_parts = requested_path.split('.')
+        if len(requested_path_parts) > 2 and len(requested_path_parts[-2]) == 12:
+            requested_path = '{}.{}'.format(
+                '.'.join(requested_path_parts[:-2]),
+                requested_path_parts[-1]
             )
-            if requested_name in manifest:
-                return manifest[requested_name]
+            if requested_path in manifest:
+                return manifest[requested_path]
 
     def process_response(self, request, response):
-        #  m = ManifestStaticFilesStorage()
-        # import ipdb; ipdb.set_trace()
         if not is_static_request(request, response):
             return response
 
@@ -51,23 +63,20 @@ class ServeStaticFileMiddleware(object):
             return response
 
         # Try to serve a file with the same name as in the request.
-        # It will work only for files wirh corectly hashed name,
+        # It will work only for files which correctly hashed name,
         # as the original files without hash in name were removed from the static folder.
         try:
-            response = serve(
-                request, path.group(1), document_root=settings.STATIC_ROOT)
-            return response
+            return self.serve_response(request, path.group(1))
         except Http404:
             pass
 
         # Try to map name of a requested file with existing files.
         # We only have files with hashed names.
-        name = self.find_requested_file_hashed_name(path.group(1))
-        if name is None:
+        requested_path = self.find_requested_file_hashed_name(path.group(1))
+        if requested_path is None:
             return response
         try:
-            response = serve(
-                request, name, document_root=settings.STATIC_ROOT)
+            return self.serve_response(request, requested_path)
         except Http404:
             pass
 
