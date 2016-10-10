@@ -105,11 +105,10 @@ class StaticFilesStorage(ManifestStaticFilesStorage):
                 else:
                     # or handle the case in which neither processing nor
                     # a change to the original file happened
-                    if not hashed_file_exists:
-                        processed = True
-                        # rename original, so name contains hash
-                        new_name = os.path.join(self.location, hashed_name)
-                        os.rename(self.path(name), new_name)
+                    processed = True
+                    # rename original, so name contains hash
+                    new_name = os.path.join(self.location, hashed_name)
+                    os.rename(self.path(name), new_name)
 
                 # and then set the cache accordingly
                 hashed_files[self.hash_key(name)] = hashed_name
