@@ -1,6 +1,7 @@
 import os
 
 from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
+# from django.contrib.staticfiles.storage import ManifestFilesMixin
 
 from collections import OrderedDict
 
@@ -117,3 +118,17 @@ class StaticFilesStorage(ManifestStaticFilesStorage):
         # Finally store the processed paths
         self.hashed_files.update(hashed_files)
         self.save_manifest()
+
+    # def post_process(self, *args, **kwargs):
+    #     """
+    #     Use django imlementation from ManifestStaticFilesStorage
+    #     Modify it to remove files with original names
+    #     """
+    #     self.hashed_files = OrderedDict()
+    #     all_post_processed = super(ManifestFilesMixin,
+    #                                self).post_process(*args, **kwargs)
+    #     for post_processed in all_post_processed:
+    #         yield post_processed
+    #     self.save_manifest()
+    #     for original_file in self.hashed_files:
+    #         self.delete(original_file)
