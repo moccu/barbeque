@@ -34,6 +34,7 @@ class StaticFilesStorage(ManifestStaticFilesStorage):
         """
         post_process code copied form django HashedFilesMixin
         https://github.com/django/django/blob/master/django/contrib/staticfiles/storage.py
+        Method modified to have just one copy of static file with hashed name.
 
         Post process the given OrderedDict of files (called from collectstatic).
         Processing is actually two separate operations:
@@ -97,13 +98,17 @@ class StaticFilesStorage(ManifestStaticFilesStorage):
                     saved_name = self._save(hashed_name, content_file)
                     hashed_name = force_text(self.clean_name(saved_name))
                     processed = True
+                    # save file with new content
+                    # delete file with original name
+                    self.delete(name)
                 else:
                     # or handle the case in which neither processing nor
                     # a change to the original file happened
                     if not hashed_file_exists:
                         processed = True
-                        saved_name = self._save(hashed_name, original_file)
-                        hashed_name = force_text(self.clean_name(saved_name))
+                        # rename original, so name contains hash
+                        new_name = os.path.join(self.location, hashed_name)
+                        os.rename(self.path(name), new_name)
 
                 # and then set the cache accordingly
                 hashed_files[self.hash_key(name)] = hashed_name
@@ -111,3 +116,4 @@ class StaticFilesStorage(ManifestStaticFilesStorage):
 
         # Finally store the processed paths
         self.hashed_files.update(hashed_files)
+        self.save_manifest()
