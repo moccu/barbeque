@@ -12,7 +12,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.six import iteritems
 
 
-class StaticFilesStorage(ManifestStaticFilesStorage):
+class CompactManifestStaticFilesStorage(ManifestStaticFilesStorage):
     def url(self, name, force=False):
         """
         This implements some kind of a tricky hack to get the url for static
@@ -29,7 +29,7 @@ class StaticFilesStorage(ManifestStaticFilesStorage):
         if name_parts[0] == 'static':
             name = os.sep.join(name_parts[1:])
 
-        return super(StaticFilesStorage, self).url(name, force=force)
+        return super(CompactManifestStaticFilesStorage, self).url(name, force=force)
 
     def post_process(self, paths, dry_run=False, **options):
         """
