@@ -14,7 +14,6 @@ import re
 from django.conf import settings
 from django.http.response import Http404
 from django.views.static import serve
-from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
 
 
 class ServeStaticFileMiddleware(object):
@@ -32,9 +31,13 @@ class ServeStaticFileMiddleware(object):
         return serve(request, file_path, document_root=settings.STATIC_ROOT)
 
     def find_requested_file_hashed_name(self, requested_path):
+        # This part will reise if project storage does not implement load_manifest
+        storage_path, storage_class = settings.STATICFILES_STORAGE.rsplit('.', 1)
+        exec('from {} import {}'.format(storage_path, storage_class))
+        storage = eval('{}()'.format(storage_class))
+
         # Load static files mapping manifest.
         # It maps original names with hashed ones.
-        storage = ManifestStaticFilesStorage()
         manifest = storage.load_manifest()
         if manifest is None or len(manifest) == 0:
             return None

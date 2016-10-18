@@ -31,6 +31,8 @@ class TestServeStaticFileMiddleware:
     def setup(self, settings):
         settings.ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
         settings.STATIC_ROOT = os.path.join(settings.ROOT_DIR, 'tests', 'resources', 'static')
+        settings.STATICFILES_STORAGE = (
+            'django.contrib.staticfiles.storage.ManifestStaticFilesStorage')
 
     @pytest.fixture
     def patch_settings(self, settings):
@@ -116,6 +118,8 @@ class TestServeStaticFileMiddlewareWithHashedFiles:
     def setup(self, settings):
         settings.ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
         settings.STATIC_ROOT = os.path.join(settings.ROOT_DIR, 'tests', 'resources', 'static')
+        settings.STATICFILES_STORAGE = (
+            'django.contrib.staticfiles.storage.ManifestStaticFilesStorage')
 
     @pytest.fixture
     def patch_settings(self, settings):
