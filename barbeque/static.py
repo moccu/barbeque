@@ -14,6 +14,7 @@ import re
 from django.conf import settings
 from django.http.response import Http404
 from django.views.static import serve
+from django.utils.module_loading import import_string
 
 
 class ServeStaticFileMiddleware(object):
@@ -38,9 +39,10 @@ class ServeStaticFileMiddleware(object):
         """Staticfiles manifest maps original names to names with hash.
         The method will reise if project storage does not implement load_manifest.
         """
-        storage_path, storage_class = settings.STATICFILES_STORAGE.rsplit('.', 1)
-        exec('from {} import {}'.format(storage_path, storage_class))
-        storage = eval('{}()'.format(storage_class))
+        mod_path, cls_name = settings.STATICFILES_STORAGE.rsplit('.', 1)
+        mod = import_string(mod_path)
+        storage_class = getattr(mod, cls_name)
+        storage = storage_class()
         return storage.load_manifest()
 
     def unhash_file_name(self, requested_path):
