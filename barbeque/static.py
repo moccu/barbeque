@@ -39,10 +39,8 @@ class ServeStaticFileMiddleware(object):
         """Staticfiles manifest maps original names to names with hash.
         The method will reise if project storage does not implement load_manifest.
         """
-        mod_path, cls_name = settings.STATICFILES_STORAGE.rsplit('.', 1)
-        mod = import_string(mod_path)
-        storage_class = getattr(mod, cls_name)
-        storage = storage_class()
+        storage_module = import_string(settings.STATICFILES_STORAGE)
+        storage = storage_module()
         return storage.load_manifest()
 
     def unhash_file_name(self, requested_path):
@@ -72,14 +70,13 @@ class ServeStaticFileMiddleware(object):
         if not path:
             return response
 
-        # Try to serve a file from request
+        # Try to serve a file with original name from request
         try:
             return self.serve_response(request, path.group(1))
         except Http404:
             pass
 
-        # Map requested file to hash.
-        # We only have files with hashed names.
+        # Map requested file to hash and try to serve file with hash
         requested_path = self.find_requested_file(path.group(1))
         if requested_path is None:
             return response
