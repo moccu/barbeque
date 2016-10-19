@@ -22,6 +22,10 @@ class ServeStaticFileMiddleware(object):
         self.get_response = get_response
         self.path_regex = re.compile(
             r'^/{0}(.*)$'.format(settings.STATIC_URL.strip('/')))
+        try:
+            self.manifest = self.load_staticfiles_manifest()
+        except AttributeError:
+            self.manifest = None
 
     def __call__(self, request):
         response = self.get_response(request)
@@ -48,13 +52,13 @@ class ServeStaticFileMiddleware(object):
 
     def find_requested_file(self, requested_path):
         """Returns path to existing file (file path with current hash)"""
-        manifest = self.load_staticfiles_manifest()
-        if manifest is None or len(manifest) == 0:
+        # manifest = self.load_staticfiles_manifest()
+        if self.manifest is None or len(self.manifest) == 0:
             return None
 
         file_name = self.unhash_file_name(requested_path).strip('/')
         try:
-            return manifest[file_name]
+            return self.manifest[file_name]
         except KeyError:
             return None
 
