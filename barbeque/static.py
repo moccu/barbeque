@@ -30,32 +30,33 @@ class ServeStaticFileMiddleware(object):
     def serve_response(self, request, file_path):
         return serve(request, file_path, document_root=settings.STATIC_ROOT)
 
-    def find_requested_file_hashed_name(self, requested_path):
-        # This part will reise if project storage does not implement load_manifest
+    def load_staticfiles_manifest(self):
+        """Staticfiles manifest maps original names to names with hash.
+        The method will reise if project storage does not implement load_manifest.
+        """
         storage_path, storage_class = settings.STATICFILES_STORAGE.rsplit('.', 1)
         exec('from {} import {}'.format(storage_path, storage_class))
         storage = eval('{}()'.format(storage_class))
+        return storage.load_manifest()
 
-        # Load static files mapping manifest.
-        # It maps original names with hashed ones.
-        manifest = storage.load_manifest()
+    def unhash_file_name(self, requested_path):
+        """Returns file original name (without hash),
+        which is a key in staticfiles manifest
+        """
+        temp_path = re.sub(r'(\.[0-9a-f]{12})\.?(\w+)$', r'.\2', requested_path)
+        return re.sub(r'(\.[0-9a-f]{12})$', r'', temp_path)
+
+    def find_requested_file(self, requested_path):
+        """Returns path to existing file (file path with current hash)"""
+        manifest = self.load_staticfiles_manifest()
         if manifest is None or len(manifest) == 0:
             return None
 
-        # requested file has an original (not hashed) name
-        requested_path = requested_path.strip('/')
-        if requested_path in manifest:
-            return manifest[requested_path]
-
-        # requested file has an old hash in name
-        requested_path_parts = requested_path.split('.')
-        if len(requested_path_parts) > 2 and len(requested_path_parts[-2]) == 12:
-            requested_path = '{}.{}'.format(
-                '.'.join(requested_path_parts[:-2]),
-                requested_path_parts[-1]
-            )
-            if requested_path in manifest:
-                return manifest[requested_path]
+        file_name = self.unhash_file_name(requested_path).strip('/')
+        try:
+            return manifest[file_name]
+        except KeyError:
+            return None
 
     def process_response(self, request, response):
         if not is_static_request(request, response):
@@ -65,17 +66,15 @@ class ServeStaticFileMiddleware(object):
         if not path:
             return response
 
-        # Try to serve a file with the same name as in the request.
-        # It will work only for files which correctly hashed name,
-        # as the original files without hash in name were removed from the static folder.
+        # Try to serve a file from request
         try:
             return self.serve_response(request, path.group(1))
         except Http404:
             pass
 
-        # Try to map name of a requested file with existing files.
+        # Map requested file to hash.
         # We only have files with hashed names.
-        requested_path = self.find_requested_file_hashed_name(path.group(1))
+        requested_path = self.find_requested_file(path.group(1))
         if requested_path is None:
             return response
         try:

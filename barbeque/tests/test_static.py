@@ -137,6 +137,17 @@ class TestServeStaticFileMiddlewareWithHashedFiles:
         settings.INSTALLED_APPS = settings.INSTALLED_APPS + ('django.contrib.staticfiles',)
         settings.ROOT_URLCONF = 'barbeque.tests.test_static'
 
+    def test_unhash_file_name(self):
+        middleware = ServeStaticFileMiddleware()
+        assert middleware.unhash_file_name(
+            '/static/test_hash.11aa22bb33cc.jpg') == ('/static/test_hash.jpg')
+        assert middleware.unhash_file_name('test_hash.jpg') == 'test_hash.jpg'
+        assert middleware.unhash_file_name(
+            'test_hash.11aa22bb33cc.11aa22bb33cc.jpg') == ('test_hash.11aa22bb33cc.jpg')
+        assert middleware.unhash_file_name('test_hash.11aa22bb33cc') == 'test_hash'
+        assert middleware.unhash_file_name('11aa22bb33cc') == '11aa22bb33cc'
+        assert middleware.unhash_file_name('11aa22bb33cc.jpg') == '11aa22bb33cc.jpg'
+
     def test_hash_file_exists(self, rf):
         request = rf.get('/static/test_hash.11aa22bb33cc.jpg')
         middleware = ServeStaticFileMiddleware()
