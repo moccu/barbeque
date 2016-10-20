@@ -149,6 +149,7 @@ class TestServeStaticFileMiddlewareWithHashedFiles:
         assert middleware.unhash_file_name('test_hash.11aa22bb33cc') == 'test_hash'
         assert middleware.unhash_file_name('11aa22bb33cc') == '11aa22bb33cc'
         assert middleware.unhash_file_name('11aa22bb33cc.jpg') == '11aa22bb33cc.jpg'
+        assert middleware.unhash_file_name('.11aa22bb33cc.jpg') == '.11aa22bb33cc.jpg'
 
     def test_hash_file_exists(self, rf):
         request = rf.get('/static/test_hash.11aa22bb33cc.jpg')
