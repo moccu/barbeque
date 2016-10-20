@@ -47,7 +47,8 @@ class ServeStaticFileMiddleware(object):
         """Returns file original name (without hash),
         which is a key in staticfiles manifest
         """
-        return re.sub(r'(.+)(\.[0-9a-f]{12})(\.?)(\w+)?$', r'\1\3\4', requested_path)
+        temp_path = re.sub(r'(\.[0-9a-f]{12})\.?(\w+)$', r'.\2', requested_path)
+        return re.sub(r'(\.[0-9a-f]{12})$', r'', temp_path)
 
     def find_requested_file(self, requested_path):
         """Returns path to existing file (file path with current hash)"""
