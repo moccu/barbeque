@@ -23,10 +23,7 @@ class ServeStaticFileMiddleware(object):
         self.get_response = get_response
         self.path_regex = re.compile(
             r'^/{0}(.*)$'.format(settings.STATIC_URL.strip('/')))
-        try:
-            self.manifest = self.load_staticfiles_manifest()
-        except AttributeError:
-            self.manifest = None
+        self.manifest = self.load_staticfiles_manifest()
 
     def __call__(self, request):
         response = self.get_response(request)
