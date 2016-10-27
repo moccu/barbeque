@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponsePermanen
 from django.shortcuts import redirect
 from django.conf.urls import url
 
-from barbeque.static import ServeStaticFileMiddleware
+from barbeque.static_files.middleware import ServeStaticFileMiddleware
 
 
 def foo_view(request):
@@ -34,7 +34,7 @@ class TestServeStaticFileMiddleware:
         # settings.STATICFILES_STORAGE = (
         #     'django.contrib.staticfiles.storage.ManifestStaticFilesStorage')
         settings.STATICFILES_STORAGE = (
-            'barbeque.storage.CompactManifestStaticFilesStorage')
+            'barbeque.static_files.storage.CompactManifestStaticFilesStorage')
 
     @pytest.fixture
     def patch_settings(self, settings):
@@ -47,10 +47,10 @@ class TestServeStaticFileMiddleware:
             'compressor.finders.CompressorFinder',
         )
         settings.MIDDLEWARE_CLASSES = [
-            'barbeque.static.ServeStaticFileMiddleware',
+            'barbeque.static_files.middleware.ServeStaticFileMiddleware',
         ]
         settings.INSTALLED_APPS = settings.INSTALLED_APPS + ('django.contrib.staticfiles',)
-        settings.ROOT_URLCONF = 'barbeque.tests.test_static'
+        settings.ROOT_URLCONF = 'barbeque.tests.test_static_files'
 
     def test_file_exists(self, rf):
         request = rf.get('/static/test.jpg')
@@ -88,7 +88,7 @@ class TestServeStaticFileMiddleware:
         response = middleware.process_response(request, redirect)
         assert response == redirect
 
-    @mock.patch('barbeque.static.ServeStaticFileMiddleware.process_response')
+    @mock.patch('barbeque.static_files.middleware.ServeStaticFileMiddleware.process_response')
     def test_new_style_middleware(self, process_response_mock, rf):
         request = rf.get('/static/test.jpg')
         get_response_mock = mock.Mock()
@@ -134,10 +134,10 @@ class TestServeStaticFileMiddlewareWithHashedFiles:
             'compressor.finders.CompressorFinder',
         )
         settings.MIDDLEWARE_CLASSES = [
-            'barbeque.static.ServeStaticFileMiddleware',
+            'barbeque.static_files.middleware.ServeStaticFileMiddleware',
         ]
         settings.INSTALLED_APPS = settings.INSTALLED_APPS + ('django.contrib.staticfiles',)
-        settings.ROOT_URLCONF = 'barbeque.tests.test_static'
+        settings.ROOT_URLCONF = 'barbeque.tests.test_static_files'
 
     def test_unhash_file_name(self):
         middleware = ServeStaticFileMiddleware()
