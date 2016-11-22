@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.1.0 - 2016-11-07
+------------------
+
+* Add module for handling staticfiles when working with docker
+
+
 1.0.1 - 2016-07-15
 ------------------
 
