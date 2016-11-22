@@ -1,6 +1,11 @@
-from compressor.templatetags.compress import CompressorNode, OUTPUT_FILE
 from django import template
 from django.conf import settings
+
+try:
+    from compressor.templatetags.compress import CompressorNode, OUTPUT_FILE
+except ImportError:
+    CompressorNode = None
+    OUTPUT_FILE = None
 
 
 register = template.Library()
@@ -24,7 +29,7 @@ def buildcompress(parser, token):
     args = token.split_contents()
     assert len(args) == 2, 'Invalid arguments to buildcompress.'
 
-    if settings.DEBUG:
+    if settings.DEBUG or not CompressorNode:
         return BuildCompressNoopNode()
 
     return CompressorNode(nodelist, args[1], OUTPUT_FILE, None)
