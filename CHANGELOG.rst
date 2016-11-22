@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.1.1 - 2016-11-22
+------------------
+
+* Fix bug when compressor is not installed and Django tries to import buildcompress.
+
+
 1.1.0 - 2016-11-07
 ------------------
 
