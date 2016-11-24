@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import SharingExtension
 
 
+@toolbar_pool.register
 class ForceModalDialogToolbar(CMSToolbar):
     def rebuild_menu(self, menu):
         items = []
@@ -42,8 +43,6 @@ class ForceModalDialogToolbar(CMSToolbar):
 
         for menu in [menu for menu in menus if menu]:
             self.rebuild_menu(menu)
-
-toolbar_pool.register(ForceModalDialogToolbar)
 
 
 @toolbar_pool.register
