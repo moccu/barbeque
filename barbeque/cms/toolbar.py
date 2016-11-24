@@ -1,8 +1,11 @@
 from cms.cms_toolbars import (
     ADMIN_MENU_IDENTIFIER, PAGE_MENU_IDENTIFIER)
+from cms.extensions.toolbar import ExtensionToolbar
 from cms.toolbar_base import CMSToolbar
 from cms.toolbar_pool import toolbar_pool
 from cms.toolbar.items import SideframeItem, ModalItem, SubMenu
+from django.utils.translation import ugettext_lazy as _
+from .models import SharingExtension
 
 
 class ForceModalDialogToolbar(CMSToolbar):
@@ -41,3 +44,35 @@ class ForceModalDialogToolbar(CMSToolbar):
             self.rebuild_menu(menu)
 
 toolbar_pool.register(ForceModalDialogToolbar)
+
+
+@toolbar_pool.register
+class SharingExtensionToolbar(ExtensionToolbar):
+    model = SharingExtension
+    insert_after = _('Advanced settings')
+
+    def get_item_position(self, menu):
+        for items in menu._memo.values():
+            for item in items:
+                if str(getattr(item, 'name', None)) in (
+                    str(self.insert_after),
+                    '{0}...'.format(self.insert_after)
+                ):
+                    return menu._item_position(item) + 1
+
+        return None
+
+    def populate(self):
+        current_page_menu = self._setup_extension_toolbar()
+        if not current_page_menu or not self.page:
+            return
+
+        position = self.get_item_position(current_page_menu)
+
+        urls = self.get_title_extension_admin()
+        for title_extension, url in urls:
+            current_page_menu.add_modal_item(
+                self.model._meta.verbose_name,
+                url=url, position=position,
+                disabled=not self.toolbar.edit_mode
+            )
