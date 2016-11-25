@@ -22,6 +22,7 @@ tests_require = [
     'mock==1.3.0',
     'openpyxl==2.2.6',
     'psutil==3.2.1',
+    'python-dateutil==2.4.2',
     'pytest==3.0.3',
     'pytest-cov==2.1.0',
     'pytest-pep8==1.0.6',
