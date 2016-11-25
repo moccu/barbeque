@@ -4,8 +4,6 @@ from cms.extensions.toolbar import ExtensionToolbar
 from cms.toolbar_base import CMSToolbar
 from cms.toolbar_pool import toolbar_pool
 from cms.toolbar.items import SideframeItem, ModalItem, SubMenu
-from django.utils.translation import ugettext_lazy as _
-from .models import SharingExtension
 
 
 @toolbar_pool.register
@@ -47,8 +45,8 @@ class ForceModalDialogToolbar(CMSToolbar):
 
 @toolbar_pool.register
 class SharingExtensionToolbar(ExtensionToolbar):
-    model = SharingExtension
-    insert_after = _('Advanced settings')
+    model = None
+    insert_after = None
 
     def get_item_position(self, menu):
         for items in menu._memo.values():
