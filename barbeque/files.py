@@ -4,12 +4,20 @@ import tempfile
 import uuid
 
 from django.template.defaultfilters import slugify
+from django.utils.deconstruct import deconstructible
 
 
-def upload_to_path(base_path, attr=None, uuid_filename=False):
-    def upload_to_path_callback(instance, filename):
-        if attr:
-            parts = attr.split('__')
+@deconstructible
+class UploadToPath(object):
+
+    def __init__(self, base_path, attr=None, uuid_filename=False):
+        self.base_path = base_path
+        self.attr = attr
+        self.uuid_filename = uuid_filename
+
+    def __call__(self, instance, filename):
+        if self.attr:
+            parts = self.attr.split('__')
             obj_path = parts[:-1]
             field_name = parts[-1]
 
@@ -17,22 +25,24 @@ def upload_to_path(base_path, attr=None, uuid_filename=False):
             for part in obj_path:
                 obj = getattr(obj, part)
 
-            path = base_path % slugify(getattr(obj, field_name, '_'))
+            path = self.base_path % slugify(getattr(obj, field_name, '_'))
         else:
-            path = base_path
+            path = self.base_path
 
         filename_parts = filename.rsplit('.', 1)
 
-        if uuid_filename:
+        if self.uuid_filename:
             filename = str(uuid.uuid4())
         else:
             filename = slugify(filename_parts[0])
 
         extension = len(filename_parts) > 1 and '.{0}'.format(filename_parts[-1]) or ''
 
-        return '%s%s%s' % (path, filename, extension)
+        return os.path.join(path, '{0}{1}'.format(filename, extension))
 
-    return upload_to_path_callback
+
+def upload_to_path(base_path, attr=None, uuid_filename=False):
+    return UploadToPath(base_path=base_path, attr=attr, uuid_filename=uuid_filename)
 
 
 class MoveableNamedTemporaryFile(object):
