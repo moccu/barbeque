@@ -1,10 +1,10 @@
 import re
 
 from django import template
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.template.defaultfilters import stringfilter
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
-
 
 register = template.Library()
 
@@ -24,3 +24,11 @@ def set_tag(context, **kwargs):
 @stringfilter
 def starspan(value):
     return mark_safe(STARSPAN_RE.sub(r'<span>\2</span>', conditional_escape(value)))
+
+
+@register.simple_tag
+def hashed_staticfile(path):
+    try:
+        return staticfiles_storage.hashed_name(path)
+    except (AttributeError, ValueError):
+        return path
