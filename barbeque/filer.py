@@ -42,6 +42,9 @@ class FilerFileField(BaseFilerFileField):
         kwargs['verbose_name'] = verbose_name
         if 'related_name' not in kwargs:
             kwargs['related_name'] = '+'
+        if kwargs.pop('blank', False) or kwargs.pop('null', False):
+            kwargs['null'] = True
+            kwargs['blank'] = True
 
         self.extensions = kwargs.pop('extensions', None)
         self.alt_text_required = kwargs.pop('alt_text_required', True)
@@ -51,7 +54,7 @@ class FilerFileField(BaseFilerFileField):
     def formfield(self, **kwargs):
         defaults = {
             'extensions': self.extensions,
-            'alt_text_required': self.alt_text_required
+            'alt_text_required': self.alt_text_required,
         }
         defaults.update(kwargs)
         return super(FilerFileField, self).formfield(**defaults)

@@ -72,3 +72,17 @@ class TestFilerFileField:
 
         form_class = forms.models.modelform_factory(FileModel, fields='__all__')
         assert isinstance(form_class().fields['file'], AdminFileFormField)
+
+    @pytest.mark.django_db
+    def test_blank_null(self):
+        class FileModel(models.Model):
+                file1 = FilerFileField(null=True)
+                file2 = FilerFileField(blank=True)
+                file3 = FilerFileField()
+
+        assert FileModel._meta.get_field('file1').blank is True
+        assert FileModel._meta.get_field('file1').null is True
+        assert FileModel._meta.get_field('file2').blank is True
+        assert FileModel._meta.get_field('file2').null is True
+        assert FileModel._meta.get_field('file3').blank is False
+        assert FileModel._meta.get_field('file3').null is False
