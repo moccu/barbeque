@@ -7,6 +7,12 @@ from django.template.defaultfilters import stringfilter
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
+try:
+    from cms.models import Page
+    from cms.utils.moderator import use_draft
+except ImportError:
+    pass
+
 register = template.Library()
 
 
@@ -37,14 +43,14 @@ def hashed_staticfile(path):
 
 @register.simple_tag(takes_context=True)
 def page_titleextension(context, page_id, extension):
-    from cms.models import Page
-    from cms.utils.moderator import use_draft
     try:
         page = Page.objects.get(pk=page_id)
         if 'request' in context and use_draft(context['request']):
             page = page.get_draft_object()
         else:
             page = page.get_public_object()
+    except NameError:
+        raise ImportError('django-cms is required when using page_titleextension tag')
     except Page.DoesNotExist:
         return None
 
