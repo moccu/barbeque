@@ -1,3 +1,5 @@
+from django.utils.encoding import force_text
+
 from cms.cms_toolbars import (
     ADMIN_MENU_IDENTIFIER, PAGE_MENU_IDENTIFIER)
 from cms.extensions.toolbar import ExtensionToolbar
@@ -51,8 +53,8 @@ class TitleExtensionToolbar(ExtensionToolbar):
     def get_item_position(self, menu):
         for items in menu._memo.values():
             for item in items:
-                if str(getattr(item, 'name', None)) in (
-                    str(self.insert_after),
+                if force_text(getattr(item, 'name', None)) in (
+                    force_text(self.insert_after),
                     '{0}...'.format(self.insert_after)
                 ):
                     return menu._item_position(item) + 1
