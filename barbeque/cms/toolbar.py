@@ -44,7 +44,7 @@ class ForceModalDialogToolbar(CMSToolbar):
 
 
 @toolbar_pool.register
-class SharingExtensionToolbar(ExtensionToolbar):
+class TitleExtensionToolbar(ExtensionToolbar):
     model = None
     insert_after = None
 
