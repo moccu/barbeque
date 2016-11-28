@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-28 11:54+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: barbeque/anylink.py:15
+msgid "CMS Page"
+msgstr "CMS Seite"
+
+#: barbeque/exporter.py:119
+msgid "Export as CSV"
+msgstr "Als CSV exportieren"
+
+#: barbeque/exporter.py:125
+msgid "Export as XLSX"
+msgstr "Als XLSX exportieren"
+
+#: barbeque/filer.py:27
+#, python-brace-format
+msgid "Invalid file extension, allowed extensions: {0}"
+msgstr "Ungültige Dateierweiterung, erlaubte Erweiterungen: {0}"
+
+#: barbeque/filer.py:33
+msgid "Alternative text is missing for this file."
+msgstr "Für diese Datei fehlt ein alternativer Text."
+
+#: barbeque/forms/mixins.py:32
+#, python-brace-format
+msgid "Please provide at least {num} {verbose_name}."
+msgstr "Bitte geben Sie mindestens {num} {verbose_name}."
+
+#: barbeque/forms/mixins.py:33
+#, python-brace-format
+msgid "Please provide at most {num} {verbose_name}."
+msgstr "Bitte geben Sie höchstens {num} {verbose_name}."
+
+#: barbeque/validators.py:9
+#, python-format
+msgid "You must be at least %(limit_value)d years old."
+msgstr "Sie müssen mindestens %(limit_value)d Jahre alt sein."
+
+#: barbeque/validators.py:18
+msgid "This email address is already in use."
+msgstr "Diese E-Mail-Adresse ist bereits in Verwendung."
+
+#: barbeque/views/mixins.py:30
+msgid "You must be logged in to access the requested page."
+msgstr "Sie müssen angemeldet sein, um auf die gewünschte Seite zu gelangen"
