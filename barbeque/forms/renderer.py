@@ -3,7 +3,7 @@ from floppyforms.forms import LayoutRenderer
 from .mixins import FloppyformsLayoutMixin
 
 
-class FieldsetRenderer(FloppyformsLayoutMixin, LayoutRenderer, object):
+class FieldsetRenderer(FloppyformsLayoutMixin, LayoutRenderer):
     non_field_errors = None
 
     def __init__(self, form, fields=None, exclude=None, primary=False, template=None):
