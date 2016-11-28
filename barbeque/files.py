@@ -5,6 +5,7 @@ import uuid
 
 from django.template.defaultfilters import slugify
 from django.utils.deconstruct import deconstructible
+from django.utils.encoding import force_text
 
 
 @deconstructible
@@ -32,7 +33,7 @@ class UploadToPath(object):
         filename_parts = filename.rsplit('.', 1)
 
         if self.uuid_filename:
-            filename = str(uuid.uuid4())
+            filename = force_text(uuid.uuid4())
         else:
             filename = slugify(filename_parts[0])
 
