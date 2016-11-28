@@ -2,6 +2,7 @@ import re
 
 from django import template
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import stringfilter
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
@@ -32,3 +33,22 @@ def hashed_staticfile(path):
         return staticfiles_storage.hashed_name(path)
     except (AttributeError, ValueError):
         return path
+
+
+@register.simple_tag(takes_context=True)
+def page_titleextension(context, page_id, extension):
+    from cms.models import Page
+    from cms.utils.moderator import use_draft
+    try:
+        page = Page.objects.get(pk=page_id)
+        if 'request' in context and use_draft(context['request']):
+            page = page.get_draft_object()
+        else:
+            page = page.get_public_object()
+    except Page.DoesNotExist:
+        return None
+
+    try:
+        return getattr(page.get_title_obj(), extension)
+    except ObjectDoesNotExist:
+        return None
