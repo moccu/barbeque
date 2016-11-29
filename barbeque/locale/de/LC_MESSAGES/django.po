@@ -32,21 +32,21 @@ msgstr "Als XLSX exportieren"
 #: barbeque/filer.py:27
 #, python-brace-format
 msgid "Invalid file extension, allowed extensions: {0}"
-msgstr "Ungültige Dateierweiterung, erlaubte Erweiterungen: {0}"
+msgstr "Ungültige Dateiendung, erlaubte Dateitypen: {0}"
 
 #: barbeque/filer.py:33
 msgid "Alternative text is missing for this file."
-msgstr "Für diese Datei fehlt ein alternativer Text."
+msgstr "Bildbeschreibung fehlt für diese Datei."
 
 #: barbeque/forms/mixins.py:32
 #, python-brace-format
 msgid "Please provide at least {num} {verbose_name}."
-msgstr "Bitte geben Sie mindestens {num} {verbose_name}."
+msgstr "Mindestens {num} {verbose_name} benötigt."
 
 #: barbeque/forms/mixins.py:33
 #, python-brace-format
 msgid "Please provide at most {num} {verbose_name}."
-msgstr "Bitte geben Sie höchstens {num} {verbose_name}."
+msgstr "Maximal {num} {verbose_name} erlaubt."
 
 #: barbeque/validators.py:9
 #, python-format
