@@ -1,8 +1,6 @@
 import os
 import tempfile
 
-import django
-
 
 DEBUG = True
 
@@ -33,6 +31,7 @@ INSTALLED_APPS = (
 
     'barbeque',
     'barbeque.tests.resources.mockapp',
+    'barbeque.tests.resources.cmsapp',
 )
 
 ROOT_URLCONF = 'django.contrib.auth.urls'
@@ -53,29 +52,18 @@ ANYLINK_EXTENSIONS = (
     'barbeque.anylink.CmsPageLink',
 )
 
-if django.VERSION < (1, 8):
-    TEMPLATE_DIRS = (
-        os.path.join(os.path.dirname(__file__), 'resources', 'templates'),
-    )
-
-    TEMPLATE_CONTEXT_PROCESSORS = (
-        'django.core.context_processors.request',
-        'django.contrib.auth.context_processors.auth',
-        'barbeque.context_processors.settings',
-    )
-else:
-    TEMPLATES = [
-        {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [os.path.join(os.path.dirname(__file__), 'resources', 'templates')],
-            'APP_DIRS': True,
-            'OPTIONS': {
-                'debug': True,
-                'context_processors': [
-                    'django.core.context_processors.request',
-                    'django.contrib.auth.context_processors.auth',
-                    'barbeque.context_processors.settings',
-                ],
-            },
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(os.path.dirname(__file__), 'resources', 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': True,
+            'context_processors': [
+                'django.core.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'barbeque.context_processors.settings',
+            ],
         },
-    ]
+    },
+]

@@ -45,21 +45,22 @@ class ForceModalDialogToolbar(CMSToolbar):
             self.rebuild_menu(menu)
 
 
-@toolbar_pool.register
 class TitleExtensionToolbar(ExtensionToolbar):
     model = None
     insert_after = None
 
     def get_item_position(self, menu):
+        position = None
         for items in menu._memo.values():
             for item in items:
                 if force_text(getattr(item, 'name', None)) in (
                     force_text(self.insert_after),
                     '{0}...'.format(self.insert_after)
                 ):
-                    return menu._item_position(item) + 1
+                    position = menu._item_position(item) + 1
+                    break
 
-        return None
+        return position
 
     def populate(self):
         current_page_menu = self._setup_extension_toolbar()

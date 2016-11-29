@@ -1,5 +1,6 @@
 from datetime import date
 
+import mock
 from django import forms
 
 from barbeque.forms.renderer import FieldsetRenderer
@@ -51,3 +52,18 @@ class TestRenderer:
         renderer = FieldsetRenderer(form, fields=('name',), primary=True)
 
         assert len(renderer.visible_fields()) == 1
+
+    def test_template(self):
+        form = self.get_form()
+        renderer = FieldsetRenderer(form, exclude=(), primary=True)
+        assert renderer.div_template_name == 'modules/generic/form/layout/div.html'
+
+        renderer = FieldsetRenderer(form, exclude=(), primary=True, template='foo.html')
+        assert renderer.div_template_name == 'foo.html'
+
+    @mock.patch('barbeque.forms.renderer.FieldsetRenderer.as_div')
+    def test_str(self, div_mock):
+        form = self.get_form()
+        renderer = FieldsetRenderer(form, exclude=(), primary=True)
+        renderer.__str__()
+        assert div_mock.called is True

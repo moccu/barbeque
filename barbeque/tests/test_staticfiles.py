@@ -50,7 +50,7 @@ class TestServeStaticFileMiddleware:
             'barbeque.staticfiles.middleware.ServeStaticFileMiddleware',
         ]
         settings.INSTALLED_APPS = settings.INSTALLED_APPS + ('django.contrib.staticfiles',)
-        settings.ROOT_URLCONF = 'barbeque.tests.test_static_files'
+        settings.ROOT_URLCONF = 'barbeque.tests.test_staticfiles'
 
     def test_file_exists(self, rf):
         request = rf.get('/static/test.jpg')
@@ -64,6 +64,12 @@ class TestServeStaticFileMiddleware:
 
     def test_file_missing(self, rf):
         request = rf.get('/static/doesnotexist.jpg')
+        middleware = ServeStaticFileMiddleware()
+        response = middleware.process_response(request, HttpResponseNotFound(''))
+        assert response.status_code == 404
+
+    def test_static_folder(self, rf):
+        request = rf.get('/static/doesnotexist/')
         middleware = ServeStaticFileMiddleware()
         response = middleware.process_response(request, HttpResponseNotFound(''))
         assert response.status_code == 404
@@ -137,7 +143,7 @@ class TestServeStaticFileMiddlewareWithHashedFiles:
             'barbeque.staticfiles.middleware.ServeStaticFileMiddleware',
         ]
         settings.INSTALLED_APPS = settings.INSTALLED_APPS + ('django.contrib.staticfiles',)
-        settings.ROOT_URLCONF = 'barbeque.tests.test_static_files'
+        settings.ROOT_URLCONF = 'barbeque.tests.test_staticfiles'
 
     def test_unhash_file_name(self):
         middleware = ServeStaticFileMiddleware()

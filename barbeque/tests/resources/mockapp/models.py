@@ -13,3 +13,4 @@ class RelatedMockModel(models.Model):
 class DummyModel(models.Model):
     name = models.CharField(max_length=256)
     slug = models.SlugField()
+    email = models.EmailField(blank=True)

@@ -68,7 +68,7 @@ class FloppyformsLayoutMixin(object):
     div_template_name = 'modules/generic/form/layout/div.html'
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(FloppyformsLayoutMixin, self).__init__(*args, **kwargs)
         for name, field in self.fields.items():
             widget = self.fields[name].widget
             widget.widget_type = widget.__class__.__name__.lower()

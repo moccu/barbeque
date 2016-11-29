@@ -1,10 +1,13 @@
+import mock
 import pytest
 
+import floppyforms.__future__ as floppyforms
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
-from barbeque.forms import PlaceholderFormMixin, ItemLimitInlineMixin
+from barbeque.forms.mixins import (
+    FloppyformsLayoutMixin, PlaceholderFormMixin, ItemLimitInlineMixin)
 from barbeque.tests.resources.mockapp.models import MockModel, RelatedMockModel
 
 
@@ -108,3 +111,22 @@ class TestItemLimitInlineMixin:
 
         assert exc.value.messages == [
             'Please provide at most 2 related mock models.']
+
+
+class FloppyformsLayoutForm(FloppyformsLayoutMixin, floppyforms.Form):
+    name = forms.CharField(max_length=255, label='Name Label')
+
+    class Meta:
+        fields = '__all__'
+
+
+class TestFloppyformsLayoutMixin:
+
+    def test_widget_type(self):
+        form = FloppyformsLayoutForm()
+        assert form.fields['name'].widget.widget_type == 'textinput'
+
+    @mock.patch('barbeque.tests.test_forms_mixins.FloppyformsLayoutForm._render_as')
+    def test_as_div(self, render_mock):
+        FloppyformsLayoutForm().as_div()
+        assert render_mock.call_args[0][0] == 'modules/generic/form/layout/div.html'

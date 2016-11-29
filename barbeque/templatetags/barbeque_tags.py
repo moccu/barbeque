@@ -55,6 +55,9 @@ def page_titleextension(context, page_id, extension):
     except Page.DoesNotExist:
         return None
 
+    if not page:
+        return None
+
     try:
         return getattr(page.get_title_obj(), extension)
     except ObjectDoesNotExist:
