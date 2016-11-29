@@ -9,7 +9,7 @@ class ExtensionModel(TitleExtension):
     class Meta:
         verbose_name = 'Extension'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 extension_pool.register(ExtensionModel)
