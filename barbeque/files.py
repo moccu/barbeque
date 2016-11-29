@@ -37,13 +37,13 @@ class UploadToPath(object):
         else:
             filename = slugify(filename_parts[0])
 
-        extension = len(filename_parts) > 1 and '.{0}'.format(filename_parts[-1]) or ''
+        extension = len(filename_parts) > 1 and u'.{0}'.format(filename_parts[-1]) or ''
 
-        return os.path.join(path, '{0}{1}'.format(filename, extension))
+        return os.path.join(path, u'{0}{1}'.format(filename, extension))
 
 
 def upload_to_path(base_path, attr=None, uuid_filename=False):
-    return UploadToPath(base_path=base_path, attr=attr, uuid_filename=uuid_filename)
+    return UploadToPath(base_path, attr=attr, uuid_filename=uuid_filename)
 
 
 class MoveableNamedTemporaryFile(object):

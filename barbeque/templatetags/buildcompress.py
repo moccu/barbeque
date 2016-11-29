@@ -4,8 +4,7 @@ from django.conf import settings
 try:
     from compressor.templatetags.compress import CompressorNode, OUTPUT_FILE
 except ImportError:
-    CompressorNode = None
-    OUTPUT_FILE = None
+    pass
 
 
 register = template.Library()
@@ -29,7 +28,11 @@ def buildcompress(parser, token):
     args = token.split_contents()
     assert len(args) == 2, 'Invalid arguments to buildcompress.'
 
-    if settings.DEBUG or not CompressorNode:
+    if settings.DEBUG:
         return BuildCompressNoopNode()
 
-    return CompressorNode(nodelist, args[1], OUTPUT_FILE, None)
+    try:
+        return CompressorNode(nodelist, args[1], OUTPUT_FILE, None)
+    except NameError:
+        raise ImportError(
+            'django-compressor is required when using buildcompress tag')

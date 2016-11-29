@@ -5,7 +5,6 @@ from cms.models.fields import PageField
 from cms.utils import get_cms_setting
 from django.core.cache import cache
 from django.db import models
-from django.utils.encoding import force_text
 from django.utils.six.moves.urllib import parse as urlparse
 from django.utils.translation import get_language, ugettext_lazy as _
 
@@ -23,7 +22,7 @@ class CmsPageLink(BaseLink):
 
     def get_absolute_url(self, link):
         cache_key = '{0}anylink-page-url:{1}:{2}'.format(
-            get_cms_setting('CACHE_PREFIX'), force_text(link.page_id), get_language())
+            get_cms_setting('CACHE_PREFIX'), str(link.page_id), get_language())
 
         url = cache.get(cache_key)
         if url is None:

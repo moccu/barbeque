@@ -1,7 +1,6 @@
 from django.utils.encoding import force_text
 
-from cms.cms_toolbars import (
-    ADMIN_MENU_IDENTIFIER, PAGE_MENU_IDENTIFIER)
+from cms.cms_toolbars import ADMIN_MENU_IDENTIFIER, PAGE_MENU_IDENTIFIER
 from cms.extensions.toolbar import ExtensionToolbar
 from cms.toolbar_base import CMSToolbar
 from cms.toolbar_pool import toolbar_pool
@@ -10,6 +9,7 @@ from cms.toolbar.items import SideframeItem, ModalItem, SubMenu
 
 @toolbar_pool.register
 class ForceModalDialogToolbar(CMSToolbar):
+
     def rebuild_menu(self, menu):
         items = []
         for item in menu.items:

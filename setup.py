@@ -9,6 +9,24 @@ from setuptools.command.test import test as test_command
 version = '1.1.1'
 
 
+# TEMPORARY FIX FOR
+# https://bitbucket.org/pypa/setuptools/issues/450/egg_info-command-is-very-slow-if-there-are
+TO_OMIT = ['.git', '.tox']
+orig_os_walk = os.walk
+
+
+def patched_os_walk(path, *args, **kwargs):
+    for (dirpath, dirnames, filenames) in orig_os_walk(path, *args, **kwargs):
+        if '.git' in dirnames:
+            # We're probably in our own root directory.
+            print("MONKEY PATCH: omitting a few directories like .git and .tox...")
+            dirnames[:] = list(set(dirnames) - set(TO_OMIT))
+        yield (dirpath, dirnames, filenames)
+
+os.walk = patched_os_walk
+# END IF TEMPORARY FIX.
+
+
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     os.system('python setup.py bdist_wheel upload')
@@ -24,15 +42,16 @@ tests_require = [
     'psutil==3.2.1',
     'python-dateutil==2.4.2',
     'pytest==3.0.3',
-    'pytest-cov==2.1.0',
+    'pytest-cov==2.3.1',
     'pytest-pep8==1.0.6',
     'pytest-flakes==1.0.1',
     'pytest-django==3.0.0',
-    'factory-boy==2.5.2',
+    'pytest-isort==0.1.0',
+    'factory-boy==2.7.0',
     'Pillow==3.4.0',
     'django-anylink==0.3.0',
     'django-treebeard>=4.0',
-    'django-cms==3.2.5',
+    'django-cms==3.3.3',
     'django-polymorphic==0.8.1',
     'django-compressor==1.6',
     'django-filer==1.1.1',

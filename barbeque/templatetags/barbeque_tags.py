@@ -50,7 +50,8 @@ def page_titleextension(context, page_id, extension):
         else:
             page = page.get_public_object()
     except NameError:
-        raise ImportError('django-cms is required when using page_titleextension tag')
+        raise ImportError(
+            'django-cms is required when using page_titleextension tag')
     except Page.DoesNotExist:
         return None
 

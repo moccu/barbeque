@@ -1,10 +1,9 @@
 import warnings
 
-from .mixins import ItemLimitInlineMixin, FloppyformsLayoutMixin, PlaceholderFormMixin  # noqa
+from .mixins import FloppyformsLayoutMixin, ItemLimitInlineMixin, PlaceholderFormMixin  # noqa
 
 
-message = """Importing mixins directly from barbeque.forms is deprecated.
-Use barbeque.forms.mixins instead."""
-
-warnings.simplefilter('always', DeprecationWarning)
-warnings.warn(message, DeprecationWarning)
+warnings.warn((
+    'Importing mixins directly from barbeque.forms is deprecated and will be removed '
+    'in barbeque 1.3. Use barbeque.forms.mixins instead.'
+), DeprecationWarning)
