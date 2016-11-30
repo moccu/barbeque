@@ -1,6 +1,18 @@
 Changelog
 =========
 
+1.2.0 - 2016-11-30
+------------------
+
+* WARNING: barbeque.forms was moved to barbeque.forms.mixins - update your imports!
+* Refactor UploadToPath to be deconstructable for Django migrations
+* Add new mixin for floppyforms.Form to have another render helper (as_div)
+* Add FieldsetRenderer to allow rendering of partial forms
+* Add cms toolbar baseclass to easily insert title extensions to page menu
+* Add template tag to fetch a title extension instance for a cms page
+* FilerFileField now sets blank=True if null=True and other way around
+* Speed up tests
+
 1.1.1 - 2016-11-22
 ------------------
 
