@@ -37,6 +37,7 @@ class Command(BaseCommand):
         # apply all context processors (for menus, etc.)
         request = RequestFactory(HTTP_HOST=settings.ALLOWED_HOSTS[0].strip('.')).get('/')
         request.user = AnonymousUser()
+        request.session = {}
 
         try:
             return render_to_string(template_name, RequestContext(request, template_context))
