@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.3.0 - 2016-12-08
+------------------
+
+* WARNING: create_error_pages is deprectated. Use render_static_templates instead.
+* Add render_static_templates command to render templates as static files
+
 1.2.0 - 2016-11-30
 ------------------
 
