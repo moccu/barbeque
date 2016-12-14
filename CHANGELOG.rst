@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.3.1 - 2016-12-14
+------------------
+
+* Add python-dateutil to intall dependencies, required by barbeque.validators
+
 1.3.0 - 2016-12-08
 ------------------
 
