@@ -40,7 +40,6 @@ tests_require = [
     'mock==1.3.0',
     'openpyxl==2.2.6',
     'psutil==3.2.1',
-    'python-dateutil==2.4.2',
     'pytest==3.0.3',
     'pytest-cov==2.3.1',
     'pytest-pep8==1.0.6',
@@ -93,7 +92,10 @@ setup(
     packages=find_packages(exclude=['barbeque.tests']),
     test_suite='.',
     tests_require=tests_require,
-    install_requires=['Django>=1.8,<1.10'],
+    install_requires=[
+        'Django>=1.8,<1.10',
+        'python-dateutil>=2.4.0',
+    ],
     extras_require={
         'tests': tests_require,
         'docs': ['sphinx', 'sphinx_rtd_theme'],
