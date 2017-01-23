@@ -3,7 +3,6 @@ include CHANGELOG.rst
 include LICENSE.rst
 include setup.cfg
 
-recursive-include barbeque *.py
 recursive-include barbeque/locale *
 recursive-include barbeque/templates *
 
