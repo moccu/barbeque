@@ -1,0 +1,22 @@
+<ul>
+	{% for group_name, choices in optgroups %}
+		{% for choice in choices %}
+			<li>
+				<label class="form-field-checkboxinput{% if field.errors %} has-errors{% endif %}" for="{{ attrs.id }}_{{ forloop.counter }}">
+					<span class="field">
+						<input
+							{% if choice.0 in value %}checked="checked"{% endif %}
+							type="checkbox"
+							id="{{ attrs.id }}_{{ forloop.counter }}"
+							name="{{ name }}"
+							value="{{ choice.0 }}"
+						>
+					</span>
+					<span class="label">
+						{{ choice.1 }}
+					</span>
+				</label>
+			</li>
+		{% endfor %}
+	{% endfor %}
+</ul>

@@ -65,7 +65,7 @@ class ItemLimitInlineMixin(object):
 
 class FloppyformsLayoutMixin(object):
     row_classname = 'form-row'
-    div_template_name = 'modules/generic/form/layout/div.html'
+    div_template_name = 'barbeque/forms/layout/div.html'
 
     def __init__(self, *args, **kwargs):
         super(FloppyformsLayoutMixin, self).__init__(*args, **kwargs)

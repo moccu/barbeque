@@ -1,0 +1,59 @@
+{% load barbeque_tags %}
+{% load floppyforms %}
+
+
+{% block row %}
+	<div class="{{ form.row_classname }}">
+		{% for field in fields %}
+			{% set label=label|default:field.label %}
+			{% set help_text=help_text|default:field.help_text %}
+			{% set classes=field.css_classes %}
+			{% set type=field.field.widget.widget_type %}
+
+
+			<label
+				class="form-field-{{ type }} has-name-{{ field.name|slugify }}{{ field.field.required|yesno:' is-required,' }}{% if field.errors %} has-errors{% endif %}{% if classes %} {{ classes }}{% endif %}"
+				for="{{ field|id }}">
+
+				{% if type == 'checkboxinput' %}
+					<span class="field">
+						{% formfield field %}
+					</span>
+				{% endif %}
+
+				<span class="label">
+					{{ label|safe }}
+				</span>
+
+				{% if type != 'checkboxinput' %}
+					<span class="field">
+						{% if type == 'checkboxselectmultiple' %}
+							{% formfield field using 'barbeque/forms/field/checkboxselectmultiple.html' %}
+						{% elif type == 'radioselect' %}
+							{% formfield field using 'barbeque/forms/field/radioselect.html' %}
+						{% elif type == 'selectdatewidget' %}
+							{% formfield field using 'barbeque/forms/field/selectdatewidget.html' %}
+						{% else %}
+							{% formfield field with placeholder=label %}
+						{% endif %}
+					</span>
+				{% endif %}
+
+				{% if field.errors %}
+					<sub class="errors">
+						{{ field.errors }}
+					</sub>
+				{% endif %}
+
+				{% if help_text %}
+					<sub class="helptext">
+						{{ help_text }}
+					</sub>
+				{% endif %}
+			</label>
+		{% endfor %}
+		{% block hidden_fields %}
+			{% for field in hidden_fields %}{{ field.as_hidden }}{% endfor %}
+		{% endblock %}
+	</div>
+{% endblock %}

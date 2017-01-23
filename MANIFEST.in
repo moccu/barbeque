@@ -5,6 +5,7 @@ include setup.cfg
 
 recursive-include barbeque *.py
 recursive-include barbeque/locale *
+recursive-include barbeque/templates *
 
 recursive-exclude barbeque/tests *
 recursive-exclude * *.pyc

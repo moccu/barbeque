@@ -1,0 +1,32 @@
+{% extends 'barbeque/forms/layout/div.html' %}
+{% load floppyforms %}
+
+
+{% block rows %}
+	<div
+		class="form-formset{{ importable|yesno:' is-importable,' }}"
+		{% if formset_prefix %}data-formsetprefix="{{ formset_prefix }}"{% endif %}
+		{% if label_add %}data-label-add="{{ label_add }}"{% endif %}
+		{% if label_delete %}data-label-delete="{{ label_delete }}"{% endif %}>
+
+		{% if formset_management_form %}{{ formset_management_form }}{% endif %}
+
+		{% form form using %}{# needed to push the context for the formconfig #}
+			{% for field in form.visible_fields %}
+				{% if forloop.last %}
+					{% formconfig row with hidden_fields=form.hidden_fields %}
+				{% endif %}
+
+				{% block row %}
+					{% formrow field %}
+				{% endblock %}
+			{% endfor %}
+		{% endform %}
+
+		{% if not form.visible_fields %}
+			{% for field in form.hidden_fields %}
+				{% formfield field %}
+			{% endfor %}
+		{% endif %}
+	</div>
+{% endblock %}
