@@ -99,7 +99,7 @@ setup(
     extras_require={
         'tests': tests_require,
         'docs': ['sphinx', 'sphinx_rtd_theme'],
-        'exporter': ['openpyxl'],
+        'exporter': ['openpyxl>=2.4.1,<2.5'],
     },
     classifiers=[
         'Development Status :: 4 - Beta',

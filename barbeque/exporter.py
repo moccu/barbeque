@@ -80,7 +80,7 @@ class Exporter(object):
         if self.header:
             for j, name in enumerate(self.get_header(queryset), 1):
                 sheet.cell('%s%s' % (
-                    openpyxl.cell.get_column_letter(j), start_row)).value = name
+                    openpyxl.utils.get_column_letter(j), start_row)).value = name
             start_row += 1
 
         data_fields, data = self.get_data(queryset)
@@ -95,11 +95,11 @@ class Exporter(object):
                     column_widths[j - 1] = len(value) + 2
 
                 sheet.cell('%s%s' % (
-                    openpyxl.cell.get_column_letter(j), i)
+                    openpyxl.utils.get_column_letter(j), i)
                 ).value = value.replace('\r', '').replace('\n', ' ')
 
         for j, width in enumerate(column_widths, 1):
-            sheet.column_dimensions[openpyxl.cell.get_column_letter(j)].width = width
+            sheet.column_dimensions[openpyxl.utils.get_column_letter(j)].width = width
 
         workbook.save(fobj)
 
