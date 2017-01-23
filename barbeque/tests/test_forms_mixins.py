@@ -129,4 +129,4 @@ class TestFloppyformsLayoutMixin:
     @mock.patch('barbeque.tests.test_forms_mixins.FloppyformsLayoutForm._render_as')
     def test_as_div(self, render_mock):
         FloppyformsLayoutForm().as_div()
-        assert render_mock.call_args[0][0] == 'modules/generic/form/layout/div.html'
+        assert render_mock.call_args[0][0] == 'barbeque/forms/layout/div.html'

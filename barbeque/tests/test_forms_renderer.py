@@ -56,7 +56,7 @@ class TestRenderer:
     def test_template(self):
         form = self.get_form()
         renderer = FieldsetRenderer(form, exclude=(), primary=True)
-        assert renderer.div_template_name == 'modules/generic/form/layout/div.html'
+        assert renderer.div_template_name == 'barbeque/forms/layout/div.html'
 
         renderer = FieldsetRenderer(form, exclude=(), primary=True, template='foo.html')
         assert renderer.div_template_name == 'foo.html'
