@@ -46,7 +46,7 @@ tests_require = [
     'pytest-flakes==1.0.1',
     'pytest-django==3.0.0',
     'pytest-isort==0.1.0',
-    'factory-boy==2.7.0',
+    'factory-boy>=2.8.1,<2.9',
     'Pillow==3.4.0',
     'django-anylink==0.3.0',
     'django-treebeard>=4.0',
