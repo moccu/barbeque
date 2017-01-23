@@ -1,16 +1,31 @@
 Changelog
 =========
 
+1.4.0 - 2017-01-23
+------------------
+
+* Add default floppyforms templates
+* Fix compatibility bug with OpenPyXL (for exporter module)
+
+
+1.3.0 - 2016-12-08
+------------------
+
+* WARNING: create_error_pages is deprectated. Use render_static_templates instead.
+
+
 1.3.1 - 2016-12-14
 ------------------
 
 * Add python-dateutil to intall dependencies, required by barbeque.validators
+
 
 1.3.0 - 2016-12-08
 ------------------
 
 * WARNING: create_error_pages is deprectated. Use render_static_templates instead.
 * Add render_static_templates command to render templates as static files
+
 
 1.2.0 - 2016-11-30
 ------------------
@@ -23,6 +38,7 @@ Changelog
 * Add template tag to fetch a title extension instance for a cms page
 * FilerFileField now sets blank=True if null=True and other way around
 * Speed up tests
+
 
 1.1.1 - 2016-11-22
 ------------------
