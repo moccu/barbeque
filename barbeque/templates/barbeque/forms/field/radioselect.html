@@ -3,7 +3,7 @@
 		{% for choice in choices %}
 			<li>
 				<label for="{{ attrs.id }}_{{ forloop.counter }}" class="radioselect">
-					<span class="label">
+					<span class="field">
 						<input
 							{% if choice.0 in value %} checked{% endif %}
 							type="radio"
@@ -13,7 +13,7 @@
 							{% if required %} required{% endif %}
 						>
 					</span>
-					<span class="field">
+					<span class="label">
 						{{ choice.1 }}
 					</span>
 				</label>
