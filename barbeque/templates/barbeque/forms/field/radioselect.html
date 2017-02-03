@@ -3,16 +3,15 @@
 		{% for choice in choices %}
 			<li>
 				<label for="{{ attrs.id }}_{{ forloop.counter }}" class="radioselect">
-					<span class="field">
-						<input
-							{% if choice.0 in value %} checked{% endif %}
-							type="radio"
-							id="{{ attrs.id }}_{{ forloop.counter }}"
-							name="{{ name }}"
-							value="{{ choice.0 }}"
-							{% if required %} required{% endif %}
-						>
-					</span>
+					<input
+						{% if choice.0 in value %}checked="checked"{% endif %}
+						type="radio"
+						id="{{ attrs.id }}_{{ forloop.counter }}"
+						name="{{ name }}"
+						value="{{ choice.0 }}"
+						class="field"
+						{% if required %} required{% endif %}
+					/>
 					<span class="label">
 						{{ choice.1 }}
 					</span>
