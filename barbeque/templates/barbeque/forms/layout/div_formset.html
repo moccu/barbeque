@@ -4,7 +4,7 @@
 
 {% block rows %}
 	<div
-		class="form-formset{{ importable|yesno:' is-importable,' }}"
+		class="form-formset"
 		{% if formset_prefix %}data-formsetprefix="{{ formset_prefix }}"{% endif %}
 		{% if label_add %}data-label-add="{{ label_add }}"{% endif %}
 		{% if label_delete %}data-label-delete="{{ label_delete }}"{% endif %}>
