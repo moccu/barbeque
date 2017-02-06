@@ -26,9 +26,10 @@
 				for="{{ field_id }}">
 
 				{% if type == 'checkboxinput' %}
-					<span class="field">
-						{% block field_checkboxinput %}{% formfield field %}{% endblock %}
-					</span>
+					{% block field_checkboxinput %}
+						{% formconfig field using class='field' %}
+						{% formfield field %}
+					{% endblock %}
 				{% endif %}
 
 				<span class="label">
