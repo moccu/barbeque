@@ -1,44 +1,61 @@
 {% load i18n %}
 
+{% block day %}
+	<label for="{{ day_id }}" class="form-field-select form-field-day{% if field.errors %} has-errors{% endif %}">
+		{% block day_inner %}
+			<span class="label">{% block day_label %}{% trans 'Day' %}{% endblock %}</span>
+			<span class="field">
+				{% block day_field %}
+					<select name="{{ day_field }}" id="{{ day_id }}"{% include 'floppyforms/attrs.html' %}>
+						<option value="">{% trans 'Day' %}</option>
+						{% for option in day_choices %}
+							<option value="{{ option.0 }}"{% if option.0 == day_val %} selected="selected"{% endif %}>
+								{{ option.1 }}
+							</option>
+						{% endfor %}
+					</select>
+				{% endblock %}
+			</span>
+		{% endblock %}
+	</label>
+{% endblock %}
 
-<label for="{{ day_id }}" class="form-field-select form-field-day{% if field.errors %} has-errors{% endif %}">
-	<span class="label">{% trans 'Day' %}</span>
-	<span class="field">
-		<select name="{{ day_field }}" id="{{ day_id }}"{% include 'floppyforms/attrs.html' %}>
-			<option value="">{% trans 'Day' %}</option>
-			{% for option in day_choices %}
-				<option value="{{ option.0 }}"{% if option.0 == day_val %} selected="selected"{% endif %}>
-					{{ option.1 }}
-				</option>
-			{% endfor %}
-		</select>
-	</span>
-</label>
+{% block month %}
+	<label for="{{ month_id }}" class="form-field-select form-field-month{% if field.errors %} has-errors{% endif %}">
+		{% block month_inner %}
+			<span class="label">{% block month_label %}{% trans 'Month' %}{% endblock %}</span>
+			<span class="field">
+				{% block month_field %}
+					<select name="{{ month_field }}" id="{{ month_id }}"{% include 'floppyforms/attrs.html' %}>
+						<option value="">{% trans 'Month' %}</option>
+						{% for option in month_choices %}
+							<option value="{{ option.0 }}"{% if option.0 == month_val %} selected="selected"{% endif %}>
+								{{ option.1 }}
+							</option>
+						{% endfor %}
+					</select>
+				{% endblock %}
+			</span>
+		{% endblock %}
+	</label>
+{% endblock %}
 
-<label for="{{ month_id }}" class="form-field-select form-field-month{% if field.errors %} has-errors{% endif %}">
-	<span class="label">{% trans 'Month' %}</span>
-	<span class="field">
-		<select name="{{ month_field }}" id="{{ month_id }}"{% include 'floppyforms/attrs.html' %}>
-			<option value="">{% trans 'Month' %}</option>
-			{% for option in month_choices %}
-				<option value="{{ option.0 }}"{% if option.0 == month_val %} selected="selected"{% endif %}>
-					{{ option.1 }}
-				</option>
-			{% endfor %}
-		</select>
-	</span>
-</label>
-
-<label for="{{ year_id }}" class="form-field-select form-field-year{% if field.errors %} has-errors{% endif %}">
-	<span class="label">{% trans 'Year' %}</span>
-	<span class="field">
-		<select name="{{ year_field }}" id="{{ year_id }}"{% include 'floppyforms/attrs.html' %}>
-			<option value="">{% trans 'Year' %}</option>
-			{% for option in year_choices %}
-				<option value="{{ option.0 }}"{% if option.0 == year_val %} selected="selected"{% endif %}>
-					{{ option.1 }}
-				</option>
-			{% endfor %}
-		</select>
-	</span>
-</label>
+{% block year %}
+	<label for="{{ year_id }}" class="form-field-select form-field-year{% if field.errors %} has-errors{% endif %}">
+		{% block year_inner %}
+			<span class="label">{% block year_label %}{% trans 'Year' %}{% endblock %}</span>
+			<span class="field">
+				{% block year_field %}
+					<select name="{{ year_field }}" id="{{ year_id }}"{% include 'floppyforms/attrs.html' %}>
+						<option value="">{% trans 'Year' %}</option>
+						{% for option in year_choices %}
+							<option value="{{ option.0 }}"{% if option.0 == year_val %} selected="selected"{% endif %}>
+								{{ option.1 }}
+							</option>
+						{% endfor %}
+					</select>
+				{% endblock %}
+			</span>
+		{% endblock %}
+	</label>
+{% endblock %}
