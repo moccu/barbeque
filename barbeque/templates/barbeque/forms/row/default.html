@@ -3,20 +3,27 @@
 
 
 {% block row %}
-	<div class="{{ form.row_classname }}">
+	{% if form.row_classname %}
+		{% set row_classname=form.row_classname %}
+	{% endif %}
+
+	<div class="{{ row_classname }}">
 		{% for field in fields %}
-			{% set name=name|default:field.name %}
-			{% set label=label|default:field.label %}
-			{% set help_text=help_text|default:field.help_text %}
-			{% set errors=errors|default:field.errors %}
-			{% set required=required|default:field.field.required %}
-			{% set classes=classes|default:field.css_classes %}
-			{% set type=type|default:field.field.widget.widget_type %}
+			{% if field.widget %}
+				{% set name=field.name %}
+				{% set label=field.label %}
+				{% set help_text=field.help_text %}
+				{% set errors=errorsfield.errors %}
+				{% set required=field.required %}
+				{% set css_classes=field.css_classes %}
+				{% set type=field.field.widget.widget_type %}
+				{% set field_id=field|id %}
+			{% endif %}
 
 
 			<label
 				class="form-field-{{ type }} has-name-{{ name|slugify }}{{ required|yesno:' is-required,' }}{% if errors %} has-errors{% endif %}{% if classes %} {{ classes }}{% endif %}"
-				for="{{ field|id }}">
+				for="{{ field_id }}">
 
 				{% if type == 'checkboxinput' %}
 					<span class="field">

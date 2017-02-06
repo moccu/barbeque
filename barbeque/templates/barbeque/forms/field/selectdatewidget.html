@@ -1,7 +1,13 @@
+{% load barbeque_tags %}
 {% load i18n %}
 
+
+{% if field.widget %}
+	{% set errors=field.errors %}
+{% endif %}
+
 {% block day %}
-	<label for="{{ day_id }}" class="form-field-select form-field-day{% if field.errors %} has-errors{% endif %}">
+	<label for="{{ day_id }}" class="form-field-select form-field-day{% if errors %} has-errors{% endif %}">
 		{% block day_inner %}
 			<span class="label">{% block day_label %}{% trans 'Day' %}{% endblock %}</span>
 			<span class="field">
@@ -21,7 +27,7 @@
 {% endblock %}
 
 {% block month %}
-	<label for="{{ month_id }}" class="form-field-select form-field-month{% if field.errors %} has-errors{% endif %}">
+	<label for="{{ month_id }}" class="form-field-select form-field-month{% if errors %} has-errors{% endif %}">
 		{% block month_inner %}
 			<span class="label">{% block month_label %}{% trans 'Month' %}{% endblock %}</span>
 			<span class="field">
@@ -41,7 +47,7 @@
 {% endblock %}
 
 {% block year %}
-	<label for="{{ year_id }}" class="form-field-select form-field-year{% if field.errors %} has-errors{% endif %}">
+	<label for="{{ year_id }}" class="form-field-select form-field-year{% if errors %} has-errors{% endif %}">
 		{% block year_inner %}
 			<span class="label">{% block year_label %}{% trans 'Year' %}{% endblock %}</span>
 			<span class="field">

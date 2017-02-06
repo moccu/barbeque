@@ -1,10 +1,17 @@
+{% load barbeque_tags %}
+
+
 {% block choices %}
 	<ul>
 		{% for group_name, choices in optgroups %}
 			{% for choice in choices %}
 				{% block choice %}
+					{% if field.widget %}
+						{% set errors=field.errors %}
+					{% endif %}
+
 					<li>
-						<label class="form-field-checkboxinput{% if field.errors %} has-errors{% endif %}" for="{{ attrs.id }}_{{ forloop.counter }}">
+						<label class="form-field-checkboxinput{% if errors %} has-errors{% endif %}" for="{{ attrs.id }}_{{ forloop.counter }}">
 							{% block field %}
 								<input
 									{% if choice.0 in value %}checked="checked"{% endif %}
