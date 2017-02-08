@@ -9,7 +9,7 @@
 
 	<div class="{{ row_classname }}">
 		{% for field in fields %}
-			{% if field.widget %}
+			{% if field.name %}
 				{% set name=field.name %}
 				{% set label=field.label %}
 				{% set help_text=field.help_text %}

@@ -6,7 +6,7 @@
 		{% for group_name, choices in optgroups %}
 			{% for choice in choices %}
 				{% block choice %}
-					{% if field.widget %}
+					{% if field.name %}
 						{% set errors=field.errors %}
 					{% endif %}
 
