@@ -67,11 +67,14 @@ class FloppyformsLayoutMixin(object):
     row_classname = 'form-row'
     div_template_name = 'barbeque/forms/layout/div.html'
 
-    def __init__(self, *args, **kwargs):
-        super(FloppyformsLayoutMixin, self).__init__(*args, **kwargs)
+    def set_widget_types(self):
         for name, field in self.fields.items():
             widget = self.fields[name].widget
             widget.widget_type = widget.__class__.__name__.lower()
+
+    def _render_as(self, *args, **kwargs):
+        self.set_widget_types()
+        return super()._render_as(*args, **kwargs)
 
     def as_div(self):
         return self._render_as(self.div_template_name)
