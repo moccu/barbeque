@@ -20,15 +20,12 @@
 				{% set field_id=field|id %}
 			{% endif %}
 
-
 			<label
 				class="form-field-{{ type }} has-name-{{ name|slugify }}{{ required|yesno:' is-required,' }}{% if errors %} has-errors{% endif %}{% if classes %} {{ classes }}{% endif %}"
 				for="{{ field_id }}">
-
 				{% if type == 'checkboxinput' %}
 					{% block field_checkboxinput %}
-						{% formconfig field using class='field' %}
-						{% formfield field %}
+						{% formfield field using 'barbeque/forms/field/checkboxinput.html' %}
 					{% endblock %}
 				{% endif %}
 
