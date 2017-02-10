@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.4.1 - 2017-02-10
+------------------
+
+* Fix various bugs in floppyforms templates
+
+
 1.4.0 - 2017-01-23
 ------------------
 
