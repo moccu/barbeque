@@ -89,7 +89,8 @@ setup(
     author='Moccu GmbH & Co. KG',
     author_email='info@moccu.com',
     url='http://github.com/moccu/barbeque/',
-    packages=find_packages(exclude=['barbeque.tests']),
+    packages=find_packages(exclude=['barbeque.tests', 'barbeque.tests.*']),
+    include_package_data=True,
     test_suite='.',
     tests_require=tests_require,
     install_requires=[
