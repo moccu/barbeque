@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-28 11:54+0100\n"
-"PO-Revision-Date: 2016-11-30 10:51+0100\n"
+"POT-Creation-Date: 2017-03-01 14:49+0100\n"
+"PO-Revision-Date: 2017-03-01 14:49+0100\n"
+"Last-Translator: Stephan Jaekel <stephan.jaekel@moccu.com>\n"
+"Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: Stephan Jaekel <stephan.jaekel@moccu.com>\n"
-"Language-Team: \n"
 "X-Generator: Poedit 1.8.8\n"
 
-#: barbeque/anylink.py:15
+#: barbeque/anylink.py:14
 msgid "CMS Page"
 msgstr "CMS Seite"
 
@@ -48,6 +48,21 @@ msgstr "Mindestens {num} {verbose_name} benötigt."
 #, python-brace-format
 msgid "Please provide at most {num} {verbose_name}."
 msgstr "Maximal {num} {verbose_name} erlaubt."
+
+#: barbeque/templates/barbeque/forms/field/selectdatewidget.html:12
+#: barbeque/templates/barbeque/forms/field/selectdatewidget.html:16
+msgid "Day"
+msgstr "Tag"
+
+#: barbeque/templates/barbeque/forms/field/selectdatewidget.html:32
+#: barbeque/templates/barbeque/forms/field/selectdatewidget.html:36
+msgid "Month"
+msgstr "Monat"
+
+#: barbeque/templates/barbeque/forms/field/selectdatewidget.html:52
+#: barbeque/templates/barbeque/forms/field/selectdatewidget.html:56
+msgid "Year"
+msgstr "Jahr"
 
 #: barbeque/validators.py:9
 #, python-format

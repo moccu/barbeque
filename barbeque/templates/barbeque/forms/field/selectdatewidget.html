@@ -13,7 +13,7 @@
 			<span class="field">
 				{% block day_field %}
 					<select name="{{ day_field }}" id="{{ day_id }}"{% include 'floppyforms/attrs.html' %}>
-						<option value="">{% trans 'Day' %}</option>
+						<option value="">{% block day_option_label %}{% trans 'Day' %}{% endblock %}</option>
 						{% for option in day_choices %}
 							<option value="{{ option.0 }}"{% if option.0 == day_val %} selected="selected"{% endif %}>
 								{{ option.1 }}
@@ -33,7 +33,7 @@
 			<span class="field">
 				{% block month_field %}
 					<select name="{{ month_field }}" id="{{ month_id }}"{% include 'floppyforms/attrs.html' %}>
-						<option value="">{% trans 'Month' %}</option>
+						<option value="">{% block month_option_label %}{% trans 'Month' %}{% endblock %}</option>
 						{% for option in month_choices %}
 							<option value="{{ option.0 }}"{% if option.0 == month_val %} selected="selected"{% endif %}>
 								{{ option.1 }}
@@ -53,7 +53,7 @@
 			<span class="field">
 				{% block year_field %}
 					<select name="{{ year_field }}" id="{{ year_id }}"{% include 'floppyforms/attrs.html' %}>
-						<option value="">{% trans 'Year' %}</option>
+						<option value="">{% block year_option_label %}{% trans 'Year' %}{% endblock %}</option>
 						{% for option in year_choices %}
 							<option value="{{ option.0 }}"{% if option.0 == year_val %} selected="selected"{% endif %}>
 								{{ option.1 }}
