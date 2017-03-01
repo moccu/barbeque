@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.4.5 - 2017-03-01
+------------------
+
+* Improve SelectDateWidget template
+* Update translations
+
+
 1.4.4 - 2017-02-13
 ------------------
 
