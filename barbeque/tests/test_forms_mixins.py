@@ -124,7 +124,7 @@ class TestFloppyformsLayoutMixin:
 
     def test_widget_type(self):
         form = FloppyformsLayoutForm()
-        form.set_widget_types()
+        assert form.set_widget_types() == ''
         assert form.fields['name'].widget.widget_type == 'textinput'
 
     @mock.patch('barbeque.tests.test_forms_mixins.FloppyformsLayoutForm._render_as')

@@ -71,6 +71,7 @@ class FloppyformsLayoutMixin(object):
         for name, field in self.fields.items():
             widget = self.fields[name].widget
             widget.widget_type = widget.__class__.__name__.lower()
+        return ''
 
     def _render_as(self, *args, **kwargs):
         self.set_widget_types()
