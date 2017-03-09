@@ -4,8 +4,9 @@ from cms.api import create_page, publish_page
 from django.contrib.auth.models import User
 from django.template import Context, Node, Template
 
-from barbeque.templatetags.barbeque_tags import starspan
+from barbeque.templatetags.barbeque_tags import starspan, widget_type
 from barbeque.tests.resources.cmsapp.models import ExtensionModel
+from barbeque.tests.resources.mockapp.forms import MockForm
 
 
 class TestTemplateTags:
@@ -52,6 +53,17 @@ class TestTemplateTags:
         template.render(Context())
 
         assert node_mock.called is True
+
+    def test_widget_type_unbound(self):
+        assert widget_type(MockForm().fields['name']) == 'textinput'
+
+    def test_widget_type_bound(self):
+        assert widget_type(MockForm()['name']) == 'textinput'
+
+    def test_widget_type_custom(self):
+        form = MockForm()
+        form.fields['name'].widget.widget_type = 'foo'
+        assert widget_type(form.fields['name']) == 'foo'
 
 
 @pytest.mark.django_db

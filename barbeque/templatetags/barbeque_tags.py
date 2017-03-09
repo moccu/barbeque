@@ -62,3 +62,16 @@ def page_titleextension(context, page_id, extension):
         return getattr(page.get_title_obj(), extension)
     except ObjectDoesNotExist:
         return None
+
+
+@register.filter
+def widget_type(field):
+    # Check if field is bound field.
+    if all(hasattr(field, attr) for attr in ('as_widget', 'as_hidden', 'is_hidden')):
+        field = field.field
+
+    return getattr(
+        field.widget,
+        'widget_type',
+        field.widget.__class__.__name__.lower()
+    )
