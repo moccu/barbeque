@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.5.0 - 2017-03-09
+------------------
+
+* Add widget_type template filter to retreive widget class name of form field.
+
+
 1.4.5 - 2017-03-01
 ------------------
 

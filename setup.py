@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 from setuptools.command.test import test as test_command
 
 
-version = '1.4.5'
+version = '1.5.0'
 
 
 # TEMPORARY FIX FOR
