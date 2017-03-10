@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.5.1 - 2017-03-10
+------------------
+
+* WARNING: Future versions of barbeque will drop the widget_type attribute when
+  using FloppyformsLayoutMixin. Use the template filter "widget_type" instead.
+* Fix for floppyforms row template (required and widget_type)
+
+
 1.5.0 - 2017-03-09
 ------------------
 
