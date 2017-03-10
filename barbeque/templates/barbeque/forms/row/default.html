@@ -14,9 +14,9 @@
 				{% set label=field.label %}
 				{% set help_text=field.help_text %}
 				{% set errors=field.errors %}
-				{% set required=field.required %}
+				{% set required=field.field.required %}
 				{% set css_classes=field.css_classes %}
-				{% set type=field.field.widget.widget_type %}
+				{% set type=field|widget_type %}
 				{% set field_id=field|id %}
 			{% endif %}
 
