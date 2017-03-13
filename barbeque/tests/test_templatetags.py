@@ -4,7 +4,7 @@ from cms.api import create_page, publish_page
 from django.contrib.auth.models import User
 from django.template import Context, Node, Template
 
-from barbeque.templatetags.barbeque_tags import starspan, widget_type
+from barbeque.templatetags.barbeque_tags import split, starspan, widget_type
 from barbeque.tests.resources.cmsapp.models import ExtensionModel
 from barbeque.tests.resources.mockapp.forms import MockForm
 
@@ -19,6 +19,12 @@ class TestTemplateTags:
 
         assert 'test_var' in context
         assert context['test_var'] == 'Some data'
+
+    def test_split_default_sep(self):
+        assert split('foo bar baz') == ['foo', 'bar', 'baz']
+
+    def test_split_custom_sep(self):
+        assert split('foo|bar baz|lorem', '|') == ['foo', 'bar baz', 'lorem']
 
     def test_starspan_no_blocks(self):
         assert starspan('test * **foo bar*** lorem') == (

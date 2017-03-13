@@ -29,6 +29,12 @@ def set_tag(context, **kwargs):
 
 @register.filter
 @stringfilter
+def split(value, sep=' '):
+    return value.split(sep)
+
+
+@register.filter
+@stringfilter
 def starspan(value):
     return mark_safe(STARSPAN_RE.sub(r'<span>\2</span>', conditional_escape(value)))
 
