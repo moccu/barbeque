@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.5.2 - 2017-05-31
+------------------
+
+* Add split template filter
+* Fix bug in FieldsetRenderer, used the same class attributes as base with conflicts.
+
+
 1.5.1 - 2017-03-10
 ------------------
 
