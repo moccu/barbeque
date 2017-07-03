@@ -1,6 +1,8 @@
 import mock
 import pytest
 from cms.api import create_page, publish_page
+import hashlib
+
 from django.contrib.auth.models import User
 from django.template import Context, Node, Template
 
@@ -10,6 +12,16 @@ from barbeque.tests.resources.mockapp.forms import MockForm
 
 
 class TestTemplateTags:
+
+    def test_md5_string(self):
+        expected = hashlib.md5('test@testing.com'.encode('utf-8')).hexdigest()
+        template = Template('{% load barbeque_tags %}{{ email|md5 }}')
+        context = Context({'email': 'test@testing.com'})
+
+        rendered = template.render(context)
+
+        assert len(rendered) == 32
+        assert rendered == expected
 
     def test_set_tag(self):
         template = Template('{% load barbeque_tags %}{% set test_var="Some data" %}')

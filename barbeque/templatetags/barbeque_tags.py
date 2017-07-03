@@ -1,4 +1,5 @@
 import re
+import hashlib
 
 from django import template
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -17,6 +18,12 @@ register = template.Library()
 
 
 STARSPAN_RE = re.compile(r'(\*\*\*)(.+?)\1')
+
+
+@register.filter(name='md5')
+@stringfilter
+def md5_string(value):
+    return hashlib.md5(value.encode('utf-8')).hexdigest()
 
 
 @register.simple_tag(name='set', takes_context=True)
