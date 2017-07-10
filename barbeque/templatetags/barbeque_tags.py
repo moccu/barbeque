@@ -20,7 +20,7 @@ register = template.Library()
 STARSPAN_RE = re.compile(r'(\*\*\*)(.+?)\1')
 
 
-@register.filter(name='mergelists')
+@register.filter
 def merge_lists(first_list, second_list):
     if type(first_list) == list and type(second_list) == list:
         return first_list + second_list

@@ -17,7 +17,7 @@ class TestTemplateTags:
         first_list = [1, 2, 3]
         second_list = [4, 5, 6]
         expected_list = [1, 2, 3, 4, 5, 6]
-        template = Template('{% load barbeque_tags %}{{ first_list|mergelists:second_list }}')
+        template = Template('{% load barbeque_tags %}{{ first_list|merge_lists:second_list }}')
         context = Context({
             'first_list': first_list,
             'second_list': second_list,
@@ -31,7 +31,7 @@ class TestTemplateTags:
         first_list = 'foo'
         second_list = 'bar'
         expected_list = 'foo'
-        template = Template('{% load barbeque_tags %}{{ first_list|mergelists:second_list }}')
+        template = Template('{% load barbeque_tags %}{{ first_list|merge_lists:second_list }}')
         context = Context({
             'first_list': first_list,
             'second_list': second_list,
@@ -44,7 +44,7 @@ class TestTemplateTags:
     def test_merge_lists_one_list_one_string(self):
         number_list = [1, 2, 3]
         no_list = 'bar'
-        template = Template('{% load barbeque_tags %}{{ first_list|mergelists:second_list }}')
+        template = Template('{% load barbeque_tags %}{{ first_list|merge_lists:second_list }}')
         context = Context({
             'first_list': number_list,
             'second_list': no_list,
@@ -54,7 +54,7 @@ class TestTemplateTags:
 
         assert rendered == str(number_list)
 
-        template = Template('{% load barbeque_tags %}{{ first_list|mergelists:second_list }}')
+        template = Template('{% load barbeque_tags %}{{ first_list|merge_lists:second_list }}')
         context = Context({
             'first_list': no_list,
             'second_list': number_list,
