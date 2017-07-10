@@ -20,6 +20,14 @@ register = template.Library()
 STARSPAN_RE = re.compile(r'(\*\*\*)(.+?)\1')
 
 
+@register.filter(name='mergelists')
+def merge_lists(first_list, second_list):
+    if type(first_list) == list and type(second_list) == list:
+        return first_list + second_list
+
+    return first_list
+
+
 @register.filter(name='md5')
 @stringfilter
 def md5_string(value):

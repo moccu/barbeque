@@ -13,6 +13,57 @@ from barbeque.tests.resources.mockapp.forms import MockForm
 
 class TestTemplateTags:
 
+    def test_merge_lists(self):
+        first_list = [1, 2, 3]
+        second_list = [4, 5, 6]
+        expected_list = [1, 2, 3, 4, 5, 6]
+        template = Template('{% load barbeque_tags %}{{ first_list|mergelists:second_list }}')
+        context = Context({
+            'first_list': first_list,
+            'second_list': second_list,
+        })
+
+        rendered = template.render(context)
+
+        assert rendered == str(expected_list)
+
+    def test_merge_lists_both_strings(self):
+        first_list = 'foo'
+        second_list = 'bar'
+        expected_list = 'foo'
+        template = Template('{% load barbeque_tags %}{{ first_list|mergelists:second_list }}')
+        context = Context({
+            'first_list': first_list,
+            'second_list': second_list,
+        })
+
+        rendered = template.render(context)
+
+        assert rendered == expected_list
+
+    def test_merge_lists_one_list_one_string(self):
+        number_list = [1, 2, 3]
+        no_list = 'bar'
+        template = Template('{% load barbeque_tags %}{{ first_list|mergelists:second_list }}')
+        context = Context({
+            'first_list': number_list,
+            'second_list': no_list,
+        })
+
+        rendered = template.render(context)
+
+        assert rendered == str(number_list)
+
+        template = Template('{% load barbeque_tags %}{{ first_list|mergelists:second_list }}')
+        context = Context({
+            'first_list': no_list,
+            'second_list': number_list,
+        })
+
+        rendered = template.render(context)
+
+        assert rendered == no_list
+
     def test_md5_string(self):
         expected = hashlib.md5('test@testing.com'.encode('utf-8')).hexdigest()
         template = Template('{% load barbeque_tags %}{{ email|md5 }}')
