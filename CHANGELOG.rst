@@ -1,15 +1,23 @@
 Changelog
 =========
 
+1.5.5 - 2017-07-24
+------------------
+
+* Fix CachePageMixin for Django 1.8
+
+
 1.5.4 - 2017-07-10
 ------------------
 
 * Add merge_lists template filter
 
+
 1.5.3 - 2017-06-03
 ------------------
 
 * Add md5 template filter
+
 
 1.5.2 - 2017-05-31
 ------------------
