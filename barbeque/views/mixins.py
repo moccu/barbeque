@@ -11,7 +11,10 @@ try:
     from django.core.cache import caches
 
     def get_cache(alias):
-        return caches.get(alias)
+        try:
+            return caches[alias]
+        except KeyError:
+            return None
 except ImportError:
     from django.core.cache import get_cache
 
