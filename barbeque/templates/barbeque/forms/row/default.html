@@ -20,18 +20,16 @@
 				{% set field_id=field|id %}
 			{% endif %}
 
-			<label
-				class="form-field-{{ type }} has-name-{{ name|slugify }}{{ required|yesno:' is-required,' }}{% if errors %} has-errors{% endif %}{% if classes %} {{ classes }}{% endif %}"
-				for="{{ field_id }}">
+			<div class="form-field-{{ type }} has-name-{{ name|slugify }}{{ required|yesno:' is-required,' }}{% if errors %} has-errors{% endif %}{% if classes %} {{ classes }}{% endif %}">
 				{% if type == 'checkboxinput' %}
 					{% block field_checkboxinput %}
 						{% formfield field using 'barbeque/forms/field/checkboxinput.html' %}
 					{% endblock %}
 				{% endif %}
 
-				<span class="label">
+				<label class="label" for="{{ field_id }}">
 					{% block label %}{{ label|safe }}{% endblock %}
-				</span>
+				</label>
 
 				{% if type != 'checkboxinput' %}
 					<span class="field">
@@ -64,7 +62,7 @@
 						{% endblock %}
 					</sub>
 				{% endif %}
-			</label>
+			</div>
 		{% endfor %}
 		{% block hidden_fields %}
 			{% for field in hidden_fields %}{{ field.as_hidden }}{% endfor %}
