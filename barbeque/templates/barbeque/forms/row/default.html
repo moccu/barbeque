@@ -21,47 +21,49 @@
 			{% endif %}
 
 			<div class="form-field-{{ type }} has-name-{{ name|slugify }}{{ required|yesno:' is-required,' }}{% if errors %} has-errors{% endif %}{% if classes %} {{ classes }}{% endif %}">
-				{% if type == 'checkboxinput' %}
-					{% block field_checkboxinput %}
-						{% formfield field using 'barbeque/forms/field/checkboxinput.html' %}
-					{% endblock %}
-				{% endif %}
-
-				<label class="label" for="{{ field_id }}">
-					{% block label %}{{ label|safe }}{% endblock %}
-				</label>
-
-				{% if type != 'checkboxinput' %}
-					<span class="field">
-						{% block field %}
-							{% if type == 'checkboxselectmultiple' %}
-								{% formfield field using 'barbeque/forms/field/checkboxselectmultiple.html' %}
-							{% elif type == 'radioselect' %}
-								{% formfield field using 'barbeque/forms/field/radioselect.html' %}
-							{% elif type == 'selectdatewidget' %}
-								{% formfield field using 'barbeque/forms/field/selectdatewidget.html' %}
-							{% else %}
-								{% formfield field with placeholder=label %}
-							{% endif %}
+				{% block row_field %}
+					{% if type == 'checkboxinput' %}
+						{% block field_checkboxinput %}
+							{% formfield field using 'barbeque/forms/field/checkboxinput.html' %}
 						{% endblock %}
-					</span>
-				{% endif %}
+					{% endif %}
 
-				{% if errors %}
-					<sub class="errors">
-						{% block errorlist %}
-							{{ errors }}
-						{% endblock %}
-					</sub>
-				{% endif %}
+					<label class="label" for="{{ field_id }}">
+						{% block label %}{{ label|safe }}{% endblock %}
+					</label>
 
-				{% if help_text %}
-					<sub class="helptext">
-						{% block help_text %}
-							{{ help_text }}
-						{% endblock %}
-					</sub>
-				{% endif %}
+					{% if type != 'checkboxinput' %}
+						<span class="field">
+							{% block field %}
+								{% if type == 'checkboxselectmultiple' %}
+									{% formfield field using 'barbeque/forms/field/checkboxselectmultiple.html' %}
+								{% elif type == 'radioselect' %}
+									{% formfield field using 'barbeque/forms/field/radioselect.html' %}
+								{% elif type == 'selectdatewidget' %}
+									{% formfield field using 'barbeque/forms/field/selectdatewidget.html' %}
+								{% else %}
+									{% formfield field with placeholder=label %}
+								{% endif %}
+							{% endblock %}
+						</span>
+					{% endif %}
+
+					{% if errors %}
+						<sub class="errors">
+							{% block errorlist %}
+								{{ errors }}
+							{% endblock %}
+						</sub>
+					{% endif %}
+
+					{% if help_text %}
+						<sub class="helptext">
+							{% block help_text %}
+								{{ help_text }}
+							{% endblock %}
+						</sub>
+					{% endif %}
+				{% endblock %}
 			</div>
 		{% endfor %}
 		{% block hidden_fields %}
