@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.6.0 - 2017-07-31
+------------------
+
+* Updated floppyforms templates according to current needs.
+
+
 1.5.5 - 2017-07-24
 ------------------
 
