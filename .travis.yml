@@ -1,24 +1,20 @@
 language: python
 
 python:
-  - '2.7'
-  - '3.4'
-  - '3.5'
-
-env:
-  - DJANGO_VERSION=1.9.x
-  - DJANGO_VERSION=1.8.x
+  - 2.7
+  - 3.4
+  - 3.5
 
 install:
   - sudo apt-get update -y
   - sudo apt-get install graphicsmagick libjpeg-dev
-  - pip install tox
+  - pip install tox-travis
 
 script:
-  - tox -e "$TRAVIS_PYTHON_VERSION-$DJANGO_VERSION"
+  - tox
 
 after_success:
-  - pip install "coveralls" coverage
+  - pip install coveralls coverage
   - coverage report
   - coveralls
 
