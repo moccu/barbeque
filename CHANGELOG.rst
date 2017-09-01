@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.6.1 - 2017-09-01
+------------------
+
+* Fix render_static_templates command in Django 1.11.
+
+
 1.6.0 - 2017-07-31
 ------------------
 
