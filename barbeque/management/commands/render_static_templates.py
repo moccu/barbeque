@@ -40,7 +40,8 @@ class Command(BaseCommand):
         request.session = {}
 
         try:
-            return render_to_string(template_name, RequestContext(request, template_context))
+            return render_to_string(
+                template_name, RequestContext(request, template_context).flatten())
         except TemplateDoesNotExist:
             self.stdout.write(
                 '- Template "{0}" does not exist!'.format(template_name))
