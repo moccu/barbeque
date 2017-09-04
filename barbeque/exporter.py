@@ -37,7 +37,7 @@ class Exporter(object):
                 obj = getattr(obj, part)
             try:
                 columns.append(force_text(
-                    obj._meta.get_field_by_name(field_name)[0].verbose_name))
+                    obj._meta.get_field(field_name).verbose_name))
             except FieldDoesNotExist:
                 columns.append(field)
 
@@ -79,8 +79,8 @@ class Exporter(object):
         start_row = 1
         if self.header:
             for j, name in enumerate(self.get_header(queryset), 1):
-                sheet.cell('%s%s' % (
-                    openpyxl.utils.get_column_letter(j), start_row)).value = name
+                sheet['%s%s' % (openpyxl.utils.get_column_letter(
+                    j), start_row)].value = name
             start_row += 1
 
         data_fields, data = self.get_data(queryset)
@@ -94,9 +94,8 @@ class Exporter(object):
                 if len(value) + 2 > column_widths[j - 1]:
                     column_widths[j - 1] = len(value) + 2
 
-                sheet.cell('%s%s' % (
-                    openpyxl.utils.get_column_letter(j), i)
-                ).value = value.replace('\r', '').replace('\n', ' ')
+                sheet['%s%s' % (openpyxl.utils.get_column_letter(
+                    j), i)].value = value.replace('\r', '').replace('\n', ' ')
 
         for j, width in enumerate(column_widths, 1):
             sheet.column_dimensions[openpyxl.utils.get_column_letter(j)].width = width

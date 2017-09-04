@@ -18,13 +18,13 @@ class TestErrorpagesCommand:
     def test_command(self, settings):
         settings.BARBEQUE_ERRORPAGES_MAP = {'500': 'empty_template.html'}
 
-        ErrorpagesCommand().execute()
+        ErrorpagesCommand().execute(no_color=True)
         assert os.listdir(self.errors_dir) == ['500.html']
 
     def test_skip_missing_template(self, settings):
         settings.BARBEQUE_ERRORPAGES_MAP = {'500': 'empty_template.html', '503': '503.html'}
 
-        ErrorpagesCommand().execute()
+        ErrorpagesCommand().execute(no_color=True)
         assert os.listdir(self.errors_dir) == ['500.html']
 
 
@@ -33,7 +33,7 @@ class TestRenderCommand:
     def test_command(self, settings):
         settings.BARBEQUE_STATIC_TEMPLATES = {'folder/robots.txt': 'empty_template.html'}
 
-        RenderCommand().execute()
+        RenderCommand().execute(no_color=True)
         assert 'robots.txt' in os.listdir(os.path.join(settings.STATIC_ROOT, 'folder'))
 
     def test_skip_missing_template(self, settings):
@@ -43,6 +43,6 @@ class TestRenderCommand:
             'folder/found.txt': 'empty_template.html',
         }
 
-        RenderCommand().execute()
+        RenderCommand().execute(no_color=True)
         assert 'robots.txt' in os.listdir(settings.STATIC_ROOT)
         assert 'found.txt' in os.listdir(os.path.join(settings.STATIC_ROOT, 'folder'))

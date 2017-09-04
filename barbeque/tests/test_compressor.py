@@ -26,13 +26,13 @@ class TestUglifyJSSourcemapFilter:
 
         assert popen_mock.called is True
         assert popen_mock.call_args[0][0] == (
-            'uglifyjs file.js inline-66ba8f5c4310.js -o out.js '
+            'uglifyjs file.js inline-68a9b9a6b48f.js -o out.js '
             '--source-map out.map.js '
             '--source-map-root /static/ '
             '--source-map-url /static/out.map.js -c -m'
         )
         assert open(os.path.join(
-            settings.STATIC_ROOT, 'inline-66ba8f5c4310.js'), 'r').read() == inline_content
+            settings.STATIC_ROOT, 'inline-68a9b9a6b48f.js'), 'r').read() == inline_content
 
     @mock.patch('subprocess.Popen')
     def test_output_popen_exception(self, popen_mock):
@@ -103,7 +103,7 @@ class TestUglifyJSSourcemapCompressor:
         output = instance.output()
         assert filter_mock.called is True
         assert output == (
-            '<script type="text/javascript" src="/static/CACHE/js/66ba8f5c4310.js"></script>')
+            '<script type="text/javascript" src="/static/CACHE/js/0136a2be42ec.js"></script>')
 
     @mock.patch('barbeque.compressor.UglifyJSSourcemapFilter')
     def test_output_compress_enabled_empty(self, filter_mock, settings):

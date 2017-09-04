@@ -8,6 +8,12 @@ from barbeque.filer import FilerFileField, AdminFileFormField
 from barbeque.tests.factories.filer import ImageFactory
 
 
+class FileModel(models.Model):
+        file1 = FilerFileField(null=True)
+        file2 = FilerFileField(blank=True)
+        file3 = FilerFileField()
+
+
 @pytest.mark.django_db
 class TestAdminFileFormField:
     def test_super_not_clean(self):
@@ -67,19 +73,11 @@ class TestAdminFileFormField:
 class TestFilerFileField:
 
     def test_formfield(self):
-        class FileModel(models.Model):
-                file = FilerFileField()
-
         form_class = forms.models.modelform_factory(FileModel, fields='__all__')
-        assert isinstance(form_class().fields['file'], AdminFileFormField)
+        assert isinstance(form_class().fields['file1'], AdminFileFormField)
 
     @pytest.mark.django_db
     def test_blank_null(self):
-        class FileModel(models.Model):
-                file1 = FilerFileField(null=True)
-                file2 = FilerFileField(blank=True)
-                file3 = FilerFileField()
-
         assert FileModel._meta.get_field('file1').blank is True
         assert FileModel._meta.get_field('file1').null is True
         assert FileModel._meta.get_field('file2').blank is True
