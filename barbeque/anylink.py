@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from anylink.extensions import BaseLink
 from cms.models.fields import PageField
 from cms.utils import get_cms_setting
+from django.conf import settings
 from django.core.cache import cache
 from django.db import models
 from django.utils.six.moves.urllib import parse as urlparse
@@ -26,7 +27,16 @@ class CmsPageLink(BaseLink):
 
         url = cache.get(cache_key)
         if url is None:
-            url = link.page.get_absolute_url()
+            if settings.SITE_ID != link.page.site.id:
+                from django.contrib.sites.models import Site
+                site = Site.objects.get(id=link.page.site.id)
+                url = '//{domain}{url}'.format(
+                    domain=site.domain,
+                    url=link.page.get_absolute_url()
+                )
+            else:
+                url = link.page.get_absolute_url()
+
             cache.set(cache_key, url, get_cms_setting('CACHE_DURATIONS')['content'])
 
         if link.anchor:
