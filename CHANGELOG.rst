@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.7.1 - 2017-10-23
+------------------
+
+* FIX: AnyLink - CmsPageLink: generate url with domain if current site id not equals cms page link site id
+
+
 1.7.0 - 2017-09-05
 ------------------
 
