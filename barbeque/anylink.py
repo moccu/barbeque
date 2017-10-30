@@ -27,11 +27,9 @@ class CmsPageLink(BaseLink):
 
         url = cache.get(cache_key)
         if url is None:
-            if settings.SITE_ID != link.page.site.id:
-                from django.contrib.sites.models import Site
-                site = Site.objects.get(id=link.page.site.id)
+            if settings.SITE_ID != link.page.site_id:
                 url = '//{domain}{url}'.format(
-                    domain=site.domain,
+                    domain=link.page.site.domain,
                     url=link.page.get_absolute_url()
                 )
             else:
