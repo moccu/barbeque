@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.8.0 - 2017-11-27
+------------------
+
+* Add new templatetag for inlining static files.
+
+
 1.7.1 - 2017-10-23
 ------------------
 
