@@ -5,8 +5,9 @@ import hashlib
 
 from django.contrib.auth.models import User
 from django.template import Context, Node, Template
+from django.utils.text import force_text
 
-from barbeque.templatetags.barbeque_tags import split, starspan, widget_type
+from barbeque.templatetags.barbeque_tags import inline_staticfile, split, starspan, widget_type
 from barbeque.tests.resources.cmsapp.models import ExtensionModel
 from barbeque.tests.resources.mockapp.forms import MockForm
 
@@ -219,3 +220,27 @@ class TestPageTitleExtensionTemplateTag:
         ) % page.pk)
         context = Context({'request': request})
         assert template.render(context) == 'draft'
+
+
+class TestInlineStaticfileTag:
+
+    def test_invalid_path(self):
+        with pytest.raises(ValueError) as exc:
+            inline_staticfile('foo.txt')
+        assert 'not found' in force_text(exc.value)
+
+    @mock.patch('barbeque.templatetags.barbeque_tags.open')
+    def test_not_cached(self, open_mock, settings):
+        open_mock.return_value.__enter__.return_value.read.return_value = 'Lorem Ipsum'
+        settings.DEBUG = True
+        inline_staticfile._cache.clear()
+        assert inline_staticfile('test.txt') == 'Lorem Ipsum'
+        assert open_mock.call_args[0][0].endswith('static/test.txt') is True
+
+    @mock.patch('barbeque.templatetags.barbeque_tags.open')
+    def test_cached(self, open_mock, settings):
+        settings.DEBUG = True
+        inline_staticfile._cache.clear()
+        inline_staticfile._cache['test.txt'] = 'barbar'
+        assert inline_staticfile('test.txt') == 'barbar'
+        assert open_mock.called is False

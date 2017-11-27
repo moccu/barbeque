@@ -44,6 +44,9 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = tempfile.mkdtemp()
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'resources', 'static'),
+)
 
 MIDDLEWARE_CLASSES = []
 

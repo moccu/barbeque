@@ -2,6 +2,8 @@ import re
 import hashlib
 
 from django import template
+from django.conf import settings
+from django.contrib.staticfiles.finders import find
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import stringfilter
@@ -60,6 +62,36 @@ def hashed_staticfile(path):
         return staticfiles_storage.hashed_name(path)
     except (AttributeError, ValueError):
         return path
+
+
+@register.simple_tag
+def inline_staticfile(name):
+    if not hasattr(inline_staticfile, '_cache'):
+        inline_staticfile._cache = {}
+
+    if name in inline_staticfile._cache:
+        return inline_staticfile._cache[name]
+
+    if settings.DEBUG:
+        # Dont access file via staticfile storage in debug mode. Not available
+        # without collectstatic management command.
+        path = find(name)
+    elif staticfiles_storage.exists(name):
+        # get path if target file exists.
+        path = staticfiles_storage.path(name)
+    else:
+        path = None
+
+    if not path:
+        raise ValueError('Staticfile not found for inlining: {0}'.format(name))
+
+    with open(path, 'r') as staticfile:
+        content = staticfile.read()
+
+    if not settings.DEBUG:
+        inline_staticfile._cache[name] = content
+
+    return content
 
 
 @register.simple_tag(takes_context=True)
