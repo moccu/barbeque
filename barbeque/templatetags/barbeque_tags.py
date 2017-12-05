@@ -14,6 +14,7 @@ try:
 except ImportError:
     pass
 
+from barbeque.staticfiles.css import transform_css_urls
 from barbeque.staticfiles.loader import load_staticfile
 
 
@@ -68,6 +69,16 @@ def hashed_staticfile(path):
 @register.simple_tag
 def inline_staticfile(name):
     return load_staticfile(name)
+
+
+@register.simple_tag
+def inline_style(name):
+    return mark_safe(load_staticfile(name, transform_css_urls))
+
+
+@register.simple_tag
+def inline_javascript(name):
+    return mark_safe(load_staticfile(name))
 
 
 @register.simple_tag(takes_context=True)

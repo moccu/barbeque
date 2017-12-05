@@ -7,8 +7,14 @@ def load_staticfile(name, postprocessor=None):
     if not hasattr(load_staticfile, '_cache'):
         load_staticfile._cache = {}
 
-    if name in load_staticfile._cache:
-        return load_staticfile._cache[name]
+    if postprocessor:
+        cache_key = '{0}:{1}.{2}'.format(
+            name, postprocessor.__module__, postprocessor.__name__)
+    else:
+        cache_key = name
+
+    if cache_key in load_staticfile._cache:
+        return load_staticfile._cache[cache_key]
 
     if settings.DEBUG:
         # Dont access file via staticfile storage in debug mode. Not available
@@ -30,7 +36,7 @@ def load_staticfile(name, postprocessor=None):
         content = postprocessor(name, path, content)
 
     if not settings.DEBUG:
-        load_staticfile._cache[name] = content
+        load_staticfile._cache[cache_key] = content
 
     return content
 

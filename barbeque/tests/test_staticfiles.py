@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.conf.urls import url
 from django.utils.text import force_text
 
+from barbeque.staticfiles.css import transform_css_urls
 from barbeque.staticfiles.loader import load_staticfile
 from barbeque.staticfiles.middleware import ServeStaticFileMiddleware
 
@@ -230,3 +231,54 @@ class TestLoadStaticfile:
         load_staticfile._cache['test.txt'] = 'barbar'
         assert load_staticfile('test.txt') == 'barbar'
         assert open_mock.called is False
+
+
+class TestCssUrlTransformer:
+
+    def test_relative_to_absolute(self):
+        assert transform_css_urls(
+            'css/styles.css',
+            '/web/static/css/styles.css',
+            '.myclass{url("../img/logo.svg");}',
+            base_url='/static/'
+        ) == '.myclass{url("/static/img/logo.svg");}'
+
+    def test_relative_to_absolute_with_schema_domain(self):
+        assert transform_css_urls(
+            'css/styles.css',
+            '/web/static/css/styles.css',
+            '.myclass{url("../img/logo.svg");}',
+            base_url='http://testserver/static/'
+        ) == '.myclass{url("http://testserver/static/img/logo.svg");}'
+
+    def test_relative_to_absolute_with_schemaless_domain(self):
+        assert transform_css_urls(
+            'css/styles.css',
+            '/web/static/css/styles.css',
+            '.myclass{url("../img/logo.svg");}',
+            base_url='//testserver/static/'
+        ) == '.myclass{url("//testserver/static/img/logo.svg");}'
+
+    def test_ignore_data(self):
+        assert transform_css_urls(
+            'css/styles.css',
+            '/web/static/css/styles.css',
+            '.myclass{url("data:base64,image/png:fooooooooooooo");}',
+            base_url='/static/'
+        ) == '.myclass{url("data:base64,image/png:fooooooooooooo");}'
+
+    def test_ignore_absolute_schemaless(self):
+        assert transform_css_urls(
+            'css/styles.css',
+            '/web/static/css/styles.css',
+            '.myclass{url("//external/img/logo.svg");}',
+            base_url='/static/'
+        ) == '.myclass{url("//external/img/logo.svg");}'
+
+    def test_ignore_absolute_schema(self):
+        assert transform_css_urls(
+            'css/styles.css',
+            '/web/static/css/styles.css',
+            '.myclass{url("http://external/img/logo.svg");}',
+            base_url='/static/'
+        ) == '.myclass{url("http://external/img/logo.svg");}'
