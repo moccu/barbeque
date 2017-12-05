@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.8.2 - 2017-12-05
+------------------
+
+* Add option to fail silently in inline staticfile tags
+
+
 1.8.1 - 2017-12-05
 ------------------
 
