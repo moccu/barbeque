@@ -6,7 +6,9 @@ import pytest
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.conf.urls import url
+from django.utils.text import force_text
 
+from barbeque.staticfiles.loader import load_staticfile
 from barbeque.staticfiles.middleware import ServeStaticFileMiddleware
 
 
@@ -204,3 +206,27 @@ class TestServeStaticFileMiddlewareWithHashedFiles:
         middleware = ServeStaticFileMiddleware()
         response = middleware.process_response(request, HttpResponseNotFound(''))
         assert response.status_code == 404
+
+
+class TestLoadStaticfile:
+
+    def test_invalid_path(self):
+        with pytest.raises(ValueError) as exc:
+            load_staticfile('foo.txt')
+        assert 'not found' in force_text(exc.value)
+
+    @mock.patch('barbeque.staticfiles.loader.open')
+    def test_not_cached(self, open_mock, settings):
+        open_mock.return_value.__enter__.return_value.read.return_value = 'Lorem Ipsum'
+        settings.DEBUG = True
+        load_staticfile._cache.clear()
+        assert load_staticfile('test.txt') == 'Lorem Ipsum'
+        assert open_mock.call_args[0][0].endswith('static/test.txt') is True
+
+    @mock.patch('barbeque.staticfiles.loader.open')
+    def test_cached(self, open_mock, settings):
+        settings.DEBUG = True
+        load_staticfile._cache.clear()
+        load_staticfile._cache['test.txt'] = 'barbar'
+        assert load_staticfile('test.txt') == 'barbar'
+        assert open_mock.called is False
