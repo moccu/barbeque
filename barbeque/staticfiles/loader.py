@@ -3,7 +3,7 @@ from django.contrib.staticfiles.finders import find
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 
-def load_staticfile(name, postprocessor=None):
+def load_staticfile(name, postprocessor=None, fail_silently=False):
     if not hasattr(load_staticfile, '_cache'):
         load_staticfile._cache = {}
 
@@ -27,7 +27,9 @@ def load_staticfile(name, postprocessor=None):
         path = None
 
     if not path:
-        raise ValueError('Staticfile not found for inlining: {0}'.format(name))
+        if not fail_silently:
+            raise ValueError('Staticfile not found for inlining: {0}'.format(name))
+        return ''
 
     with open(path, 'r') as staticfile:
         content = staticfile.read()

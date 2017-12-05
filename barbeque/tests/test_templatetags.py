@@ -225,10 +225,15 @@ class TestPageTitleExtensionTemplateTag:
 
 class TestInlineStaticfileTag:
 
-    def test_invalid_path(self):
+    def test_invalid_path(self, settings):
+        settings.DEBUG = True
         with pytest.raises(ValueError) as exc:
             inline_staticfile('foo.txt')
         assert 'not found' in force_text(exc.value)
+
+    def test_invalid_path_fail_silently(self, settings):
+        settings.DEBUG = False
+        assert inline_staticfile('foo.txt') == ''
 
     def test_valid_path(self, settings):
         settings.DEBUG = True
