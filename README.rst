@@ -23,6 +23,19 @@ Barbeque is a collection of custom extensions and helpers, mostly related to the
 These include a commands framework, logging helpers, django-anylink, filer extensions and much much more.
 
 
+barbeque is deprecated
+======================
+
+Please use following libraries instead:
+
+* `django-exporter <https://github.com/moccu/django-exporter>`_
+* `django-inline-static <https://github.com/moccu/django-inline-static>`_
+* `django-static-delivery <https://github.com/moccu/django-static-delivery>`_
+* `django-static-templates <https://github.com/moccu/django-static-templates>`_
+* `django-template-helpers <https://github.com/moccu/django-template-helpers>`_
+* `python-command-executor <https://github.com/moccu/python-command-executor>`_
+
+
 Features
 ========
 
