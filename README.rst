@@ -28,6 +28,7 @@ barbeque is deprecated
 
 Please use following libraries instead:
 
+* `django-cms-helpers <https://github.com/moccu/django-cms-helpers>`_
 * `django-exporter <https://github.com/moccu/django-exporter>`_
 * `django-inline-static <https://github.com/moccu/django-inline-static>`_
 * `django-static-delivery <https://github.com/moccu/django-static-delivery>`_
